@@ -25,7 +25,7 @@ const siteConfig = {
   //   organizationName: 'JoelMarcey'
 
   // Edit button URL.
-  editUrl: 'https://github.com/socialhub/socialhub-dev/edit/master/docs/',
+  editUrl: 'https://github.com/socialhubio/socialhub-dev/edit/master/docs/',
 
   // For no header links in the top nav bar -> headerLinks: [],
   headerLinks: [
