@@ -1,5 +1,7 @@
 {
   "docs": {
-    "Inbox": ["ticket-api"]
+    "Public API": ["api", "rest", "webhooks"],
+    "Inbox API": ["inbox/ticket-api"],
+    "Content Planner API": []
   }
 }

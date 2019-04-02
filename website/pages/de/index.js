@@ -63,7 +63,7 @@ class HomeSplash extends React.Component {
         <div className="inner">
           <ProjectTitle siteConfig={siteConfig} />
           <PromoSection>
-            <Button href={docUrl('ticket-api')}>Dokumentation</Button>
+            <Button href={docUrl('api')}>Dokumentation</Button>
             <Button href="https://petstore.swagger.io/?url=https://raw.githubusercontent.com/socialhubio/socialhub-dev/master/swagger.yaml">API Referenz</Button>
           </PromoSection>
         </div>
