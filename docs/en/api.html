@@ -1,0 +1,84 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>SocialHub APIs · SocialHub for Developers</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="&lt;p&gt;SocialHub provides various APIs allowing customers to extend our products with additional functionality.&lt;/p&gt;
+"/><meta name="docsearch:language" content="en"/><meta property="og:title" content="SocialHub APIs · SocialHub for Developers"/><meta property="og:type" content="website"/><meta property="og:url" content="https://socialhub.dev/"/><meta property="og:description" content="&lt;p&gt;SocialHub provides various APIs allowing customers to extend our products with additional functionality.&lt;/p&gt;
+"/><meta name="twitter:card" content="summary"/><link rel="shortcut icon" href="/img/favicon.png"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css"/><link rel="stylesheet" href="/css/main.css"/><script src="/js/codetabs.js"></script></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/en"><img class="logo" src="/img/favicon.png" alt="SocialHub for Developers"/><h2 class="headerTitleWithLogo">SocialHub for Developers</h2></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class=""><a href="/en/help" target="_self">Help</a></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="container docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><i></i></div><h2><i>›</i><span>Public API</span></h2><div class="tocToggler" id="tocToggler"><i class="icon-toc"></i></div></div><div class="navGroups"><div class="navGroup"><h3 class="navGroupCategoryTitle">Public API</h3><ul class=""><li class="navListItem navListItemActive"><a class="navItem" href="/docs/en/api">SocialHub</a></li><li class="navListItem"><a class="navItem" href="/docs/en/rest">REST</a></li><li class="navListItem"><a class="navItem" href="/docs/en/webhooks">WebHooks</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Inbox API</h3><ul class=""><li class="navListItem"><a class="navItem" href="/docs/en/inbox/ticket-api">Ticket</a></li></ul></div></div></section></div><script>
+            var coll = document.getElementsByClassName('collapsible');
+            var checkActiveCategory = true;
+            for (var i = 0; i < coll.length; i++) {
+              var links = coll[i].nextElementSibling.getElementsByTagName('*');
+              if (checkActiveCategory){
+                for (var j = 0; j < links.length; j++) {
+                  if (links[j].classList.contains('navListItemActive')){
+                    coll[i].nextElementSibling.classList.toggle('hide');
+                    coll[i].childNodes[1].classList.toggle('rotate');
+                    checkActiveCategory = false;
+                    break;
+                  }
+                }
+              }
+
+              coll[i].addEventListener('click', function() {
+                var arrow = this.childNodes[1];
+                arrow.classList.toggle('rotate');
+                var content = this.nextElementSibling;
+                content.classList.toggle('hide');
+              });
+            }
+
+            document.addEventListener('DOMContentLoaded', function() {
+              createToggler('#navToggler', '#docsNav', 'docsSliderActive');
+              createToggler('#tocToggler', 'body', 'tocActive');
+
+              const headings = document.querySelector('.toc-headings');
+              headings && headings.addEventListener('click', function(event) {
+                if (event.target.tagName === 'A') {
+                  document.body.classList.remove('tocActive');
+                }
+              }, false);
+
+              function createToggler(togglerSelector, targetSelector, className) {
+                var toggler = document.querySelector(togglerSelector);
+                var target = document.querySelector(targetSelector);
+
+                if (!toggler) {
+                  return;
+                }
+
+                toggler.onclick = function(event) {
+                  event.preventDefault();
+
+                  target.classList.toggle(className);
+                };
+              }
+            });
+        </script></nav></div><div class="container mainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><a class="edit-page-link button" href="https://github.com/socialhubio/socialhub-dev/edit/master/docs/api.md" target="_blank" rel="noreferrer noopener">Edit</a><h1 class="postHeaderTitle">SocialHub APIs</h1></header><article><div><span><p>SocialHub provides various APIs allowing customers to extend our products with additional functionality.</p>
+<ul>
+<li><strong><a href="/docs/en/rest">REST APIs</a></strong>    <br>
+Allow create, read, update and delete (CRUD) operations to be executed via simple HTTP requests.</li>
+<li><strong><a href="/docs/en/webhooks">WebHooks</a></strong>    <br>
+Allow receiving information about events that happened on SocialHub in near real time.</li>
+</ul>
+<h2><a class="anchor" aria-hidden="true" id="overview"></a><a href="#overview" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Overview</h2>
+<p><img src="/docs/assets/system-overview.png" alt="System Overview"></p>
+<ul>
+<li>SocialHub is a social media software platform with products customers may use depending on their license.</li>
+<li>A customer has one <code>account</code> entity, which represents the customers organizational name space.</li>
+<li>An <code>account</code> can have multiple <code>user</code> entities with various roles.</li>
+<li>A <code>channel</code> entity represents a specific connection between the SocialHub and an external data source (eg. a Facebook page).</li>
+<li>External data sources are part of what we call <code>networks</code> (eg. Facebook) that are integrated into a SocialHub product by an <code>integration</code>.</li>
+<li>An <code>integration</code> is a program that synchronizes data between SocialHub products and a 3rd party network.</li>
+<li>A <code>channel</code> may have a <code>manifest</code> which defines a <code>networks</code> capabilities and configures communication with its <code>integration</code>.</li>
+</ul>
+<h3><a class="anchor" aria-hidden="true" id="inbox"></a><a href="#inbox" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Inbox</h3>
+<p><img src="/docs/assets/inbox-overview.png" alt="Inbox Overview"></p>
+<ul>
+<li>The Inbox is a product of the SocialHub software platform intended for centralized social media community management.</li>
+<li>When a user writes a message to a <code>channel</code> on a <code>network</code> (eg. a comment on a post of a Facebook page) we call it an <code>interaction</code>.</li>
+<li>The <code>interactions</code> are synchronized between a <code>network</code> and the Inbox by an <code>integration</code>.</li>
+<li>For each <code>interaction</code> a <code>ticket</code> entity is created, that SocialHub <code>users</code> with access to the Inbox can work on.</li>
+<li>Users can work on these <code>tickets</code> by applying &quot;network-agnostic&quot; actions to it. These are actions that do not cause any changes on the <code>network</code> (eg. assigning the <code>ticket</code> to a <code>user</code>).</li>
+<li>Depending on the Ticket's <code>network</code> there may also be &quot;network-specific&quot; actions available (eg. &quot;liking&quot; a comment <code>interaction</code> on Facebook).</li>
+<li>A <code>ticket</code> can contain multiple <code>followups</code>. A <code>followup</code> can be an internal <code>note</code> or a public <code>reply</code>.</li>
+</ul>
+<h3><a class="anchor" aria-hidden="true" id="content-planner"></a><a href="#content-planner" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Content Planner</h3>
+<p>There are currently no APIs available for the Content Planner product.</p>
+</span></div></article></div><div class="docs-prevnext"><a class="docs-next button" href="/docs/en/rest"><span>REST</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#overview">Overview</a><ul class="toc-headings"><li><a href="#inbox">Inbox</a></li><li><a href="#content-planner">Content Planner</a></li></ul></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/" class="nav-home"><img src="/img/socialhub.svg" alt="SocialHub for Developers" width="66" height="58"/></a><div><h5>Resources</h5><a target="_blank" rel="noreferrer noopener" href="https://github.com/socialhubio">GitHub</a><a target="_blank" rel="noreferrer noopener" href="https://socialhubio.zendesk.com/hc/">Zendesk User Manual</a><a target="_blank" rel="noreferrer noopener" href="https://www.youtube.com/channel/UCbiyPSSFWhvWoTDS5VKxZiQ">YouTube Channel</a></div><div><h5>Community</h5><a target="_blank" rel="noreferrer noopener" href="https://stackoverflow.com/questions/tagged/socialhub">Stack Overflow</a><a target="_blank" rel="noreferrer noopener" href="https://www.facebook.com/groups/210910185757909/">Facebook Usergroup</a><a target="_blank" rel="noreferrer noopener" href="http://community.socialhub.io/forums/231869-socialhub-feature-community">Feature Community</a></div><div><h5>SocialHub</h5><a target="_blank" rel="noreferrer noopener" href="https://socialhub.io/">Website</a><a target="_blank" rel="noreferrer noopener" href="https://socialhub.io/int/imprint/">Imprint (int)</a><a target="_blank" rel="noreferrer noopener" href="https://socialhub.io/de/legal/imprint/">Impressum (de)</a></div></section><a href="https://socialhub.io/" target="_blank" rel="noreferrer noopener" class="fbOpenSource"><img src="/img/socialhub.svg" alt="SocialHub" width="170" height="45"/></a><section class="copyright">Copyright © 2019 SocialHub</section></footer></div></body></html>

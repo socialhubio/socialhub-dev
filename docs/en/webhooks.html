@@ -1,0 +1,156 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>WebHooks · SocialHub for Developers</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="&lt;p&gt;WebHooks allow receiving information about events that happened on SocialHub in near real time, without the need of continuously polling an API for changes.&lt;/p&gt;
+"/><meta name="docsearch:language" content="en"/><meta property="og:title" content="WebHooks · SocialHub for Developers"/><meta property="og:type" content="website"/><meta property="og:url" content="https://socialhub.dev/"/><meta property="og:description" content="&lt;p&gt;WebHooks allow receiving information about events that happened on SocialHub in near real time, without the need of continuously polling an API for changes.&lt;/p&gt;
+"/><meta name="twitter:card" content="summary"/><link rel="shortcut icon" href="/img/favicon.png"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css"/><link rel="stylesheet" href="/css/main.css"/><script src="/js/codetabs.js"></script></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/en"><img class="logo" src="/img/favicon.png" alt="SocialHub for Developers"/><h2 class="headerTitleWithLogo">SocialHub for Developers</h2></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class=""><a href="/en/help" target="_self">Help</a></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="container docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><i></i></div><h2><i>›</i><span>Public API</span></h2><div class="tocToggler" id="tocToggler"><i class="icon-toc"></i></div></div><div class="navGroups"><div class="navGroup"><h3 class="navGroupCategoryTitle">Public API</h3><ul class=""><li class="navListItem"><a class="navItem" href="/docs/en/api">SocialHub</a></li><li class="navListItem"><a class="navItem" href="/docs/en/rest">REST</a></li><li class="navListItem navListItemActive"><a class="navItem" href="/docs/en/webhooks">WebHooks</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Inbox API</h3><ul class=""><li class="navListItem"><a class="navItem" href="/docs/en/inbox/ticket-api">Ticket</a></li></ul></div></div></section></div><script>
+            var coll = document.getElementsByClassName('collapsible');
+            var checkActiveCategory = true;
+            for (var i = 0; i < coll.length; i++) {
+              var links = coll[i].nextElementSibling.getElementsByTagName('*');
+              if (checkActiveCategory){
+                for (var j = 0; j < links.length; j++) {
+                  if (links[j].classList.contains('navListItemActive')){
+                    coll[i].nextElementSibling.classList.toggle('hide');
+                    coll[i].childNodes[1].classList.toggle('rotate');
+                    checkActiveCategory = false;
+                    break;
+                  }
+                }
+              }
+
+              coll[i].addEventListener('click', function() {
+                var arrow = this.childNodes[1];
+                arrow.classList.toggle('rotate');
+                var content = this.nextElementSibling;
+                content.classList.toggle('hide');
+              });
+            }
+
+            document.addEventListener('DOMContentLoaded', function() {
+              createToggler('#navToggler', '#docsNav', 'docsSliderActive');
+              createToggler('#tocToggler', 'body', 'tocActive');
+
+              const headings = document.querySelector('.toc-headings');
+              headings && headings.addEventListener('click', function(event) {
+                if (event.target.tagName === 'A') {
+                  document.body.classList.remove('tocActive');
+                }
+              }, false);
+
+              function createToggler(togglerSelector, targetSelector, className) {
+                var toggler = document.querySelector(togglerSelector);
+                var target = document.querySelector(targetSelector);
+
+                if (!toggler) {
+                  return;
+                }
+
+                toggler.onclick = function(event) {
+                  event.preventDefault();
+
+                  target.classList.toggle(className);
+                };
+              }
+            });
+        </script></nav></div><div class="container mainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><a class="edit-page-link button" href="https://github.com/socialhubio/socialhub-dev/edit/master/docs/webhooks.md" target="_blank" rel="noreferrer noopener">Edit</a><h1 class="postHeaderTitle">WebHooks</h1></header><article><div><span><p>WebHooks allow receiving information about events that happened on SocialHub in near real time, without the need of continuously polling an API for changes.</p>
+<h2><a class="anchor" aria-hidden="true" id="registration"></a><a href="#registration" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Registration</h2>
+<p>In order to use a WebHook in needs to be registered in the Manifest. This is done by updating the Manifest of the Custom Channel the Access Token belongs to, via the following REST API Route:</p>
+<pre><code class="hljs css language-bash">PATCH /channels/manifest
+
+{
+  <span class="hljs-string">"webhook"</span>: {
+    <span class="hljs-string">"url"</span>: <span class="hljs-string">"https://socialhub.example.com/webhook"</span>,
+    <span class="hljs-string">"secret"</span>: <span class="hljs-string">"a_random_secret_string"</span>
+  }
+}
+</code></pre>
+<p>Note that when updating the WebHooks configuration, a test-request will be send to verify the WebHook's authenticity. Therefore the verification needs to be implemented before registering the WebHook as described further below.</p>
+<p>The WebHook URL is required to support the HTTPS protocol with a valid SSL certificate to ensure all API communication is encryted. You can use <a href="https://letsencrypt.org/">Let's Encrypt</a> to obtain free SSL certificates for your Integration.</p>
+<p>In order to remove a configured WebHook, simply send the same PATCH-request with an empty configuration object (<code>{ &quot;webhook&quot;: {} }</code>).</p>
+<h2><a class="anchor" aria-hidden="true" id="verification"></a><a href="#verification" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Verification</h2>
+<p>Requests send to the configured WebHook will be signed with the secret using the SHA256 hashing algorithm.
+The signature allows a WebHook to ensure a request actually came from SocialHub and can be trusted.
+Signature related data is provided within the requests headers:</p>
+<ul>
+<li><code>X-SocialHub-Timestamp</code>: Request timestamp in milliseconds.</li>
+<li><code>X-SocialHub-Signature</code>: Request signature hash.</li>
+</ul>
+<p>SocialHub expects a WebHook's responses to have a <code>X-SocialHub-Challenge</code> header to verify that the WebHook can be trusted.</p>
+<h3><a class="anchor" aria-hidden="true" id="example"></a><a href="#example" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Example</h3>
+<p>The following is an example on how a WebHook would verify an incoming request before processing the event data.
+PHP was used due to its simplicity in showing how verification works, but it can be implemented in any other language.</p>
+<pre><code class="hljs css language-php"><span class="hljs-comment">// Optional: Prevent replay attacks by ensuring this request has been signed</span>
+<span class="hljs-comment">// recently (+/- 5 minutes). The request timestamp is in ms!</span>
+$req_timestamp = $_SERVER[<span class="hljs-string">'HTTP_X_SOCIALHUB_TIMESTAMP'</span>];
+$req_age = abs(time() - intval($req_timestamp)/<span class="hljs-number">1000</span>);
+<span class="hljs-keyword">if</span> ($req_age &gt; <span class="hljs-number">300</span>) <span class="hljs-keyword">die</span>(<span class="hljs-string">'Invalid request timestamp'</span>);
+
+<span class="hljs-comment">// Calculate challenge hash by concatenating the request timestamp with the</span>
+<span class="hljs-comment">// webhook secret with a semicolon in between: "timestamp;secret".</span>
+<span class="hljs-comment">// Hash is created with SHA256 encoded as hexdecimal lowercase string.</span>
+$secret = <span class="hljs-string">'a_random_secret_string'</span>;
+$challenge = hash(<span class="hljs-string">'sha256'</span>, $req_timestamp . <span class="hljs-string">';'</span> . $secret);
+
+<span class="hljs-comment">// Calculate request body signature using the challenge hash as secret.</span>
+<span class="hljs-comment">// Signature is a HMAC SHA256 hash encoded as hexdecimal lowercase string.</span>
+$req_raw_body = file_get_contents(<span class="hljs-string">'php://input'</span>);
+$expected_signature = hash_hmac(<span class="hljs-string">'sha256'</span>, $req_raw_body, $challenge);
+
+<span class="hljs-comment">// Compare expected with received signature.</span>
+$req_signature = $_SERVER[<span class="hljs-string">'HTTP_X_SOCIALHUB_SIGNATURE'</span>];
+<span class="hljs-keyword">if</span> ($expected_signature !== $req_signature) <span class="hljs-keyword">die</span>(<span class="hljs-string">'Invalid signature'</span>);
+
+<span class="hljs-comment">// Add solved challenge to response.</span>
+header(<span class="hljs-string">'X-SocialHub-Challenge: '</span> . $challenge);
+
+<span class="hljs-comment">// Parse the JSON request body and process the received events.</span>
+<span class="hljs-comment">// ...</span>
+</code></pre>
+<h2><a class="anchor" aria-hidden="true" id="event-processing"></a><a href="#event-processing" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Event Processing</h2>
+<p>The request body send to a configured WebHook will always have the following structure:</p>
+<pre><code class="hljs css language-json">{
+  <span class="hljs-attr">"manifestId"</span>: <span class="hljs-string">"5c9c01952bdfd718307a0a52"</span>,
+  <span class="hljs-attr">"accountId"</span>: <span class="hljs-string">"5c9b6b2a58a855074d1d278f"</span>,
+  <span class="hljs-attr">"channelId"</span>: <span class="hljs-string">"5c9c01952bdfd718307a0a53"</span>,
+  <span class="hljs-attr">"events"</span>: {}
+}
+</code></pre>
+<p>The <code>events</code> object will only be empty during test-requests made when the WebHook is initially configured in the Manifest. Otherwise it will be a map of event-types with each a list of events of the same type.</p>
+<pre><code class="hljs css language-json">{
+  "manifestId": "5c9c01952bdfd718307a0a52",
+  "accountId": "5c9b6b2a58a855074d1d278f",
+  "channelId": "5c9c01952bdfd718307a0a53",
+  "events": {
+    "ticket_action": [
+      { ticket_action event 1 data... },
+      { ticket_action event 2 data... },
+      { ticket_action event 3 data... }
+    ],
+    "channel_action": [
+      { channel_action event 1 data... }
+    ]
+  }
+}
+</code></pre>
+<p>While it's possible that multiple events will be delivered at the same time, each request will only contain events belonging to a specific channel.</p>
+<p>After having validated that the request really came from SocialHub and setting the challenge response header, the HTTP response should be immediately returned to SocialHub and the WebHook should continue processing the events asynchronously. A WebHook is not expected to return anything in its response body but any response contents returned anyway (eg. debugging information) must be application/json.</p>
+<p>To process the events, first iterate over the keys of the <code>events</code> object and then call a responsible event handler for each of the field's array elements. Events that do not have an appropriate handler implemented, should be logged and silently discarded by the WebHook.</p>
+<h2><a class="anchor" aria-hidden="true" id="error-handling"></a><a href="#error-handling" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Error Handling</h2>
+<h3><a class="anchor" aria-hidden="true" id="event-delivery"></a><a href="#event-delivery" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Event Delivery</h3>
+<p>If a WebHook responds with a HTTP Code higher than 2xx, SocialHub assumes that the delivery of the events has failed and may retry sending them a few more times. If SocialHub is unable to deliver the events even after several retries, they will be discarded.</p>
+<p>Was the HTTP Response Code a success (2xx) but the <code>X-SocialHub-Challenge</code> response header is missing or incorrect, the events will be considered to have failed to be delivered and the WebHook configuration will be removed from the Manifest assuming that the WebHook is no longer trustworthy to receive further data.</p>
+<h3><a class="anchor" aria-hidden="true" id="manifest-api-response"></a><a href="#manifest-api-response" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Manifest API response</h3>
+<p>The following error responses of the SocialHub Manifest API should the handled by the Integration's client:</p>
+<h4><a class="anchor" aria-hidden="true" id="http-422-unprocessable-entity"></a><a href="#http-422-unprocessable-entity" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>HTTP 422 Unprocessable Entity</code></h4>
+<pre><code class="hljs css language-json">{
+  <span class="hljs-attr">"code"</span>: <span class="hljs-string">"WebhookValidationError"</span>,
+  <span class="hljs-attr">"message"</span>: <span class="hljs-string">"Error: An error occurred while attempting to validate the WebHook"</span>,
+  <span class="hljs-attr">"data"</span>: <span class="hljs-string">"Error: getaddrinfo ENOTFOUND socialhub.example.com socialhub.example.com:443"</span>
+}
+</code></pre>
+<p>Is returned whenever the URL specified in the Manifest is not reachable by the HTTPS test request. The <code>data</code> value is the internal error that occurred when the test was attempted and should help debugging the issue.</p>
+<pre><code class="hljs css language-json">{
+  <span class="hljs-attr">"code"</span>: <span class="hljs-string">"WebhookValidationError"</span>,
+  <span class="hljs-attr">"message"</span>: <span class="hljs-string">"Error: The WebHook failed to solve the challenge"</span>
+}
+</code></pre>
+<p>It's also possible that we were able to execute the HTTPS request but the response did not contain a valid challenge response header.</p>
+</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/docs/en/rest"><span class="arrow-prev">← </span><span>REST</span></a><a class="docs-next button" href="/docs/en/inbox/ticket-api"><span>Ticket</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#registration">Registration</a></li><li><a href="#verification">Verification</a><ul class="toc-headings"><li><a href="#example">Example</a></li></ul></li><li><a href="#event-processing">Event Processing</a></li><li><a href="#error-handling">Error Handling</a><ul class="toc-headings"><li><a href="#event-delivery">Event Delivery</a></li><li><a href="#manifest-api-response">Manifest API response</a></li></ul></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/" class="nav-home"><img src="/img/socialhub.svg" alt="SocialHub for Developers" width="66" height="58"/></a><div><h5>Resources</h5><a target="_blank" rel="noreferrer noopener" href="https://github.com/socialhubio">GitHub</a><a target="_blank" rel="noreferrer noopener" href="https://socialhubio.zendesk.com/hc/">Zendesk User Manual</a><a target="_blank" rel="noreferrer noopener" href="https://www.youtube.com/channel/UCbiyPSSFWhvWoTDS5VKxZiQ">YouTube Channel</a></div><div><h5>Community</h5><a target="_blank" rel="noreferrer noopener" href="https://stackoverflow.com/questions/tagged/socialhub">Stack Overflow</a><a target="_blank" rel="noreferrer noopener" href="https://www.facebook.com/groups/210910185757909/">Facebook Usergroup</a><a target="_blank" rel="noreferrer noopener" href="http://community.socialhub.io/forums/231869-socialhub-feature-community">Feature Community</a></div><div><h5>SocialHub</h5><a target="_blank" rel="noreferrer noopener" href="https://socialhub.io/">Website</a><a target="_blank" rel="noreferrer noopener" href="https://socialhub.io/int/imprint/">Imprint (int)</a><a target="_blank" rel="noreferrer noopener" href="https://socialhub.io/de/legal/imprint/">Impressum (de)</a></div></section><a href="https://socialhub.io/" target="_blank" rel="noreferrer noopener" class="fbOpenSource"><img src="/img/socialhub.svg" alt="SocialHub" width="170" height="45"/></a><section class="copyright">Copyright © 2019 SocialHub</section></footer></div></body></html>
