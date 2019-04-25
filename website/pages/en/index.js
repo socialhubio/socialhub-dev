@@ -75,7 +75,10 @@ class HomeSplash extends React.Component {
 class Index extends React.Component {
   render() {
     const {config: siteConfig, language = ''} = this.props;
-    const {baseUrl} = siteConfig;
+    const {baseUrl, docsUrl} = siteConfig;
+    const docsPart = `${docsUrl ? `${docsUrl}/` : ''}`;
+    const langPart = `${language ? `${language}/` : ''}`;
+    const docUrl = doc => `${baseUrl}${docsPart}${langPart}${doc}`;
 
     const Block = props => (
       <Container
@@ -108,7 +111,7 @@ class Index extends React.Component {
         {[
           {
             title: 'Learn How',
-            content: 'The SocialHub APIs allow customers to extend our products with additional functionality. The HTTP REST APIs allow to execute read, create, update and delete operations on SocialHub data restricted to specific channels. The HTTP WebHook system allows subscribing to events happening on SocialHub and receiving them in real time. Take a look at the documentation to find out more.',
+            content: `The SocialHub APIs allow to extend our products with additional functionality. They enable the integration of data-sources like Social Networks that are not officially supported by SocialHub yet. As long as you have machine-readable access to the data you want to integrate, anything is possible.<br/><br/>More information in our <a href="${docUrl('api')}">Documentation</a>.`,
             image: `${baseUrl}img/curl-ticket-creation.png`,
             imageAlign: 'right',
           },

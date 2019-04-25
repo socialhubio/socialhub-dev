@@ -21,8 +21,8 @@ function Help(props) {
 
   const supportLinks = [
     {
-      content: 'We use our APIs ourselves and try to document everything on this website. Maybe you want to have another look at the documentation?',
-      title: 'Browse Docs',
+      content: `We use our APIs ourselves and try to document everything on this website. Maybe you want to have another look at the <a href="${docUrl('api')}">documentation</a>?`,
+      title: 'Browse the Docs',
     },
     {
       content: 'Share your questions at <a href="https://stackoverflow.com/questions/tagged/socialhub">Stack Overflow</a> where the SocialHub developers and others like you will try to help. Please consider subscribing to the socialhub tag yourself to join the SocialHub developers community.',

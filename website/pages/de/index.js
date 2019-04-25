@@ -75,7 +75,10 @@ class HomeSplash extends React.Component {
 class Index extends React.Component {
   render() {
     const {config: siteConfig, language = ''} = this.props;
-    const {baseUrl} = siteConfig;
+    const {baseUrl, docsUrl} = siteConfig;
+    const docsPart = `${docsUrl ? `${docsUrl}/` : ''}`;
+    const langPart = `${language ? `${language}/` : ''}`;
+    const docUrl = doc => `${baseUrl}${docsPart}${langPart}${doc}`;
 
     const Block = props => (
       <Container
@@ -108,7 +111,7 @@ class Index extends React.Component {
         {[
           {
             title: 'SocialHub Schnittstelle',
-            content: 'Die SocialHub APIs erlauben Kunden unsere Produkte mit zusätzlichen Funktionen zu erweitern. Die HTTP REST APIs erlauben die Ausführung von lese und schreibe Operationen auf SocialHub Daten innerhalb eines spezifischen Kanals. Das HTTP WebHook System erlaubt das Abonnieren und Erhalten von Ereignissen, die im SocialHub ausgelößt wurden, in Echtzeit. Werfe einen Blick in unsere Dokumentation um mehr zu erfahren.',
+            content: `Die SocialHub API erlaubt unsere Produkte mit zusätzlichen Funktionen zu erweitern. Sie ermöglicht die Integration von Daten-Quellen, wie Sozialen Netzwerken, die noch nicht offiziell von SocialHub unterstützt werden. Der Fantasie sind hier wenige Grenzen gesetzt: Sofern maschinen-lesbarer Zugriff auf die Daten besteht, lassen diese sich auch zur Integration nutzen.<br/><br/>Mehr dazu in unserer <a href="${docUrl('api')}">Dokumentation</a>.`,
             image: `${baseUrl}img/curl-ticket-creation.png`,
             imageAlign: 'right',
           },
@@ -121,13 +124,13 @@ class Index extends React.Component {
         {[
           {
             title: 'Tickets erstellen',
-            content: 'Nutze die SocialHub Inbox API um Tickets für API-Kanäle zu erstellen.',
+            content: 'Nutze die SocialHub Inbox API um Tickets für API-Kanäle (Custom Channels) zu erstellen.',
             image: `${baseUrl}img/custom-ticket.png`,
             imageAlign: 'top',
           },
           {
             title: 'Antworten erhalten',
-            content: 'Registriere einen WebHook und erhalte Antworten die auf Deine Tickets erstellt worden sind.',
+            content: 'Registriere einen WebHook und erhalte Antworten auf deine Tickets.',
             image: `${baseUrl}img/custom-ticket-reply.png`,
             imageAlign: 'top',
           },

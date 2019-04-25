@@ -21,7 +21,7 @@ function Help(props) {
 
   const supportLinks = [
     {
-      content: 'Auch wir nutzen unsere APIs und versuchen auf dieser Webseite alles zu dokumentieren. Vielleicht nochmal einen Blick in die Dokumentation werfen?',
+      content: `Auch wir nutzen unsere APIs und versuchen auf dieser Webseite alles zu dokumentieren. Vielleicht nochmal einen Blick in die <a href="${docUrl('api')}">Dokumentation</a> werfen?`,
       title: 'Dokumentation',
     },
     {

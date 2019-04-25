@@ -3,6 +3,8 @@ id: ticket-api
 title: Ticket API
 ---
 
+#### Diese Übersetzung ist veraltet. Die vollständige Dokumentation findet man [hier auf English](api.md).
+
 Die SocialHub-Ticket-API ist die erste RESTlike HTTP-Schnittstelle unserer Public API welche sich aktuell unter der URL `https://app.socialhub.io/api2/public/inbox/tickets` befindet. Da aktuell nur das Erstellen von Tickets unterstützt wird funktioniert diese nur mit der HTTP-POST-Methode.
 
 Der Access-Token des Custom Channels muss über den URL-Query-Parameter "accesstoken" mitgeliefert werden. Der erwartete HTTP-Request und Response-Content-Type ist stets application/json.

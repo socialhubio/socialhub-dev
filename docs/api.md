@@ -13,6 +13,8 @@ SocialHub provides various APIs allowing customers to extend our products with a
 
 ## Overview
 
+![System Overview](assets/system-overview.png)
+
 * SocialHub is a social media software platform with products customers may use depending on their license.
 * A customer has one `account` entity, which represents the customers organizational name space.
 * An `account` can have multiple `user` entities with various roles.
@@ -23,8 +25,10 @@ SocialHub provides various APIs allowing customers to extend our products with a
 
 ### Inbox
 
+![Inbox Overview](assets/inbox-overview.png)
+
 * The Inbox is a product of the SocialHub software platform intended for centralized social media community management.
-* When a user writes a message to a `channel` (eg. as a comment on a post of a Facebook page) we call it an `interaction`.
+* When a user writes a message to a `channel` on a `network` (eg. a comment on a post of a Facebook page) we call it an `interaction`.
 * The `interactions` are synchronized between a `network` and the Inbox by an `integration`.
 * For each `interaction` a `ticket` entity is created, that SocialHub `users` with access to the Inbox can work on.
 * Users can work on these `tickets` by applying "network-agnostic" actions to it. These are actions that do not cause any changes on the `network` (eg. assigning the `ticket` to a `user`).
