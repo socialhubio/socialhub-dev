@@ -4,7 +4,7 @@ title: Ticket API
 sidebar_label: Ticket
 ---
 
-The SocialHub Ticket API is allows the cration of Custom Tickets for Custom Channels. By default these Tickets will only have network-agnostic Actions available. Actions that require changes to be made on the network (eg. Replies made to a Ticket), must be configured in the Channels Manifest. If a WebHook is configured, it will receive information about executed Ticket Actions as Events.
+The SocialHub Ticket API allows the cration of Custom Tickets for Custom Channels. By default these Tickets will only have network-agnostic Actions available. Actions that require changes to be made on the network (eg. Replies made to a Ticket), must be configured in the Channels Manifest. If a WebHook is configured, it will receive information about executed Ticket Actions as Events.
 
 ## Creating Tickets
 
@@ -52,7 +52,7 @@ A Ticket is an entity managed within the SocialHub Inbox. A Ticket contains the 
 | `attachments`   | List of file attachments of an Interaction (eg. a Direct Message with one or multiple files attached). Optional if there is a `message` or `pictures`. |
 | `createdTime`   | Optional: The Interaction's creation time (as ISO 8601). For Facebook this would for example be the date and time when a comment was created. If this field is not specified the current date will be used. |
 | `networkItemId` | A unique identifier of the Interaction within a Custom Channel. A `HTTP 409 Conflict` will be returned if you attempt to create a Ticket with an identifier that has already been used for another Ticket within the same Channel. Allowed pattern as regular expression: `^[a-zA-Z0-9/_-]{6,256}$` |
-| `url`           | Optional: Link to the Interaction. This link will be used by SocialHub Users to eg. allow them to access the Interaction directly on the networks website |
+| `url`           | Optional: Link to the Interaction. This link will be used by SocialHub Users to eg. allow them to access the Interaction directly on the networks website. |
 
 #### `interaction.pictures[]`
 
@@ -204,9 +204,53 @@ The WebHook request body will look like this when delivering Ticket Action event
 }
 ```
 
-#### `payload`
+##### `payload`
 
 | Field           | Description                                               |
 |-----------------|-----------------------------------------------------------|
 | `text`          | The Text that was specified by the SocialHub User to publicly reply to the Interaction with. |
 | `followupId`    | Unique identifier of the Reply-Folloup that was created on the Ticket. |
+
+##### Reply Success Confirmation
+
+After receiving the Reply event the Integration should asynchronously attempt to create the Reply on the Network. For example if the Integration is for Facebook and the Ticket Interaction was a Post created on a Facebook Page by a Fan, then the Reply created on the Ticket should be created as a Comment on the Facebook Post.
+
+If the Reply was processed successfully by the Integration, the success callback located at `POST /inbox/tickets/:ticketId/replies/:followupId/success` should be called like this:
+
+```bash
+curl -X POST "https://app.socialhub.io/api2/public/inbox/tickets/5cc1b08ad62ec72e8388cb47/replies/f5f75b50-6764-11e9-9ce6-3507264c7519/success?accesstoken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50SWQiOiI1YzliNmIyYTU4YTg1NTA3NGQxZDI3OGYiLCJjaGFubmVsSWQiOiI1YzljMDE5NTJiZGZkNzE4MzA3YTBhNTMiLCJpYXQiOjE1NTQxMzQ1NDF9.mXomId0-stW1l4QQQkjeBflo74ZIHzd0-Xj_71VyncA" -d '
+{
+ "interaction": {
+   "createdTime": "2019-01-28T17:02:03.153Z",
+   "networkItemId": "answer-a_0000000052",
+   "url": "http://example.com/questions/q_0000000001/a_0000000052"
+ }
+}
+' -H "Content-Type: application/json"
+```
+
+#### `interaction`
+
+| Field           | Description                                               |
+|-----------------|-----------------------------------------------------------|
+| `createdTime`   | Optional: The Reply's creation time (as ISO 8601) on the Network. If this field is not specified the current date will be used. |
+| `networkItemId` | A unique identifier of the Reply within a Custom Channel. A `HTTP 409 Conflict` will be returned if the identifier has already been used for another Ticket within the same Channel. Allowed pattern as regular expression: `^[a-zA-Z0-9/_-]{6,256}$` |
+| `url`           | Optional: Link to the Interaction.                        |
+
+### Error Handling
+
+Ticket Actions are processed asynchronously by the Integration. To handle cases where the Action has failed, for example because the Integration was unable to apply it on the Network, there is a callback route that informs the Community Managers of the failure: `POST /inbox/tickets/:ticketId/reset/:actionId`.
+
+```bash
+curl -X POST "https://app.socialhub.io/api2/public/inbox/tickets/5cc1b08ad62ec72e8388cb47/reset/reply-as-comment?accesstoken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50SWQiOiI1YzliNmIyYTU4YTg1NTA3NGQxZDI3OGYiLCJjaGFubmVsSWQiOiI1YzljMDE5NTJiZGZkNzE4MzA3YTBhNTMiLCJpYXQiOjE1NTQxMzQ1NDF9.mXomId0-stW1l4QQQkjeBflo74ZIHzd0-Xj_71VyncA" -d '
+{
+  "followupId": "f5f75b50-6764-11e9-9ce6-3507264c7519",
+  "reason": "Failed to create the Reply because the Interaction has been deleted on the Network."
+}
+' -H "Content-Type: application/json"
+```
+
+| Field           | Description                                               |
+|-----------------|-----------------------------------------------------------|
+| `followupId`    | The identifier of the Reply Followup that has failed to be processed. |
+| `reason`        | Optional human readable reason why the Ticket Action has failed. |

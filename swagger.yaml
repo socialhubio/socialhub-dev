@@ -3,14 +3,14 @@ swagger: '2.0'
 info:
   title: SocialHub Public API
   description: SocialHub Public API Reference
-  version: '1.0.0'
+  version: '1.0'
   contact:
     email: support@socialhub.io
 host: app.socialhub.io
 basePath: /api2/public/
 externalDocs:
   description: SocialHub for Developers
-  url: https://socialhubio.dev
+  url: https://socialhub.dev
 schemes:
   - https
 consumes:
@@ -26,77 +26,250 @@ securityDefinitions:
 security:
   - token: []
 
-# API Operation Groups
 tags:
-  - name: ticket
-    description: Ticket API
+  - name: General
+    description: SocialHub Platform APIs
+  - name: Inbox
+    description: SocialHub Inbox Product APIs
+  - name: Content Planner
+    description: SocialHub Content Planner Product APIs
 
 # API Routes and Operations
 paths:
-
-  '/inbox/tickets':
-    post:
-      summary: Creates a Ticket for Custom Channels
-      description: Creates a Ticket of type TICKET for CUSTOM Channels.
+  '/channels/:channelId':
+    get:
+      summary: ''
+      description: ''
       tags:
-        - ticket
+        - General
+      responses:
+        201:
+          description: ''
+          schema:
+            $ref: '#/definitions/Ticket'
+
+  '/channels/manifest':
+    patch:
+      summary: ''
+      description: ''
+      tags:
+        - General
       parameters:
         - name: body
           in: body
           required: true
           schema:
             type: object
+      responses:
+        201:
+          description: ''
+          schema:
+            $ref: '#/definitions/Ticket'
+
+  '/inbox/tickets':
+    post:
+      summary: 'Creates a Ticket for Custom Channels'
+      description: 'The SocialHub Ticket API allows the cration of Custom Tickets for Custom Channels. A Ticket is an entity managed within the SocialHub Inbox. A Ticket contains the Information about the Interaction (eg. a comment on a Facebook post) it represents.'
+      tags:
+        - Inbox
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            type: object
+            required:
+              - interaction
             properties:
               interaction:
                 type: object
+                description: "Contains the Interaction's information as Ticket sub-object."
                 properties:
                   message:
-                    description: Ticket Interaction message.
+                    description: 'Message text of an Interaction (eg. the Text of a Facebook comment). May have up to 10.000 characters. Optional if there are pictures or attachments.'
                     type: string
                     maxLength: 10000
+                    default: ''
+                    example: 'Hello, can someone help me?'
                   pictures:
-                    description: List of pictures belonging to the Interaction.
+                    description: 'List of images of an Interaction (eg. a Facebook post with one or multiple images). Optional if there is a message or attachments.'
                     type: array
                     items:
                       type: object
                       properties:
                         small:
+                          description: 'URL of a thumbnail version of the image. URL must support HTTPS protocol.'
                           type: string
                           format: url
                           pattern: '^https:'
+                          example: 'https://example.com/questions/q_0000000001/images/1/thumbnail.png'
                         large:
+                          description: 'Optional: URL of the original version of the image. If set, URL must support HTTPS protocol.'
                           type: string
                           format: url
                           pattern: '^https:'
+                          example: 'https://example.com/questions/q_0000000001/images/1/original.png'
+                      required:
+                        - small
                   attachments:
+                    description: 'List of file attachments of an Interaction (eg. a Direct Message with one or multiple files attached). Optional if there is a message or pictures.'
                     type: array
                     items:
                       type: object
+                      required:
+                        - url
                       properties:
                         url:
+                          description: 'URL to download the attached file.URL must support HTTPS protocol.'
                           type: string
                           format: url
+                          pattern: '^https://'
+                          example: 'https://example.com/files/invoice.pdf'
                         name:
+                          description: 'Optional: Attachment filename.'
                           type: string
+                          example: 'invoice.pdf'
                         size:
+                          description: 'Optional: Numerical filesize in bytes.'
                           type: number
+                          minimum: 0
+                          example: 1024
                         mimeType:
+                          description: 'Optional: Attachment filetype as mime-type (eg. "application/pdf")'
                           type: string
+                          pattern: '^[a-zA-Z]+\\/[a-zA-Z0-9]+((\\.|\\+|\\-)[a-zA-Z0-9]+)*$'
+                          example: 'application/pdf'
                   createdTime:
-                    description: Timestamp of the Interactions creation on the network.
+                    description: "Optional: The Interaction's creation time (as ISO 8601). For Facebook this would for example be the date and time when a comment was created. If this field is not specified the current date will be used."
                     type: string
                     format: date-time
                   networkItemId:
-                    description: Unique identifier of the Interaction on the network. Will error with 409 Conflict if there's already a Ticket with the same ID on the same custom channel.
+                    description: 'A unique identifier of the Interaction within a Custom Channel. A HTTP 409 Conflict will be returned if you attempt to create a Ticket with an identifier that has already been used for another Ticket within the same Channel.'
                     type: string
                     pattern: '^[a-zA-Z0-9/_-]{6,256}$'
+                    example: 'question-q_0000000001'
                   url:
-                    description: A Link to the Interaction on the network.
+                    description: 'Optional: Link to the Interaction. This link will be used by SocialHub Users to eg. allow them to access the Interaction directly on the networks website.'
                     type: string
                     format: url
+                    example: 'http://example.com/questions/q_0000000001'
+                required:
+                  - networkItemId
       responses:
         201:
-          description: Successfully created ticket.
+          description: 'The successfully created Ticket.'
+          schema:
+            $ref: '#/definitions/Ticket'
+        400:
+          $ref: '#/responses/BadRequestError'
+        401:
+          $ref: '#/responses/AccessTokenInvalidError'
+        403:
+          $ref: '#/responses/AccessDenied'
+        409:
+          $ref: '#/responses/ConflictError'
+        500:
+          $ref: '#/responses/InternalServerError'
+
+  '/inbox/tickets/:ticketId/replies/:followupId/success':
+    post:
+      summary: 'Reply Ticket Action callback route'
+      description: 'After receiving the Reply event the Integration should asynchronously attempt to create the Reply on the Network. If the Reply was processed successfully by the Integration, this success callback route should be called.'
+      tags:
+        - Inbox
+      parameters:
+        - name: ticketId
+          in: path
+          description: 'The identifier of the Ticket that a Reply Action was successfully processed for.'
+          required: true
+          type: string
+          pattern: '^[a-f0-9]{24}$'
+        - name: followupId
+          in: path
+          description: 'The identifier of the Reply Followup that was successfully processed.'
+          required: true
+          type: string
+          format: uuid
+        - name: body
+          in: body
+          required: true
+          schema:
+            type: object
+            required:
+              - interaction
+            properties:
+              interaction:
+                type: object
+                properties:
+                  createdTime:
+                    description: "Optional: The Reply's creation time (as ISO 8601) on the Network. If this field is not specified the current date will be used."
+                    type: string
+                    format: date-time
+                  networkItemId:
+                    description: 'A unique identifier of the Reply within a Custom Channel. A HTTP 409 Conflict will be returned if the identifier has already been used for another Ticket within the same Channel.'
+                    type: string
+                    pattern: '^[a-zA-Z0-9/_-]{6,256}$'
+                    example: 'answer-a_0000000052'
+                  url:
+                    description: 'Optional: Link to the Interaction.'
+                    type: string
+                    format: url
+                    example: 'http://example.com/questions/q_0000000001/a_0000000052'
+                required:
+                  - networkItemId
+      responses:
+        201:
+          description: 'The successfully created Reply-Ticket.'
+          schema:
+            $ref: '#/definitions/Ticket'
+        400:
+          $ref: '#/responses/BadRequestError'
+        401:
+          $ref: '#/responses/AccessTokenInvalidError'
+        403:
+          $ref: '#/responses/AccessDenied'
+        409:
+          $ref: '#/responses/ConflictError'
+        500:
+          $ref: '#/responses/InternalServerError'
+
+  '/inbox/tickets/:ticketId/reset/:actionId':
+    post:
+      summary: 'Ticket Action Error callback route'
+      description: 'Ticket Actions are processed asynchronously by the Integration. To handle cases where the Action has failed, for example because the Integration was unable to apply it on the Network, this callback route informs the Community Managers of the failure.'
+      tags:
+        - Inbox
+      parameters:
+        - name: ticketId
+          in: path
+          description: 'The identifier of the Ticket that the Action failed for.'
+          required: true
+          type: string
+          pattern: '^[a-f0-9]{24}$'
+        - name: actionId
+          in: path
+          description: 'The identifier of the Ticket Action that has failed to be processed.'
+          required: true
+          type: string
+          pattern: '^[a-zA-Z0-9-_]{1,256}$'
+        - name: body
+          in: body
+          required: true
+          schema:
+            type: object
+            required:
+              - interaction
+            properties:
+              followupId:
+                type: string
+                format: uuid
+                example: 'f5f75b50-6764-11e9-9ce6-3507264c7519'
+              reason:
+                type: string
+                example: 'Failed to create the Reply because the Interaction has been deleted on the Network.'
+      responses:
+        201:
+          description: 'The updated Ticket object.'
           schema:
             $ref: '#/definitions/Ticket'
         400:
@@ -114,24 +287,32 @@ paths:
 definitions:
 
   ObjectId:
-    description: Resource identifier string called `ObjectId`.
+    description: 'Resource identifier string called `ObjectId`.'
     type: string
     pattern: '^[a-f0-9]{24}$'
+    example: '5cc1b08ad62ec72e8388cb47'
 
   Date:
-    description: ISO 8601 date string
+    description: 'ISO 8601 date string'
     type: string
     format: date-time
+    example: "2019-01-28T16:58:12.736Z"
+
+  Channel:
+    type: object
+    description: 'SocialHub Inbox Ticket Object'
 
   Ticket:
     type: object
-    description: SocialHub Inbox Ticket Object
+    description: 'SocialHub Inbox Ticket Object'
     properties:
       _id:
         $ref: '#/definitions/ObjectId'
       accountId:
         $ref: '#/definitions/ObjectId'
       channelId:
+        $ref: '#/definitions/ObjectId'
+      rootId:
         $ref: '#/definitions/ObjectId'
       createdTime:
         $ref: '#/definitions/Date'
@@ -146,13 +327,16 @@ definitions:
             enum: ['TICKET']
           networkItemId:
             type: string
+            example: 'question-q_0000000001'
           createdTime:
             $ref: '#/definitions/Date'
           url:
             type: string
             format: url
+            example: 'http://example.com/questions/q_0000000001'
           message:
             type: string
+            example: 'Hello, can someone help me?'
           pictures:
             type: array
             items:
@@ -161,9 +345,11 @@ definitions:
                 small:
                   type: string
                   format: url
+                  example: 'https://example.com/questions/q_0000000001/images/1/thumbnail.png'
                 large:
                   type: string
                   format: url
+                  example: 'https://example.com/questions/q_0000000001/images/1/original.png'
           attachments:
             type: array
             items:
@@ -172,12 +358,16 @@ definitions:
                 url:
                   type: string
                   format: url
+                  example: 'https://example.com/files/invoice.pdf'
                 name:
                   type: string
+                  example: 'invoice.pdf'
                 size:
                   type: number
+                  example: 1024
                 mimeType:
                   type: string
+                  example: 'application/pdf'
 
   Error:
     description: Standard API error object.
@@ -186,40 +376,42 @@ definitions:
       code:
         type: string
         pattern: '^[a-zA-Z]*$'
+        example: 'SomeError'
       message:
         type: string
+        example: 'Some error has happened.'
 
 # Reusable API response definitions.
 responses:
   BadRequestError: # 400
-    description: The request was malformed and rejected.
+    description: 'The request was malformed and rejected.'
     schema:
       $ref: '#/definitions/Error'
   AccessTokenInvalidError: # 401
-    description: The specified access token is not or no longer valid.
+    description: 'The specified access token is not or no longer valid.'
     schema:
       $ref: '#/definitions/Error'
   AccessDenied: # 403
-    description: The client does not have access to the requested resource.
+    description: 'The client does not have access to the requested resource.'
     schema:
       $ref: '#/definitions/Error'
   InsufficientPermissions: # 403
-    description: The client does not have the required permissions for the operation.
+    description: 'The client does not have the required permissions for the operation.'
     schema:
       $ref: '#/definitions/Error'
   NotFoundError: # 404
-    description: The requested resource could not be found.
+    description: 'The requested resource could not be found.'
     schema:
       $ref: '#/definitions/Error'
   NotAcceptableError: # 406
-    description: The requested acceptable response cannot be provided.
+    description: 'The requested acceptable response cannot be provided.'
     schema:
       $ref: '#/definitions/Error'
   ConflictError: # 409
-    description: The request is not valid on this entity.
+    description: 'The request is not valid on this entity.'
     schema:
       $ref: '#/definitions/Error'
   InternalServerError: # 500
-    description: There was an unexpected error.
+    description: 'There was an unexpected error.'
     schema:
       $ref: '#/definitions/Error'
