@@ -46,7 +46,7 @@ paths:
         201:
           description: ''
           schema:
-            $ref: '#/definitions/Ticket'
+            $ref: '#/definitions/Channel'
 
   '/channels/manifest':
     patch:
@@ -59,12 +59,22 @@ paths:
           in: body
           required: true
           schema:
-            type: object
+            $ref: '#/definitions/Manifest'
       responses:
-        201:
-          description: ''
+        200:
+          description: 'The updated Manifest object.'
           schema:
-            $ref: '#/definitions/Ticket'
+            $ref: '#/definitions/Manifest'
+        400:
+          $ref: '#/responses/BadRequestError'
+        401:
+          $ref: '#/responses/AccessTokenInvalidError'
+        403:
+          $ref: '#/responses/AccessDenied'
+        422:
+          $ref: '#/responses/WebhookValidationError'
+        500:
+          $ref: '#/responses/InternalServerError'
 
   '/inbox/tickets':
     post:
@@ -300,11 +310,95 @@ definitions:
 
   Channel:
     type: object
-    description: 'SocialHub Inbox Ticket Object'
+    description: 'SocialHub Channel Object. A channel entity represents a specific connection between the SocialHub and an external data source (eg. a Facebook page).'
+    properties:
+      _id:
+        $ref: '#/definitions/ObjectId'
+      name:
+        type: string
+        example: 'Custom Channel'
+      imageUrl:
+        type: string
+        format: url
+        example: 'https://app.socialhub.io/uploads/0000000104.png'
+      createdTime:
+        $ref: '#/definitions/Date'
+      accountId:
+        $ref: '#/definitions/ObjectId'
+      businessHours:
+        type: object
+        properties:
+          timezone:
+            description: 'Timezone offset of the following business hours'
+            type: number
+            example: 2
+          daysOfWeek:
+            type: array
+            items:
+              type: object
+              properties:
+                day:
+                  description: 'For each day in the week there will be one item, each numbered from day 1 to 7.'
+                  type: number
+                  minimum: 1
+                  maximum: 7
+                  example: 1
+                start:
+                  description: 'Time when the business hours start (0-24h format)'
+                  type: number
+                  minimum: 0
+                  maximum: 24
+                  example: 9
+                end:
+                  description:  'Time when the business hours end (0-24h format)'
+                  type: number
+                  minimum: 0
+                  maximum: 24
+                  example: 17
+                workday:
+                  description: 'Whether this day is a work day or not'
+                  type: boolean
+
+  Manifest:
+    type: object
+    description: 'SocialHub Manifest Object. A channel may have a manifest which defines a networks capabilities and configures communication with its integration'
+    properties:
+      _id:
+        $ref: '#/definitions/ObjectId'
+      webhook:
+        type: object
+        properties:
+          url:
+            type: string
+            format: url
+            pattern: '^https://'
+            example: 'https://socialhub.example.com/webhook'
+          secret:
+            type: string
+            minLength: 32
+            maxLength: 512
+            example: 'a_random_secret_string'
+      inbox:
+        type: object
+        properties:
+          ticketActions:
+            type: array
+            items:
+              type: object
+              properties:
+                type:
+                  type: string
+                  enum: ['reply']
+                id:
+                  type: string
+                  example: 'reply-as-comment'
+                label:
+                  type: string
+                  example: 'Reply'
 
   Ticket:
     type: object
-    description: 'SocialHub Inbox Ticket Object'
+    description: 'SocialHub Inbox Ticket Object. A Ticket is an entity managed within the SocialHub Inbox. A Ticket contains the Information about the Interaction (eg. a comment on a Facebook post) it represents.'
     properties:
       _id:
         $ref: '#/definitions/ObjectId'
@@ -369,49 +463,104 @@ definitions:
                   type: string
                   example: 'application/pdf'
 
-  Error:
-    description: Standard API error object.
-    type: object
-    properties:
-      code:
-        type: string
-        pattern: '^[a-zA-Z]*$'
-        example: 'SomeError'
-      message:
-        type: string
-        example: 'Some error has happened.'
-
 # Reusable API response definitions.
 responses:
   BadRequestError: # 400
     description: 'The request was malformed and rejected.'
     schema:
-      $ref: '#/definitions/Error'
+      type: object
+      properties:
+        code:
+          type: string
+          example: 'BadRequestError'
+        message:
+          type: string
+          example: ''
   AccessTokenInvalidError: # 401
     description: 'The specified access token is not or no longer valid.'
     schema:
-      $ref: '#/definitions/Error'
+      type: object
+      properties:
+        code:
+          type: string
+          example: 'AccessTokenInvalidError'
+        message:
+          type: string
+          example: ''
   AccessDenied: # 403
     description: 'The client does not have access to the requested resource.'
     schema:
-      $ref: '#/definitions/Error'
+      type: object
+      properties:
+        code:
+          type: string
+          example: 'AccessDenied'
+        message:
+          type: string
+          example: ''
   InsufficientPermissions: # 403
     description: 'The client does not have the required permissions for the operation.'
     schema:
-      $ref: '#/definitions/Error'
+      type: object
+      properties:
+        code:
+          type: string
+          example: 'InsufficientPermissions'
+        message:
+          type: string
+          example: ''
   NotFoundError: # 404
     description: 'The requested resource could not be found.'
     schema:
-      $ref: '#/definitions/Error'
+      type: object
+      properties:
+        code:
+          type: string
+          example: 'NotFoundError'
+        message:
+          type: string
+          example: ''
   NotAcceptableError: # 406
     description: 'The requested acceptable response cannot be provided.'
     schema:
-      $ref: '#/definitions/Error'
+      type: object
+      properties:
+        code:
+          type: string
+          example: 'NotAcceptableError'
+        message:
+          type: string
+          example: ''
   ConflictError: # 409
     description: 'The request is not valid on this entity.'
     schema:
-      $ref: '#/definitions/Error'
+      type: object
+      properties:
+        code:
+          type: string
+          example: 'ConflictError'
+        message:
+          type: string
+          example: ''
+  WebhookValidationError: # 422
+    description: 'An error occurred while attempting to validate the WebHook.'
+    schema:
+      type: object
+      properties:
+        code:
+          type: string
+          example: 'WebhookValidationError'
+        message:
+          type: string
+          example: ''
   InternalServerError: # 500
     description: 'There was an unexpected error.'
     schema:
-      $ref: '#/definitions/Error'
+      type: object
+      properties:
+        code:
+          type: string
+          example: 'InternalServerError'
+        message:
+          type: string
+          example: ''
