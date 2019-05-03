@@ -406,19 +406,18 @@ definitions:
         $ref: '#/definitions/ObjectId'
       channelId:
         $ref: '#/definitions/ObjectId'
-      rootId:
-        $ref: '#/definitions/ObjectId'
       createdTime:
         $ref: '#/definitions/Date'
+      updatedTime:
+        $ref: '#/definitions/Date'
+      followupTo:
+        type: object
+        properties:
+          followupToId:
+            $ref: '#/definitions/ObjectId'
       interaction:
         type: object
         properties:
-          socialNetwork:
-            type: string
-            enum: ['CUSTOM']
-          type:
-            type: string
-            enum: ['TICKET']
           networkItemId:
             type: string
             example: 'question-q_0000000001'
