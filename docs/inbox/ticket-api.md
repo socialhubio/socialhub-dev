@@ -4,7 +4,7 @@ title: Ticket API
 sidebar_label: Ticket
 ---
 
-The SocialHub Ticket API allows the cration of Custom Tickets for Custom Channels. By default these Tickets will only have network-agnostic Actions available. Actions that require changes to be made on the network (eg. Replies made to a Ticket), must be configured in the Channels Manifest. If a WebHook is configured, it will receive information about executed Ticket Actions as Events.
+The SocialHub Ticket API allows the creation of Custom Tickets for Custom Channels. By default these Tickets will only have network-agnostic Actions available. Actions that require changes to be made on the network (eg. Replies made to a Ticket), must be configured in the Channels Manifest. If a WebHook is configured, it will receive information about executed Ticket Actions as Events.
 
 ## Creating Tickets
 
