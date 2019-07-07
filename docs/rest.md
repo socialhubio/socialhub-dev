@@ -46,7 +46,7 @@ Access Tokens can be invalidated effective immediately at any time via the Custo
 
 ## Error handling
 
-The following responses of the SocialHub REST APIs are common for all routes and should the handled by the Integration's client:
+The following responses of the SocialHub REST APIs are common for all routes and should be handled by the Integration's client:
 
 #### `HTTP 401 Unauthorized`
 
