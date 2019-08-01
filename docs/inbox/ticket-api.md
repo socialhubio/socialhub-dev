@@ -185,6 +185,7 @@ The WebHook request body will look like this when delivering Ticket Action event
 |-----------------|-----------------------------------------------------------|
 | `ticketId`      | Unique identifier of the Ticket that was replied. Same identifier as returned when the Ticket was created. |
 | `networkItemId` | Unique identifier of the Interaction of the Ticket that was replied. Same identifier as used when the Ticket was created. |
+| `type`          | Type of the Ticket Action (can only be `reply` at this time) |
 | `actionId`      | Identifier of the Ticket Action as configured in the Manifest (`inbox.ticketActions[].id`). |
 | `payload`       | Optional Ticket Action payload. Contains Ticket Action specific data. |
 | `time`          | Unix timestamp in ms of when this event was created (intended for debugging purposes). |
@@ -196,6 +197,7 @@ The WebHook request body will look like this when delivering Ticket Action event
 {
   "ticketId": "5cc1b08ad62ec72e8388cb47",
   "networkItemId": "question-q_0000000001",
+  "type": "reply",
   "actionId": "reply-as-comment",
   "payload": {
     "text": "Hello! Sure, how can we assist you?",
