@@ -6,8 +6,8 @@ info:
   version: '1.0'
   contact:
     email: support@socialhub.io
-host: app.socialhub.io
-basePath: /api2/public/
+host: api.socialhub.io
+basePath: /
 externalDocs:
   description: SocialHub for Developers
   url: https://socialhub.dev

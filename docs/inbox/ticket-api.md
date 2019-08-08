@@ -17,7 +17,7 @@ Also take a look at the [Swagger API Reference](https://petstore.swagger.io/?url
 Example Ticket creation request made with the unix tool cURL:
 
 ```bash
-curl -X POST "https://app.socialhub.io/api2/public/inbox/tickets?accesstoken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50SWQiOiI1YzliNmIyYTU4YTg1NTA3NGQxZDI3OGYiLCJjaGFubmVsSWQiOiI1YzljMDE5NTJiZGZkNzE4MzA3YTBhNTMiLCJpYXQiOjE1NTQxMzQ1NDF9.mXomId0-stW1l4QQQkjeBflo74ZIHzd0-Xj_71VyncA" -d '
+curl -X POST "https://api.socialhub.io/inbox/tickets?accesstoken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50SWQiOiI1YzliNmIyYTU4YTg1NTA3NGQxZDI3OGYiLCJjaGFubmVsSWQiOiI1YzljMDE5NTJiZGZkNzE4MzA3YTBhNTMiLCJpYXQiOjE1NTQxMzQ1NDF9.mXomId0-stW1l4QQQkjeBflo74ZIHzd0-Xj_71VyncA" -d '
 {
  "interaction": {
    "message": "Hello, can someone help me?",
@@ -129,7 +129,7 @@ The [WebHook](webhooks.md) and Network Specific Ticket Action can be set using t
 #### Example
 
 ```bash
-curl -X PATCH "https://app.socialhub.io/api2/public/channels/manifest?accesstoken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50SWQiOiI1YzliNmIyYTU4YTg1NTA3NGQxZDI3OGYiLCJjaGFubmVsSWQiOiI1YzljMDE5NTJiZGZkNzE4MzA3YTBhNTMiLCJpYXQiOjE1NTQxMzQ1NDF9.mXomId0-stW1l4QQQkjeBflo74ZIHzd0-Xj_71VyncA" -d '
+curl -X PATCH "https://api.socialhub.io/channels/manifest?accesstoken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50SWQiOiI1YzliNmIyYTU4YTg1NTA3NGQxZDI3OGYiLCJjaGFubmVsSWQiOiI1YzljMDE5NTJiZGZkNzE4MzA3YTBhNTMiLCJpYXQiOjE1NTQxMzQ1NDF9.mXomId0-stW1l4QQQkjeBflo74ZIHzd0-Xj_71VyncA" -d '
 {
   "webhook": {
     "url": "https://socialhub.example.com/webhook",
@@ -220,7 +220,7 @@ After receiving the Reply event the Integration should asynchronously attempt to
 If the Reply was processed successfully by the Integration, the success callback located at `POST /inbox/tickets/:ticketId/replies/:followupId/success` should be called like this:
 
 ```bash
-curl -X POST "https://app.socialhub.io/api2/public/inbox/tickets/5cc1b08ad62ec72e8388cb47/replies/f5f75b50-6764-11e9-9ce6-3507264c7519/success?accesstoken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50SWQiOiI1YzliNmIyYTU4YTg1NTA3NGQxZDI3OGYiLCJjaGFubmVsSWQiOiI1YzljMDE5NTJiZGZkNzE4MzA3YTBhNTMiLCJpYXQiOjE1NTQxMzQ1NDF9.mXomId0-stW1l4QQQkjeBflo74ZIHzd0-Xj_71VyncA" -d '
+curl -X POST "https://api.socialhub.io/inbox/tickets/5cc1b08ad62ec72e8388cb47/replies/f5f75b50-6764-11e9-9ce6-3507264c7519/success?accesstoken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50SWQiOiI1YzliNmIyYTU4YTg1NTA3NGQxZDI3OGYiLCJjaGFubmVsSWQiOiI1YzljMDE5NTJiZGZkNzE4MzA3YTBhNTMiLCJpYXQiOjE1NTQxMzQ1NDF9.mXomId0-stW1l4QQQkjeBflo74ZIHzd0-Xj_71VyncA" -d '
 {
  "interaction": {
    "createdTime": "2019-01-28T17:02:03.153Z",
@@ -244,7 +244,7 @@ curl -X POST "https://app.socialhub.io/api2/public/inbox/tickets/5cc1b08ad62ec72
 Ticket Actions are processed asynchronously by the Integration. To handle cases where the Action has failed, for example because the Integration was unable to apply it on the Network, there is a callback route that informs the Community Managers of the failure: `POST /inbox/tickets/:ticketId/reset/:actionId`.
 
 ```bash
-curl -X POST "https://app.socialhub.io/api2/public/inbox/tickets/5cc1b08ad62ec72e8388cb47/reset/reply-as-comment?accesstoken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50SWQiOiI1YzliNmIyYTU4YTg1NTA3NGQxZDI3OGYiLCJjaGFubmVsSWQiOiI1YzljMDE5NTJiZGZkNzE4MzA3YTBhNTMiLCJpYXQiOjE1NTQxMzQ1NDF9.mXomId0-stW1l4QQQkjeBflo74ZIHzd0-Xj_71VyncA" -d '
+curl -X POST "https://api.socialhub.io/inbox/tickets/5cc1b08ad62ec72e8388cb47/reset/reply-as-comment?accesstoken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50SWQiOiI1YzliNmIyYTU4YTg1NTA3NGQxZDI3OGYiLCJjaGFubmVsSWQiOiI1YzljMDE5NTJiZGZkNzE4MzA3YTBhNTMiLCJpYXQiOjE1NTQxMzQ1NDF9.mXomId0-stW1l4QQQkjeBflo74ZIHzd0-Xj_71VyncA" -d '
 {
   "followupId": "f5f75b50-6764-11e9-9ce6-3507264c7519",
   "reason": "Failed to create the Reply because the Interaction has been deleted on the Network."

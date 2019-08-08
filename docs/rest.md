@@ -11,7 +11,7 @@ SocialHub has REST-like APIs that allow create, read, update and delete (CRUD) o
 All REST APIs described in this documentation are sub-routes of the following URL:
 
 ```bash
-https://app.socialhub.io/api2/public/
+https://api.socialhub.io/
 ```
 
 All API requests should always be made using the HTTPS protocol. Any requests made via the plain text HTTP protocol will be responded with a permanent redirect header.
