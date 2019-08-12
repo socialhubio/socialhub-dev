@@ -36,19 +36,32 @@ tags:
 
 # API Routes and Operations
 paths:
-  '/channels/:channelId':
+  '/':
     get:
-      summary: "Returns a Custom Channel's information"
-      description: 'While the JWT access tokens contain some useful information, there are use cases where more channel information is required. After decoding the JWT you will have the channel identifier which you can use for requesting more detailed channel information from this route.'
+      summary: 'General information route'
+      description: 'Returns information related to the used access token.'
       tags:
         - General
       responses:
-        201:
-          description: ''
+        200:
+          description: 'Channel and manifest data'
           schema:
-            $ref: '#/definitions/Channel'
+            type: object
+            properties:
+              channel:
+                $ref: '#/definitions/Channel'
+              manifest:
+                $ref: '#/definitions/Manifest'
+        401:
+          $ref: '#/responses/AccessTokenInvalidError'
+        403:
+          $ref: '#/responses/AccessDenied'
+        404:
+          $ref: '#/responses/NotFoundError'
+        500:
+          $ref: '#/responses/InternalServerError'
 
-  '/channels/manifest':
+  '/manifest':
     patch:
       summary: "Partially update a Custom Channel's Manifest"
       description: 'A channel may have a manifest which defines a networks capabilities and configures communication with its integration. A Custom Channel will start off with an empty default Manifest which should be adjusted as needed by the Integration.'

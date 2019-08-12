@@ -124,12 +124,12 @@ We differentiate between two types of Ticket Actions:
 
 ### Registration in Manifest
 
-The [WebHook](webhooks.md) and Network Specific Ticket Action can be set using the `PATCH /channels/manifest` REST API route.
+The [WebHook](webhooks.md) and Network Specific Ticket Action can be set using the `PATCH /manifest` REST API route.
 
 #### Example
 
 ```bash
-curl -X PATCH "https://api.socialhub.io/channels/manifest?accesstoken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50SWQiOiI1YzliNmIyYTU4YTg1NTA3NGQxZDI3OGYiLCJjaGFubmVsSWQiOiI1YzljMDE5NTJiZGZkNzE4MzA3YTBhNTMiLCJpYXQiOjE1NTQxMzQ1NDF9.mXomId0-stW1l4QQQkjeBflo74ZIHzd0-Xj_71VyncA" -d '
+curl -X PATCH "https://api.socialhub.io/manifest?accesstoken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50SWQiOiI1YzliNmIyYTU4YTg1NTA3NGQxZDI3OGYiLCJjaGFubmVsSWQiOiI1YzljMDE5NTJiZGZkNzE4MzA3YTBhNTMiLCJpYXQiOjE1NTQxMzQ1NDF9.mXomId0-stW1l4QQQkjeBflo74ZIHzd0-Xj_71VyncA" -d '
 {
   "webhook": {
     "url": "https://socialhub.example.com/webhook",

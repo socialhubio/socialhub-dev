@@ -11,7 +11,7 @@ WebHooks allow receiving information about events that happened on SocialHub in 
 In order to use a WebHook it needs to be registered in the Manifest. This is done by updating the Manifest of the Custom Channel the Access Token belongs to, via the following REST API Route:
 
 ```bash
-PATCH /channels/manifest
+PATCH /manifest
 
 {
   "webhook": {
