@@ -4,6 +4,7 @@
 <url> <loc>https://socialhub.dev/index</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> <xhtml:link rel="alternate" hreflang="en" href="https://socialhub.dev/en/index" /> </url>
 <url> <loc>https://socialhub.dev/docs/en/api</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> <xhtml:link rel="alternate" hreflang="en" href="https://socialhub.dev/docs/en/api" /> </url>
 <url> <loc>https://socialhub.dev/docs/en/inbox/ticket-api</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> <xhtml:link rel="alternate" hreflang="en" href="https://socialhub.dev/docs/en/inbox/ticket-api" /> </url>
+<url> <loc>https://socialhub.dev/docs/en/integration</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> <xhtml:link rel="alternate" hreflang="en" href="https://socialhub.dev/docs/en/integration" /> </url>
 <url> <loc>https://socialhub.dev/docs/en/rest</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> <xhtml:link rel="alternate" hreflang="en" href="https://socialhub.dev/docs/en/rest" /> </url>
 <url> <loc>https://socialhub.dev/docs/en/webhooks</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> <xhtml:link rel="alternate" hreflang="en" href="https://socialhub.dev/docs/en/webhooks" /> </url>
 </urlset>
