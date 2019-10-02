@@ -1,7 +1,7 @@
 ---
 id: api
 title: SocialHub APIs
-sidebar_label: SocialHub
+sidebar_label: SocialHub APIs
 ---
 
 SocialHub provides various APIs allowing customers to extend our products with additional functionality.

@@ -39,7 +39,7 @@ paths:
   '/':
     get:
       summary: 'General information route'
-      description: 'Returns information related to the used access token.'
+      description: 'Returns information related to the used access token. Manifest information will be omitted for Reusable Manifests.'
       tags:
         - General
       responses:
@@ -64,7 +64,7 @@ paths:
   '/manifest':
     patch:
       summary: "Partially update a Custom Channel's Manifest"
-      description: 'A channel may have a manifest which defines a networks capabilities and configures communication with its integration. A Custom Channel will start off with an empty default Manifest which should be adjusted as needed by the Integration.'
+      description: 'A channel may have a manifest which defines a networks capabilities and configures communication with its integration. A Custom Channel will start off with an empty default Manifest which should be adjusted as needed by the Integration. Not available for Manifests that have been promoted to be reusable.'
       tags:
         - General
       parameters:
@@ -86,6 +86,34 @@ paths:
           $ref: '#/responses/AccessDenied'
         422:
           $ref: '#/responses/WebhookValidationError'
+        500:
+          $ref: '#/responses/InternalServerError'
+
+  '/channels':
+    post:
+      summary: 'Creates a Custom Channel (Reusable Manifests)'
+      description: 'Integrations with Manifests that have been promoted to be reusable by other customers can use this route to create Channels using the access token passed to the `channelCreation` callback.'
+      tags:
+        - General
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/Channel'
+      responses:
+        201:
+          description: 'The created Custom Channel object.'
+          schema:
+            $ref: '#/definitions/Channel'
+        400:
+          $ref: '#/responses/BadRequestError'
+        401:
+          $ref: '#/responses/AccessTokenInvalidError'
+        403:
+          $ref: '#/responses/AccessDenied'
+        404:
+          $ref: '#/responses/NotFoundError'
         500:
           $ref: '#/responses/InternalServerError'
 
@@ -330,6 +358,9 @@ definitions:
       name:
         type: string
         example: 'Custom Channel'
+      uniqueName:
+        type: string
+        example: 'Custom Channel'
       imageUrl:
         type: string
         format: url
@@ -408,6 +439,18 @@ definitions:
                 label:
                   type: string
                   example: 'Reply'
+      name:
+        description: 'Only set for Reusable Manifests'
+        type: string
+      callbacks:
+        type: object
+        properties:
+          channelCreation:
+            description: 'Channel creation callback for Reusable Manifests'
+            type: string
+            format: url
+            pattern: '^https://'
+            example: 'https://socialhub.example.com/create'
 
   Ticket:
     type: object
