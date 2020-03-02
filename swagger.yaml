@@ -132,6 +132,9 @@ paths:
             required:
               - interaction
             properties:
+              rootNetworkItemId:
+                type: string
+                description: "A unique identifier of the parent entity of the current Interaction within a Custom Chanel"
               interaction:
                 type: object
                 description: "Contains the Interaction's information as Ticket sub-object."

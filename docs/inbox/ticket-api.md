@@ -39,9 +39,10 @@ A Ticket is an entity managed within the SocialHub Inbox. A Ticket contains the 
 
 #### `ticket`
 
-| Field           | Description                                                  |
-|-----------------|--------------------------------------------------------------|
-| `interaction`   | Contains the Interaction's information as Ticket sub-object. |
+| Field               | Description                                                  |
+|---------------------|--------------------------------------------------------------|
+| `interaction`       | Contains the Interaction's information as Ticket sub-object. |
+| `rootNetworkItemId` | A unique identifier of the parent entity of the current Interaction within a Custom Chanel. |
 
 #### `interaction`
 
