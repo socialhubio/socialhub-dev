@@ -153,7 +153,20 @@ curl -X PATCH "https://api.socialhub.io/manifest?accesstoken=eyJhbGciOiJIUzI1NiI
 | `type`          | Type of the Ticket Action. At the moment we only support the `reply` action. There may be multiple actions of the same type. |
 | `id`            | Identifier of the Action. Each Action within a manifest must have a different identifier. Pattern regular expression: `^[a-zA-Z0-9-_]{1,256}$` |
 | `label`         | Human readable button label for this action. May be up to 256 characters long but should be as short as possible. |
+| `config`        | A set of configuration properties available for the manifest. |
 
+#### `inbox.ticketActions[].config`
+
+| Field           | Description                                               |
+|-----------------|-----------------------------------------------------------|
+| `timeout`       | Configuration for manifest actions' timeout. |
+
+#### `inbox.ticketActions[].config`
+
+| Field           | Description                                               |
+|-----------------|-----------------------------------------------------------|
+| `duration`      | The duration of timeout after which action will be invalid. |
+| `after`         | The name of the timeout. |
 
 ### Ticket Action Events
 
