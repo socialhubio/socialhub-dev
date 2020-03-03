@@ -432,13 +432,19 @@ definitions:
               properties:
                 type:
                   type: string
-                  enum: ['reply']
+                  enum: ['reply', 'template_reply']
                 id:
                   type: string
                   example: 'reply-as-comment'
                 label:
                   type: string
                   example: 'Reply'
+                config:
+                  type: object
+                  properties:
+                    fetchTemplateUrl:
+                      type: string
+                      format: url
       name:
         description: 'Only set for Reusable Manifests'
         type: string
