@@ -153,6 +153,13 @@ curl -X PATCH "https://api.socialhub.io/manifest?accesstoken=eyJhbGciOiJIUzI1NiI
 | `type`          | Type of the Ticket Action. At the moment we only support `reply` and `template_reply` actions. There may be multiple actions of the same type. |
 | `id`            | Identifier of the Action. Each Action within a manifest must have a different identifier. Pattern regular expression: `^[a-zA-Z0-9-_]{1,256}$` |
 | `label`         | Human readable button label for this action. May be up to 256 characters long but should be as short as possible. |
+| `config`        | A set of configuration properties available for the manifest. |
+
+#### `inbox.ticketActions[].config`
+
+| Field              | Description                                               |
+|--------------------|-----------------------------------------------------------|
+| `fetchTemplateUrl` | Url to fetch templates for the `template_reply` action. Required for the `template_reply` action. |
 
 
 ### Ticket Action Events
