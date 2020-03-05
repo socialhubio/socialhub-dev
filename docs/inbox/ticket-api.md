@@ -39,15 +39,15 @@ A Ticket is an entity managed within the SocialHub Inbox. A Ticket contains the 
 
 #### `ticket`
 
-| Field               | Description                                                  |
-|---------------------|--------------------------------------------------------------|
-| `interaction`       | Contains the Interaction's information as Ticket sub-object. |
+| Field           | Description                                                  |
+|-----------------|--------------------------------------------------------------|
+| `interaction`   | Contains the Interaction's information as Ticket sub-object. |
 
 #### `interaction`
 
 | Field           | Description                                               |
 |-----------------|-----------------------------------------------------------|
-| `root` | Stores parent entity. |
+| `root`          | Stores parent entity. |
 | `message`       | Message text of an Interaction (eg. the Text of a Facebook comment). May have up to 10.000 characters. Optional if there are `pictures` or `attachments`. |
 | `pictures`      | List of images of an Interaction (eg. a Facebook post with one or multiple images). Optional if there is a `message` or `attachments`. |
 | `attachments`   | List of file attachments of an Interaction (eg. a Direct Message with one or multiple files attached). Optional if there is a `message` or `pictures`. |
