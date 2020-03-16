@@ -124,7 +124,7 @@ We differentiate between two types of Ticket Actions:
 
 ### Registration in Manifest
 
-The [WebHook](webhooks.md) and Network Specific Ticket Action can be set using the `PATCH /manifest` REST API route.
+The [WebHook](webhooks.md), Network Specific Ticket Action and right sidebar options can be set using the `PATCH /manifest` REST API route.
 
 #### Example
 
@@ -140,7 +140,11 @@ curl -X PATCH "https://api.socialhub.io/manifest?accesstoken=eyJhbGciOiJIUzI1NiI
       "type": "reply",
       "id": "reply-as-comment",
       "label": "Reply"
-    }]
+    }],
+    "rightSidebar": {
+       "id": "sidebar-id",
+       "label": "sidebar-label",
+       "treeBuilder": "flatListwithoutRoot"
   }
 }
 ' -H "Content-Type: application/json"
@@ -154,6 +158,13 @@ curl -X PATCH "https://api.socialhub.io/manifest?accesstoken=eyJhbGciOiJIUzI1NiI
 | `id`            | Identifier of the Action. Each Action within a manifest must have a different identifier. Pattern regular expression: `^[a-zA-Z0-9-_]{1,256}$` |
 | `label`         | Human readable button label for this action. May be up to 256 characters long but should be as short as possible. |
 
+#### `inbox.rightSidebar`
+
+| Field           | Description                                               |
+|-----------------|-----------------------------------------------------------|
+| `id`            | Identifier of the Right Sidebar option. |
+| `label`         | Human readable label for the sidebar option. |
+| `treeBuilder`         | TreeBuilder which should be use for sidebar. Currently, only "flatListwithoutRoot" is supported. |
 
 ### Ticket Action Events
 
