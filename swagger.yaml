@@ -442,9 +442,12 @@ definitions:
                 config:
                   type: object
                   properties:
-                    fetchTemplateUrl:
-                      type: string
-                      format: url
+                    templates:
+                      type: object
+                      properties:
+                        url:
+                          type: string
+                          format: url
       name:
         description: 'Only set for Reusable Manifests'
         type: string

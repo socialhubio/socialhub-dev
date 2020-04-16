@@ -159,7 +159,7 @@ curl -X PATCH "https://api.socialhub.io/manifest?accesstoken=eyJhbGciOiJIUzI1NiI
 
 | Field              | Description                                               |
 |--------------------|-----------------------------------------------------------|
-| `fetchTemplateUrl` | Url to fetch templates for the `template_reply` action. Required for the `template_reply` action. |
+| `templates.url`    | Url to fetch templates for the `template_reply` action. Required for the `template_reply` action. |
 
 
 ### Ticket Action Events
