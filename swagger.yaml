@@ -89,6 +89,52 @@ paths:
         500:
           $ref: '#/responses/InternalServerError'
 
+  '/channel':
+    patch:
+      summary: "Partially update an existing Custom Channel"
+      description: 'Update data of existing Custom Channel. Channel jwt is required.'
+      tags:
+        - General
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            type: object
+            properties:
+              name:
+                description: Name of the channel.
+                type: string
+              uniqueName:
+                description: Unique name of the channel. An error will be thrown if another channel with such unique name already exists in account for this integration.
+                type: string
+              imageUrl:
+                description: URL to the channel image.
+                type: string
+                format: uri
+              endpoint:
+                type: object
+                properties:
+                  expirationTime:
+                    type: string
+                    description: The time when integration will loose access to the network channel. Must be in future.
+                    format: date-time
+      responses:
+        200:
+          description: 'The updated Manifest object.'
+          schema:
+            $ref: '#/definitions/Manifest'
+        400:
+          $ref: '#/responses/BadRequestError'
+        401:
+          $ref: '#/responses/AccessTokenInvalidError'
+        403:
+          $ref: '#/responses/AccessDenied'
+        404:
+          $ref: '#/responses/NotFoundError'
+        500:
+          $ref: '#/responses/InternalServerError'
+
   '/channels':
     post:
       summary: 'Creates a Custom Channel (Reusable Manifests)'
@@ -365,6 +411,16 @@ definitions:
         type: string
         format: url
         example: 'https://app.socialhub.io/uploads/0000000104.png'
+      endpoint:
+        type: object
+        properties:
+          networkId:
+            type: string
+            description: id of the channel on network
+          expirationTime:
+            type: string
+            format: date-time
+            description: the time when integration will loose access to the channel on network, e.g. because of acess token expiration
       createdTime:
         $ref: '#/definitions/Date'
       accountId:
