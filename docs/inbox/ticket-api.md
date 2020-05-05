@@ -161,7 +161,7 @@ curl -X PATCH "https://api.socialhub.io/manifest?accesstoken=eyJhbGciOiJIUzI1NiI
 |-----------------|-----------------------------------------------------------|
 | `timeout`       | Configuration for manifest actions' timeout. |
 
-#### `inbox.ticketActions[].config`
+#### `inbox.ticketActions[].config.timeout`
 
 | Field           | Description                                               |
 |-----------------|-----------------------------------------------------------|
