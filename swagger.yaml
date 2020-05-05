@@ -439,7 +439,7 @@ definitions:
               properties:
                 type:
                   type: string
-                  enum: ['reply']
+                  enum: ['reply', 'template_reply']
                 id:
                   type: string
                   example: 'reply-as-comment'
@@ -449,6 +449,12 @@ definitions:
                 config:
                   type: object
                   properties:
+                    templates:
+                      type: object
+                      properties:
+                        url:
+                          type: string
+                          format: url
                     timeout:
                       type: object
                       properties:
