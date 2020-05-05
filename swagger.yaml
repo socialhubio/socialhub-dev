@@ -136,6 +136,13 @@ paths:
                 type: object
                 description: "Contains the Interaction's information as Ticket sub-object."
                 properties:
+                  root:
+                    type: object
+                    properties:
+                      rootId:
+                        type: string
+                        pattern: '^[a-zA-Z0-9/_-]{6,256}$'
+                        description: "A unique identifier of the parent entity of the current Interaction within a Custom Chanel"
                   message:
                     description: 'Message text of an Interaction (eg. the Text of a Facebook comment). May have up to 10.000 characters. Optional if there are pictures or attachments.'
                     type: string
@@ -432,13 +439,34 @@ definitions:
               properties:
                 type:
                   type: string
-                  enum: ['reply']
+                  enum: ['reply', 'template_reply']
                 id:
                   type: string
                   example: 'reply-as-comment'
                 label:
                   type: string
                   example: 'Reply'
+                config:
+                  type: object
+                  properties:
+                    templates:
+                      type: object
+                      properties:
+                        url:
+                          type: string
+                          format: url
+                    timeout:
+                      type: object
+                      properties:
+                        duration:
+                          type: string
+                          example: '24h'
+                        after:
+                          type: string
+                          enum: ['networkCreationTime']
+                      required:
+                        - duration
+                        - after
       name:
         description: 'Only set for Reusable Manifests'
         type: string
