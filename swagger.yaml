@@ -135,6 +135,22 @@ paths:
         500:
           $ref: '#/responses/InternalServerError'
 
+    delete:
+      summary: Deativates a channel by its jwt
+        tags:
+          - General
+        responses:
+          204:
+            description: Empty response in case of success.
+          401:
+            $ref: '#/responses/AccessTokenInvalidError'
+          403:
+            $ref: '#/responses/AccessDenied'
+          404:
+            $ref: '#/responses/NotFoundError'
+          500:
+            $ref: '#/responses/InternalServerError'
+
   '/channels':
     post:
       summary: 'Creates a Custom Channel (Reusable Manifests)'
