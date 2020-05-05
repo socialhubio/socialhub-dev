@@ -446,6 +446,21 @@ definitions:
                 label:
                   type: string
                   example: 'Reply'
+                config:
+                  type: object
+                  properties:
+                    timeout:
+                      type: object
+                      properties:
+                        duration:
+                          type: string
+                          example: '24h'
+                        after:
+                          type: string
+                          enum: ['networkCreationTime']
+                      required:
+                        - duration
+                        - after
       name:
         description: 'Only set for Reusable Manifests'
         type: string
