@@ -47,12 +47,19 @@ A Ticket is an entity managed within the SocialHub Inbox. A Ticket contains the 
 
 | Field           | Description                                               |
 |-----------------|-----------------------------------------------------------|
+| `root`          | Stores parent entity. |
 | `message`       | Message text of an Interaction (eg. the Text of a Facebook comment). May have up to 10.000 characters. Optional if there are `pictures` or `attachments`. |
 | `pictures`      | List of images of an Interaction (eg. a Facebook post with one or multiple images). Optional if there is a `message` or `attachments`. |
 | `attachments`   | List of file attachments of an Interaction (eg. a Direct Message with one or multiple files attached). Optional if there is a `message` or `pictures`. |
 | `createdTime`   | Optional: The Interaction's creation time (as ISO 8601). For Facebook this would for example be the date and time when a comment was created. If this field is not specified the current date will be used. |
 | `networkItemId` | A unique identifier of the Interaction within a Custom Channel. A `HTTP 409 Conflict` will be returned if you attempt to create a Ticket with an identifier that has already been used for another Ticket within the same Channel. Allowed pattern as regular expression: `^[a-zA-Z0-9/_-]{6,256}$` |
 | `url`           | Optional: Link to the Interaction. This link will be used by SocialHub Users to eg. allow them to access the Interaction directly on the networks website. |
+
+#### `interaction.root`
+
+| Field            | Description                                              |
+|------------------|----------------------------------------------------------|
+| `rooId`          | A unique identifier of the parent entity of the current Interaction within a Custom Chanel. |
 
 #### `interaction.pictures[]`
 
@@ -160,7 +167,14 @@ curl -X PATCH "https://api.socialhub.io/manifest?accesstoken=eyJhbGciOiJIUzI1NiI
 | Field              | Description                                               |
 |--------------------|-----------------------------------------------------------|
 | `templates.url`    | Url to fetch templates for the `template_reply` action. Required for the `template_reply` action. |
+| `timeout`          | Configuration for manifest actions' timeout. |
 
+#### `inbox.ticketActions[].config.timeout`
+
+| Field           | Description                                               |
+|-----------------|-----------------------------------------------------------|
+| `duration`      | The duration of timeout after which action will be invalid. |
+| `after`         | The name of the timeout. |
 
 ### Ticket Action Events
 
