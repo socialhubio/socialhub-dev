@@ -10,4 +10,4 @@ jobs:
         run: sudo apt update && sudo apt install yamllint -y
       - uses: actions/checkout@v2
       - name: check swagger.yaml
-        run: yamllint swagger.yaml
+        run: yamllint -c .yamllint.yaml swagger.yaml
