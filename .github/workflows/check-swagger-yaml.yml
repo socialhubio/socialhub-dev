@@ -1,0 +1,13 @@
+name: check swagger.yaml
+on: [push]
+
+jobs:
+  check-swagger-yaml:
+    name: check swagger.yaml
+    runs-on: ubuntu-latest
+    steps:
+      - name: install yamllint
+        run: sudo apt update && sudo apt install yamllint -y
+      - uses: actions/checkout@v2
+      - name: check swagger.yaml
+        run: yamllint -c .yamllint.yaml swagger.yaml
