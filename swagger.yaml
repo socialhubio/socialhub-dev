@@ -4,7 +4,7 @@ swagger: '2.0'
 info:
   title: SocialHub Public API
   description: SocialHub Public API Reference
-  version: '1.0'
+  version: '1.1'
   contact:
     email: support@socialhub.io
 host: api.socialhub.io
@@ -32,20 +32,18 @@ tags:
     description: SocialHub Platform APIs
   - name: Inbox
     description: SocialHub Inbox Product APIs
-  - name: Content Planner
-    description: SocialHub Content Planner Product APIs
 
 # API Routes and Operations
 paths:
   '/':
     get:
-      summary: 'General information route'
+      summary: 'Root Route: Returns basic information for the given JWT'
       description: 'Returns information related to the used access token. Manifest information will be omitted for Reusable Manifests.'
       tags:
         - General
       responses:
         200:
-          description: 'Channel and manifest data'
+          description: 'Channel and Manifest data'
           schema:
             type: object
             properties:
@@ -65,7 +63,7 @@ paths:
   '/manifest':
     patch:
       summary: "Partially update a Custom Channel's Manifest"
-      description: 'A channel may have a manifest which defines a networks capabilities and configures communication with its integration. A Custom Channel will start off with an empty default Manifest which should be adjusted as needed by the Integration. Not available for Manifests that have been promoted to be reusable.'
+      description: "A Channel may have a Manifest which defines a Network's capabilities and configures communication with its Integration. A Custom Channel will start off with an empty default Manifest which should be adjusted as needed by the Integration. Not available for Manifests that have been promoted to be reusable."
       tags:
         - General
       parameters:
@@ -87,68 +85,6 @@ paths:
           $ref: '#/responses/AccessDenied'
         422:
           $ref: '#/responses/WebhookValidationError'
-        500:
-          $ref: '#/responses/InternalServerError'
-
-  '/channel':
-    patch:
-      summary: "Partially update an existing Custom Channel"
-      description: 'Update data of existing Custom Channel. Channel jwt is required.'
-      tags:
-        - General
-      parameters:
-        - name: body
-          in: body
-          required: true
-          schema:
-            type: object
-            properties:
-              name:
-                description: Name of the channel.
-                type: string
-              uniqueName:
-                description: Unique name of the channel. An error will be thrown if another channel with such unique name already exists in account for this integration.
-                type: string
-              imageUrl:
-                description: URL to the channel image.
-                type: string
-                format: uri
-              endpoint:
-                type: object
-                properties:
-                  expirationTime:
-                    type: string
-                    description: The time when integration will loose access to the network channel. Must be in future.
-                    format: date-time
-      responses:
-        200:
-          description: 'The updated Manifest object.'
-          schema:
-            $ref: '#/definitions/Manifest'
-        400:
-          $ref: '#/responses/BadRequestError'
-        401:
-          $ref: '#/responses/AccessTokenInvalidError'
-        403:
-          $ref: '#/responses/AccessDenied'
-        404:
-          $ref: '#/responses/NotFoundError'
-        500:
-          $ref: '#/responses/InternalServerError'
-
-    delete:
-      summary: Deativates a channel by its jwt
-      tags:
-        - General
-      responses:
-        204:
-          description: Empty response in case of success.
-        401:
-          $ref: '#/responses/AccessTokenInvalidError'
-        403:
-          $ref: '#/responses/AccessDenied'
-        404:
-          $ref: '#/responses/NotFoundError'
         500:
           $ref: '#/responses/InternalServerError'
 
@@ -180,9 +116,54 @@ paths:
         500:
           $ref: '#/responses/InternalServerError'
 
+  '/channel':
+    patch:
+      summary: 'Partially update an existing Custom Channel'
+      description: "Partially updates the Channel belonging to the passed access token. When updating the Channel using this route its access token will stay the same. Note that the endpoint.networkId can't be changed in this route."
+      tags:
+        - General
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/Channel'
+      responses:
+        200:
+          description: 'The updated Channel object.'
+          schema:
+            $ref: '#/definitions/Channel'
+        400:
+          $ref: '#/responses/BadRequestError'
+        401:
+          $ref: '#/responses/AccessTokenInvalidError'
+        403:
+          $ref: '#/responses/AccessDenied'
+        404:
+          $ref: '#/responses/NotFoundError'
+        500:
+          $ref: '#/responses/InternalServerError'
+
+    delete:
+      summary: 'Deactivate a Custom Channel'
+      description: "Can be used to deactivate the Channel belonging to the passed access token. After deactivation it's no longer possible to use the JWT and the Customer will be notified via mail that manual action is required in order to re-enable the Channel again"
+      tags:
+        - General
+      responses:
+        204:
+          description: Empty response in case of success.
+        401:
+          $ref: '#/responses/AccessTokenInvalidError'
+        403:
+          $ref: '#/responses/AccessDenied'
+        404:
+          $ref: '#/responses/NotFoundError'
+        500:
+          $ref: '#/responses/InternalServerError'
+
   '/inbox/tickets':
     post:
-      summary: 'Creates a Ticket for Custom Channels'
+      summary: 'Creates a Ticket'
       description: 'The SocialHub Ticket API allows the cration of Custom Tickets for Custom Channels. A Ticket is an entity managed within the SocialHub Inbox. A Ticket contains the Information about the Interaction (eg. a comment on a Facebook post) it represents.'
       tags:
         - Inbox
@@ -191,91 +172,7 @@ paths:
           in: body
           required: true
           schema:
-            type: object
-            required:
-              - interaction
-            properties:
-              interaction:
-                type: object
-                description: "Contains the Interaction's information as Ticket sub-object."
-                properties:
-                  root:
-                    type: object
-                    properties:
-                      rootId:
-                        type: string
-                        pattern: '^[a-zA-Z0-9/_-]{6,256}$'
-                        description: "A unique identifier of the parent entity of the current Interaction within a Custom Chanel"
-                  message:
-                    description: 'Message text of an Interaction (eg. the Text of a Facebook comment). May have up to 10.000 characters. Optional if there are pictures or attachments.'
-                    type: string
-                    maxLength: 10000
-                    default: ''
-                    example: 'Hello, can someone help me?'
-                  pictures:
-                    description: 'List of images of an Interaction (eg. a Facebook post with one or multiple images). Optional if there is a message or attachments.'
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        small:
-                          description: 'URL of a thumbnail version of the image. URL must support HTTPS protocol.'
-                          type: string
-                          format: url
-                          pattern: '^https:'
-                          example: 'https://example.com/questions/q_0000000001/images/1/thumbnail.png'
-                        large:
-                          description: 'Optional: URL of the original version of the image. If set, URL must support HTTPS protocol.'
-                          type: string
-                          format: url
-                          pattern: '^https:'
-                          example: 'https://example.com/questions/q_0000000001/images/1/original.png'
-                      required:
-                        - small
-                  attachments:
-                    description: 'List of file attachments of an Interaction (eg. a Direct Message with one or multiple files attached). Optional if there is a message or pictures.'
-                    type: array
-                    items:
-                      type: object
-                      required:
-                        - url
-                      properties:
-                        url:
-                          description: 'URL to download the attached file.URL must support HTTPS protocol.'
-                          type: string
-                          format: url
-                          pattern: '^https://'
-                          example: 'https://example.com/files/invoice.pdf'
-                        name:
-                          description: 'Optional: Attachment filename.'
-                          type: string
-                          example: 'invoice.pdf'
-                        size:
-                          description: 'Optional: Numerical filesize in bytes.'
-                          type: number
-                          minimum: 0
-                          example: 1024
-                        mimeType:
-                          description: 'Optional: Attachment filetype as mime-type (eg. "application/pdf")'
-                          type: string
-                          pattern: '^[a-zA-Z]+\\/[a-zA-Z0-9]+((\\.|\\+|\\-)[a-zA-Z0-9]+)*$'
-                          example: 'application/pdf'
-                  createdTime:
-                    description: "Optional: The Interaction's creation time (as ISO 8601). For Facebook this would for example be the date and time when a comment was created. If this field is not specified the current date will be used."
-                    type: string
-                    format: date-time
-                  networkItemId:
-                    description: 'A unique identifier of the Interaction within a Custom Channel. A HTTP 409 Conflict will be returned if you attempt to create a Ticket with an identifier that has already been used for another Ticket within the same Channel.'
-                    type: string
-                    pattern: '^[a-zA-Z0-9/_-]{6,256}$'
-                    example: 'question-q_0000000001'
-                  url:
-                    description: 'Optional: Link to the Interaction. This link will be used by SocialHub Users to eg. allow them to access the Interaction directly on the networks website.'
-                    type: string
-                    format: url
-                    example: 'http://example.com/questions/q_0000000001'
-                required:
-                  - networkItemId
+            $ref: '#/definitions/Ticket'
       responses:
         201:
           description: 'The successfully created Ticket.'
@@ -421,30 +318,42 @@ definitions:
 
   Channel:
     type: object
-    description: 'SocialHub Channel Object. A channel entity represents a specific connection between the SocialHub and an external data source (eg. a Facebook page).'
+    description: 'SocialHub Channel Object. A Channel represents a specific connection between the SocialHub and an external data source (eg. a Facebook page).'
+    required:
+      - name
+      - uniqueName
     properties:
       _id:
         $ref: '#/definitions/ObjectId'
       name:
         type: string
+        description: 'Human readable name of the Custom Channel.'
         example: 'Custom Channel'
       uniqueName:
         type: string
-        example: 'Custom Channel'
+        description: 'Human readable unique name of the Custom Channel. The value of this field must be unique for all Channels of the Customer.'
+        example: 'Custom Channel #1'
       imageUrl:
         type: string
+        description: 'Image displayed alongside the Channel name.'
         format: url
+        pattern: '^https://'
         example: 'https://app.socialhub.io/uploads/0000000104.png'
       endpoint:
         type: object
+        description: 'Integration/Network specific data.'
         properties:
           networkId:
             type: string
-            description: id of the channel on network
+            description: 'Used to uniquely identify a Channel. Optional but recommended if possible.'
           expirationTime:
             type: string
+            description: "Optional future Date-Time when the Integration's access to the target Network will expire (if applicable)."
             format: date-time
-            description: the time when integration will loose access to the channel on network, e.g. because of acess token expiration
+          accessToken:
+            type: string
+            description: 'After a Custom Channel has been created or reactivated a new access token will be returned which should be used for all further requests for this Channel.'
+            pattern: '^[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+\.[A-Za-z0-9-_]*$'
       createdTime:
         $ref: '#/definitions/Date'
       accountId:
@@ -485,12 +394,16 @@ definitions:
 
   Manifest:
     type: object
-    description: 'SocialHub Manifest Object. A channel may have a manifest which defines a networks capabilities and configures communication with its integration'
+    description: 'SocialHub Manifest Object. A Channel may have a Manifest which defines a Networks capabilities and configures communication with its Integration'
     properties:
       _id:
         $ref: '#/definitions/ObjectId'
+      name:
+        description: 'Read only. Manifests of normal Custom Channels do not have a name. Manifests that have a name have been promoted to being reusable. The name is what will be shown as Network name on the Channel Settings page.'
+        type: string
       webhook:
         type: object
+        description: 'WebHook specific configuration. A test request will be made whenever this is updated!'
         properties:
           url:
             type: string
@@ -499,59 +412,100 @@ definitions:
             example: 'https://socialhub.example.com/webhook'
           secret:
             type: string
+            description: 'Secret used for request signing. Should be a long random string.'
             minLength: 32
             maxLength: 512
             example: 'a_random_secret_string'
       inbox:
         type: object
+        description: 'Configures the actions available on Tickets within the Inbox.'
         properties:
           ticketActions:
             type: array
             items:
               type: object
+              required:
+                - id
+                - label
+                - type
               properties:
                 type:
                   type: string
+                  description: 'Type of the Ticket Action. There may be multiple actions of the same type.'
                   enum: ['reply', 'template_reply']
                 id:
                   type: string
+                  description: 'Identifier of the Action. Each Action within a manifest must have a different identifier.'
                   example: 'reply-as-comment'
                 label:
                   type: string
+                  description: 'Human readable button label for this action. Should be as short as possible.'
                   example: 'Reply'
+                  minLength: 1
+                  maxLength: 256
                 config:
                   type: object
+                  description: 'Configuration options for this Ticket Action.'
                   properties:
                     templates:
                       type: object
                       properties:
                         url:
                           type: string
+                          description: 'URL to fetch templates for the template_reply action from. Required for the template_reply action.'
                           format: url
+                          example: 'https://socialhub.example.com/templates'
                     timeout:
                       type: object
                       properties:
                         duration:
                           type: string
+                          description: 'Time after which the action is no longer available. Uses juration npm module for parsing.'
                           example: '24h'
                         after:
                           type: string
+                          description: 'Field the timeout is counted from. Currently only `networkCreationTime` is supported, which bases the timeout on the `ticket.interaction.createdTime` field.'
                           enum: ['networkCreationTime']
                       required:
                         - duration
                         - after
-      name:
-        description: 'Only set for Reusable Manifests'
-        type: string
+          rightSidebar:
+            type: array
+            description: 'Configures the tabs available in the right sidebar after clicking on a Ticket within the Inbox.'
+            items:
+              type: object
+              properties:
+                id:
+                  type: string
+                  description: 'String identifier for this sidebar Tab.'
+                  example: 'reply-as-comment'
+                label:
+                  type: string
+                  description: 'Human readable label to display for the sidebar Tab.'
+                  example: 'Reply'
+                treeBuilder:
+                  type: string
+                  description: 'The tree-builder algorithm to use.'
+                  enum: ['flatListWithoutRoot']
+              required:
+                - id
+                - label
+                - treeBuilder
       callbacks:
         type: object
         properties:
           channelCreation:
-            description: 'Channel creation callback for Reusable Manifests'
+            description: 'Channel creation callback for Reusable Manifests. Customer will be redirected to this Integration website in order to add new Channels.'
             type: string
             format: url
             pattern: '^https://'
             example: 'https://socialhub.example.com/create'
+          channelReactivation:
+            description: 'Channel reactivation callback for Reusable Manifests. Customer will be redirected to this Integration website in order to reactivate an existing Channel.'
+            type: string
+            format: url
+            pattern: '^https://'
+            example: 'https://socialhub.example.com/reactivate'
 
   Ticket:
     type: object
@@ -577,47 +531,115 @@ definitions:
         properties:
           networkItemId:
             type: string
+            description: 'A unique identifier of the Interaction within a Custom Channel. A HTTP 409 Conflict will be returned if you attempt to create a Ticket with an identifier that has already been used for another Ticket within the same Channel.'
+            pattern: '^[a-zA-Z0-9/_-]{6,256}$'
             example: 'question-q_0000000001'
+          root:
+            type: object
+            properties:
+              rooId:
+                type: string
+                description: 'During Ticket creation: `networkItemId` of the Root-Ticket of this Ticket. Used for right sidebar Tree-Building. If referenced Root-Ticket does not exist a new empty hidden Ticket will be automatically created. Note that SocialHub will store the `interactor.interactorId` that you sent separately. The `interactorId` returned in the response will be the interactor identifier of SocialHub. SocialHub will automatically link the network specific interactorId that you send to the SocialHub specific ID if we have already received it once.'
+                pattern: '^[a-zA-Z0-9/_-]{6,256}$'
           createdTime:
             $ref: '#/definitions/Date'
           url:
             type: string
+            description: 'Link to the Interaction. This link will be used by SocialHub Users to eg. allow them to access the Interaction directly on the networks website.'
             format: url
             example: 'http://example.com/questions/q_0000000001'
+          interactor:
+            type: object
+            description: 'Information about the person that created the interaction. (eg. a Facebook User).'
+            required:
+              - name
+              - interactorId
+            properties:
+              interactorId:
+                type: string
+                description: "A network specific unique identifier of the person that caused this interaction. If multiple Tickets share an interactor with the same id they will be linked automatically (eg. for the right sidebar user history). If the ID matches the Channel's `networkId`, the Ticket will not appear as an unread Ticket in the Inbox because it was most likely caused by an external action by the Customer owning the Channel."
+                minLength: 3
+              name:
+                type: string
+                description: 'Name of the person that caused this interaction.'
+              url:
+                type: string
+                description: "URL of the person's profile."
+                format: url
+              picture:
+                type: string
+                description: "URL of the person's avatar picture."
+                format: url
+                pattern: '^https://'
           message:
             type: string
+            description: 'Message text of an Interaction (eg. the Text of a Facebook comment). Optional if there are pictures or attachments.'
+            maxLength: 10000
             example: 'Hello, can someone help me?'
           pictures:
             type: array
+            description: 'List of images of an Interaction (eg. a Facebook post with one or multiple images). Optional if there is a message or attachments.'
             items:
               type: object
+              required:
+                - small
               properties:
                 small:
                   type: string
+                  description: 'URL of a thumbnail version of the image.'
                   format: url
+                  pattern: '^https://'
                   example: 'https://example.com/questions/q_0000000001/images/1/thumbnail.png'
                 large:
                   type: string
+                  description: 'URL of the original version of the image.'
                   format: url
+                  pattern: '^https://'
                   example: 'https://example.com/questions/q_0000000001/images/1/original.png'
           attachments:
             type: array
+            description: 'List of file attachments of an Interaction (eg. a Direct Message with one or multiple files attached). Optional if there is a message or pictures.'
             items:
               type: object
+              required:
+                - url
               properties:
                 url:
                   type: string
+                  description: 'URL to download the attached file.URL must support HTTPS protocol.'
                   format: url
+                  pattern: '^https://'
                   example: 'https://example.com/files/invoice.pdf'
                 name:
                   type: string
+                  description: 'Attachment filename.'
                   example: 'invoice.pdf'
                 size:
                   type: number
+                  description: 'Numerical filesize in bytes.'
+                  minimum: 0
                   example: 1024
                 mimeType:
                   type: string
+                  description: 'Attachment filetype as mime-type.'
+                  pattern: '^[a-zA-Z]+\\/[a-zA-Z0-9]+((\\.|\\+|\\-)[a-zA-Z0-9]+)*$'
                   example: 'application/pdf'
+          rating:
+            type: object
+            description: 'Stores rating/review information.'
+            required:
+              - value
+              - scale
+            properties:
+              value:
+                type: number
+                description: 'Rating value. This would be `7` in a 7/10 rating.'
+                minimum: 0
+              scale:
+                type: number
+                description: 'Rating scale. This would be `10` in a 7/10 rating.'
+                minimum: 0
+                maximum: 100
 
 # Reusable API response definitions.
 responses:

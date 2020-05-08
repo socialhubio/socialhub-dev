@@ -37,39 +37,15 @@ Signature related data is provided within the requests headers:
 
 SocialHub expects a WebHook's responses to have a `X-SocialHub-Challenge` header to verify that the WebHook can be trusted.
 
-### Example
+#### Process
 
-The following is an example on how a WebHook would verify an incoming request before processing the event data.
-PHP was used due to its simplicity in showing how verification works, but it can be implemented in any other language.
+The following steps should be taken to verify an incoming request before processing the event data:
 
-```php
-// Optional: Prevent replay attacks by ensuring this request has been signed
-// recently (+/- 5 minutes). The request timestamp is in ms!
-$req_timestamp = $_SERVER['HTTP_X_SOCIALHUB_TIMESTAMP'];
-$req_age = abs(time() - intval($req_timestamp)/1000);
-if ($req_age > 300) die('Invalid request timestamp');
+1. Generate a SHA-256 hash with the contents of the `X-SocialHub-Timestamp` and the configured secret concatenated with a `;` in between. This is also the challenge hash that should be returned in the response as `X-SocialHub-Challenge` header value.
+2. Generate a HMAC SHA-256 hash with the request body while using the challenge hash as key. This is the same signature SocialHub calculates for each WebHook request.
+3. Compare the generated signature with the signature received with the `X-SocialHub-Signature` header.
 
-// Calculate challenge hash by concatenating the request timestamp with the
-// webhook secret with a semicolon in between: "timestamp;secret".
-// Hash is created with SHA256 encoded as hexdecimal lowercase string.
-$secret = 'a_random_secret_string';
-$challenge = hash('sha256', $req_timestamp . ';' . $secret);
-
-// Calculate request body signature using the challenge hash as secret.
-// Signature is a HMAC SHA256 hash encoded as hexdecimal lowercase string.
-$req_raw_body = file_get_contents('php://input');
-$expected_signature = hash_hmac('sha256', $req_raw_body, $challenge);
-
-// Compare expected with received signature.
-$req_signature = $_SERVER['HTTP_X_SOCIALHUB_SIGNATURE'];
-if ($expected_signature !== $req_signature) die('Invalid signature');
-
-// Add solved challenge to response.
-header('X-SocialHub-Challenge: ' . $challenge);
-
-// Parse the JSON request body and process the received events.
-// ...
-```
+For more details take a look at some [code examples](misc/signature-code-examples).
 
 ## Event Processing
 
@@ -86,19 +62,19 @@ The request body send to a configured WebHook will always have the following str
 
 The `events` object will only be empty during test-requests made when the WebHook is initially configured in the Manifest. Otherwise it will be a map of event-types with each a list of events of the same type.
 
-```json
+```javascript
 {
   "manifestId": "5c9c01952bdfd718307a0a52",
   "accountId": "5c9b6b2a58a855074d1d278f",
   "channelId": "5c9c01952bdfd718307a0a53",
   "events": {
     "ticket_action": [
-      { ticket_action event 1 data... },
-      { ticket_action event 2 data... },
-      { ticket_action event 3 data... }
+      { /* ticket_action event 1 data... */ },
+      { /* ticket_action event 2 data... */ },
+      { /* ticket_action event 3 data... */ }
     ],
     "channel_action": [
-      { channel_action event 1 data... }
+      { /* channel_action event 1 data... */ }
     ]
   }
 }
@@ -120,25 +96,4 @@ Was the HTTP Response Code a success (2xx) but the `X-SocialHub-Challenge` respo
 
 ### Manifest API response
 
-The following error responses of the SocialHub Manifest API should the handled by the Integration's client:
-
-#### `HTTP 422 Unprocessable Entity`
-
-```json
-{
-  "code": "WebhookValidationError",
-  "message": "Error: An error occurred while attempting to validate the WebHook",
-  "data": "Error: getaddrinfo ENOTFOUND socialhub.example.com socialhub.example.com:443"
-}
-```
-
-Is returned whenever the URL specified in the Manifest is not reachable by the HTTPS test request. The `data` value is the internal error that occurred when the test was attempted and should help debugging the issue.
-
-```json
-{
-  "code": "WebhookValidationError",
-  "message": "Error: The WebHook failed to solve the challenge"
-}
-```
-
-It's also possible that we were able to execute the HTTPS request but the response did not contain a valid challenge response header.
+Also take note of possible [Manifest API responses](general/manifest-api#responses).

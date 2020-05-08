@@ -4,7 +4,7 @@ title: Ticket API
 sidebar_label: Ticket
 ---
 
-The SocialHub Ticket API allows the creation of Custom Tickets for Custom Channels. By default these Tickets will only have network-agnostic Actions available. Actions that require changes to be made on the network (eg. Replies made to a Ticket), must be configured in the Channels Manifest. If a WebHook is configured, it will receive information about executed Ticket Actions as Events.
+The SocialHub Ticket API allows the creation of Custom Tickets for Custom Channels. By default these Tickets will only have [network-agnostic Actions](#receiving-ticket-action-events) available. Actions that require changes to be made on the network (eg. Replies made to a Ticket), must be configured in the [Manifest](../general/manifest-api#inboxticketactions). If a [WebHook](../webhooks) is configured, it will receive information about executed Ticket Actions as Events.
 
 ## Creating Tickets
 
@@ -27,7 +27,16 @@ curl -X POST "https://api.socialhub.io/inbox/tickets?accesstoken=eyJhbGciOiJIUzI
    "pictures": [{
      "small": "https://example.com/questions/q_0000000001/images/1/thumbnail.png",
      "large": "https://example.com/questions/q_0000000001/images/1/original.png"
-   }]
+   }],
+   "root": {
+     "rootId": "conversation-48622799"
+   },
+   "interactor": {
+     "interactorId": "u_5678986543",
+     "name": "Jork Schrank",
+     "url": "https://example.com/user/u_5678986543",
+     "picture": "https://example.com/user/u_5678986543/avatar.png"
+   }
  }
 }
 ' -H "Content-Type: application/json"
@@ -37,8 +46,6 @@ curl -X POST "https://api.socialhub.io/inbox/tickets?accesstoken=eyJhbGciOiJIUzI
 
 A Ticket is an entity managed within the SocialHub Inbox. A Ticket contains the Information about the Interaction (eg. a comment on a Facebook post) it represents. The Integration will request the Interaction's information from a data-source and use it to create a Ticket via the SocialHub API.
 
-#### `ticket`
-
 | Field           | Description                                                  |
 |-----------------|--------------------------------------------------------------|
 | `interaction`   | Contains the Interaction's information as Ticket sub-object. |
@@ -47,19 +54,15 @@ A Ticket is an entity managed within the SocialHub Inbox. A Ticket contains the 
 
 | Field           | Description                                               |
 |-----------------|-----------------------------------------------------------|
-| `root`          | Stores parent entity. |
 | `message`       | Message text of an Interaction (eg. the Text of a Facebook comment). May have up to 10.000 characters. Optional if there are `pictures` or `attachments`. |
 | `pictures`      | List of images of an Interaction (eg. a Facebook post with one or multiple images). Optional if there is a `message` or `attachments`. |
 | `attachments`   | List of file attachments of an Interaction (eg. a Direct Message with one or multiple files attached). Optional if there is a `message` or `pictures`. |
 | `createdTime`   | Optional: The Interaction's creation time (as ISO 8601). For Facebook this would for example be the date and time when a comment was created. If this field is not specified the current date will be used. |
 | `networkItemId` | A unique identifier of the Interaction within a Custom Channel. A `HTTP 409 Conflict` will be returned if you attempt to create a Ticket with an identifier that has already been used for another Ticket within the same Channel. Allowed pattern as regular expression: `^[a-zA-Z0-9/_-]{6,256}$` |
+| `interactor`    | Optional: Information about the person that created the interaction. (eg. a Facebook User) |
 | `url`           | Optional: Link to the Interaction. This link will be used by SocialHub Users to eg. allow them to access the Interaction directly on the networks website. |
-
-#### `interaction.root`
-
-| Field            | Description                                              |
-|------------------|----------------------------------------------------------|
-| `rooId`          | A unique identifier of the parent entity of the current Interaction within a Custom Chanel. |
+| `root`          | Optional: Stores Root-Ticket information. |
+| `rating`        | Optional: Stores rating/review information. |
 
 #### `interaction.pictures[]`
 
@@ -72,38 +75,69 @@ A Ticket is an entity managed within the SocialHub Inbox. A Ticket contains the 
 
 | Field           | Description                                               |
 |-----------------|-----------------------------------------------------------|
-| `url`           | URL to download the attached file.URL must support HTTPS protocol. |
+| `url`           | URL to download the attached file. URL must support HTTPS protocol. |
 | `name`          | Optional: Attachment filename. |
 | `size`          | Optional: Numerical filesize in bytes. |
 | `mimeType`      | Optional: Attachment filetype as mime-type (eg. "application/pdf") |
+
+#### `interaction.interactor`
+
+| Field            | Description                                              |
+|------------------|----------------------------------------------------------|
+| `interactorId`   | A network specific unique identifier of the person that caused this interaction. If multiple Tickets share an interactor with the same id they will be linked automatically (eg. for the right sidebar user history). If the ID matches the Channel's `networkId`, the Ticket will not appear as an unread Ticket in the Inbox because it was most likely caused by an external action by the Customer owning the Channel. |
+| `name`           | Name of the person that caused this interaction. |
+| `url`            | Optional: URL of the person's profile. |
+| `picture`        | Optional: HTTPS URL of the person's avatar picture. |
+
+#### `interaction.root`
+
+| Field            | Description                                              |
+|------------------|----------------------------------------------------------|
+| `rooId`          | `networkItemId` of the Root-Ticket of this Ticket. Used for [right sidebar Tree-Building](../general/manifest-api#inboxrightsidebar). If referenced Root-Ticket does not exist a new empty hidden Ticket will be automatically created. |
+
+#### `interaction.rating`
+
+| Field            | Description                                              |
+|------------------|----------------------------------------------------------|
+| `value`          | Rating value. This would be `7` in a 7/10 rating. |
+| `scale`          | Rating scale. This would be `10` in a 7/10 rating. |
 
 ### Responses
 
 The following responses of the SocialHub Ticket API should the handled by the Integration's client:
 
-#### `HTTP 200 OK`
+#### `HTTP 201 Created`
 
 Represents the successful creation of the Ticket. The newly created ticket object will be returned.
 
 Example:
 ```json
 {
-  "_id": "5cc1b08ad62ec72e8388cb47",
-  "channelId": "5cc1afd1d62ec72e8388cb46",
-  "accountId": "5cb9003af1bb6808381d184d",
-  "createdTime": "2019-04-25T13:05:14.413Z",
+  "channelId": "5eb47954a545b82b5b522cce",
+  "accountId": "5e73f5245a45da10b6e614d8",
+  "_id": "5eb493dcac52392e08513417",
+  "createdTime": "2020-05-07T23:03:56.384Z",
   "interaction": {
-    "socialNetwork": "CUSTOM",
     "createdTime": "2019-01-28T16:58:12.736Z",
-    "type": "TICKET",
     "message": "Hello, can someone help me?",
     "networkItemId": "question-q_0000000001",
     "url": "http://example.com/questions/q_0000000001",
+    "root": {
+      "url": null,
+      "rootId": "conversation-48622799",
+      "createdTime": "2020-05-07T23:03:56.336Z"
+    },
+    "interactor": {
+      "url": "https://example.com/user/u_5678986543",
+      "name": "Jork Schrank",
+      "picture": "https://example.com/user/u_5678986543/avatar.png",
+      "interactorId": "5eb493dcac52392e08513416"
+    },
     "attachments": [],
     "pictures": [
       {
-        "large": "https://example.com/questions/q_0000000001/images/1/original.png",
-        "small": "https://example.com/questions/q_0000000001/images/1/thumbnail.png"
+        "small": "https://example.com/questions/q_0000000001/images/1/thumbnail.png",
+        "large": "https://example.com/questions/q_0000000001/images/1/original.png"
       }
     ]
   }
@@ -111,6 +145,8 @@ Example:
 ```
 
 The `_id` value is a unique identifier of a Ticket within the SocialHub Inbox. You might want to store it in reference to the Interactions within your Integration.
+
+Note that SocialHub will store the `interactor.interactorId` that you sent separately. The `interactorId` returned in the response will be the interactor identifier of SocialHub. SocialHub will automatically link the network specific `interactorId` that you send to the SocialHub specific ID if we have already received it once.
 
 #### `HTTP 409 Conflict`
 
@@ -131,60 +167,7 @@ We differentiate between two types of Ticket Actions:
 
 ### Registration in Manifest
 
-The [WebHook](webhooks.md), Network Specific Ticket Action and right sidebar options can be set using the `PATCH /manifest` REST API route.
-
-#### Example
-
-```bash
-curl -X PATCH "https://api.socialhub.io/manifest?accesstoken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50SWQiOiI1YzliNmIyYTU4YTg1NTA3NGQxZDI3OGYiLCJjaGFubmVsSWQiOiI1YzljMDE5NTJiZGZkNzE4MzA3YTBhNTMiLCJpYXQiOjE1NTQxMzQ1NDF9.mXomId0-stW1l4QQQkjeBflo74ZIHzd0-Xj_71VyncA" -d '
-{
-  "webhook": {
-    "url": "https://socialhub.example.com/webhook",
-    "secret": "a_random_secret_string"
-  },
-  "inbox": {
-    "ticketActions": [{
-      "type": "reply",
-      "id": "reply-as-comment",
-      "label": "Reply"
-    }],
-    "rightSidebar": {
-       "id": "sidebar-id",
-       "label": "sidebar-label",
-       "treeBuilder": "flatListwithoutRoot"
-  }
-}
-' -H "Content-Type: application/json"
-```
-
-#### `inbox.ticketActions[]`
-
-| Field           | Description                                               |
-|-----------------|-----------------------------------------------------------|
-| `type`          | Type of the Ticket Action. At the moment we only support `reply` and `template_reply` actions. There may be multiple actions of the same type. |
-| `id`            | Identifier of the Action. Each Action within a manifest must have a different identifier. Pattern regular expression: `^[a-zA-Z0-9-_]{1,256}$` |
-| `label`         | Human readable button label for this action. May be up to 256 characters long but should be as short as possible. |
-| `config`        | A set of configuration properties available for the manifest. |
-
-#### `inbox.ticketActions[].config`
-
-| Field              | Description                                               |
-|--------------------|-----------------------------------------------------------|
-| `templates.url`    | Url to fetch templates for the `template_reply` action. Required for the `template_reply` action. |
-| `timeout`          | Configuration for manifest actions' timeout. |
-
-#### `inbox.rightSidebar`
-
-| Field           | Description                                               |
-|-----------------|-----------------------------------------------------------|
-| `id`            | Identifier of the Right Sidebar option. |
-| `label`         | Human readable label for the sidebar option. |
-| `treeBuilder`   | TreeBuilder which should be use for sidebar. Currently, only "flatListwithoutRoot" is supported. |
-
-| Field           | Description                                               |
-|-----------------|-----------------------------------------------------------|
-| `duration`      | The duration of timeout after which action will be invalid. |
-| `after`         | The name of the timeout. |
+The [WebHook](webhooks.md) and Network Specific Ticket Action options can be set using the [Manifest API](../general/manifest-api#updating-manifests).
 
 ### Ticket Action Events
 
@@ -243,6 +226,36 @@ The WebHook request body will look like this when delivering Ticket Action event
 |-----------------|-----------------------------------------------------------|
 | `text`          | The Text that was specified by the SocialHub User to publicly reply to the Interaction with. |
 | `followupId`    | Unique identifier of the Reply-Folloup that was created on the Ticket. |
+
+#### Ticket Action Type: `template_reply`
+
+```json
+{
+  "ticketId": "5cc1b08ad62ec72e8388cb47",
+  "networkItemId": "question-q_0000000001",
+  "type": "template_reply",
+  "actionId": "reply-with-template",
+  "payload": {
+    "followupId": "f5f75b50-6764-11e9-9ce6-3507264c7519",
+    "name": "Test Greeting",
+    "networkId": "test_greeting",
+    "variables": {
+      "firstName": "Jork"
+    },
+    "language": "de",
+  },
+}
+```
+
+##### `payload`
+
+| Field           | Description                                               |
+|-----------------|-----------------------------------------------------------|
+| `followupId`    | Unique identifier of the Reply-Folloup that was created on the Ticket. |
+| `name`          | Human readable name of the selected template |
+| `networkId`     | Network ID of the selected template |
+| `variables`     | Key-value map of variable names and their values |
+| `language`      | Selected language value |
 
 ##### Reply Success Confirmation
 

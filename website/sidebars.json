@@ -1,7 +1,8 @@
 {
   "docs": {
-    "Public API": ["api", "integration", "rest", "webhooks"],
-    "Inbox API": ["inbox/ticket-api"],
-    "Content Planner API": []
+    "Get Started": ["api", "integration", "rest", "webhooks"],
+    "General APIs": ["general/manifest-api", "general/channel-api"],
+    "Inbox APIs": ["inbox/ticket-api"],
+    "Resources": ["changelog", "misc/signature-code-examples"]
   }
 }

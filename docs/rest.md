@@ -1,6 +1,6 @@
 ---
 id: rest
-title: REST API
+title: REST APIs
 sidebar_label: REST
 ---
 
@@ -22,7 +22,8 @@ The APIs expect to receive request contents encoded as `application/json` and wi
 
 ## Reference
 
-For quickly looking up information about the API and testing it without code, we have created a [Swagger API Reference](https://petstore.swagger.io/?url=https://raw.githubusercontent.com/socialhubio/socialhub-dev/master/swagger.yaml).
+For quickly looking up information about the API and testing it without code, we have created a    
+[**Swagger API Specification**](https://petstore.swagger.io/?url=https://raw.githubusercontent.com/socialhubio/socialhub-dev/master/swagger.yaml).
 
 ## Authentication
 
@@ -43,6 +44,44 @@ JWTs can be decoded (eg. with the online decoder at [jwt.io](https://jwt.io/)) a
 ```
 
 Access Tokens can be invalidated effective immediately at any time via the Custom Channel settings "Create new Token" Button. This will cause all further requests made using the previous token to fail permanently and disables any configured WebHook in the Channel's Manifest.
+
+## Root Route
+
+The route at the API's root path is intended to return some basic information for the given JWT.
+
+```bash
+curl "https://api.socialhub.io/?accesstoken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50SWQiOiI1YzliNmIyYTU4YTg1NTA3NGQxZDI3OGYiLCJjaGFubmVsSWQiOiI1YzljMDE5NTJiZGZkNzE4MzA3YTBhNTMiLCJpYXQiOjE1NTQxMzQ1NDF9.mXomId0-stW1l4QQQkjeBflo74ZIHzd0-Xj_71VyncA"
+```
+
+```javascript
+{
+  "channel": {
+    "_id": "5e73f56c5a45da10b6e614de",
+    "name": "Test",
+    "uniqueName": "test",
+    "accountId": "5e73f5245a45da10b6e614d8",
+    "updatedTime": "2020-05-05T23:16:05.451Z",
+    "businessHours": null,
+    "createdTime": "2020-03-19T22:42:52.154Z"
+  },
+  "manifest": {
+    "_id": "5e73f56c5a45da10b6e614dd",
+    "inbox": {
+      "ticketActions": [
+        {
+          "label": "Comment",
+          "id": "comment",
+          "type": "reply"
+        }
+      ]
+    }
+  }
+}
+```
+
+Note that the `manifest` field is omitted for Reusable Manifests.
+
+More information about the objects returned here can be found in their respective API documentations.
 
 ## Error handling
 

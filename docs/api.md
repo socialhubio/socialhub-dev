@@ -1,10 +1,10 @@
 ---
 id: api
-title: SocialHub APIs
-sidebar_label: SocialHub APIs
+title: The SocialHub APIs
+sidebar_label: Overview
 ---
 
-SocialHub provides various APIs allowing customers to extend our products with additional functionality.
+SocialHub provides various APIs allowing extension our products with additional functionality:
 
 - **[REST APIs](rest.md)**    
   Allow create, read, update and delete (CRUD) operations to be executed via simple HTTP requests.
@@ -35,6 +35,6 @@ SocialHub provides various APIs allowing customers to extend our products with a
 * Depending on the Ticket's `network` there may also be "network-specific" actions available (eg. "liking" a comment `interaction` on Facebook).
 * A `ticket` can contain multiple `followups`. A `followup` can be an internal `note` or a public `reply`.
 
-### Content Planner
+### Other products
 
-There are currently no APIs available for the Content Planner product.
+There are currently no APIs available for other SocialHub Platform products like the Content Planner or Meet.
