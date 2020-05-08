@@ -1,0 +1,26 @@
+name: build and deploy
+on: [push]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        node-version: [12.x]
+    
+    steps:
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: npm install
+        run: npm install
+        working-directory: website
+      - name: build and deploy
+        run: yarn run publish-gh-pages
+        working-directory: website
+        env:
+          GIT_USER=patrickd-
+          CURRENT_BRANCH=master
+          GITHUB_TOKEN: ${{ secrets.accesstoken }}
