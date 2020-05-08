@@ -7,7 +7,7 @@ sidebar_label: Integration
 The following describes the usual workflows followed in order to integrate a Network that is not officially supported by SocialHub yet.
 
 - "Customer" is referring to customers of SocialHub. It is the group of administrators managing a SocialHub Account.
-- "Developer" is referring to a person, department or agency responsible for the development of the Integration software. This is usually a either an in-house effort of the Customer's company or a contracted software development agency.
+- "Developer" is referring to a person, department or agency responsible for the development of the Integration software. This is usually either an in-house effort of the Customer's company or a contracted software development agency.
 
 ## A) Custom Channel
 
