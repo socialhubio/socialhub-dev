@@ -26,5 +26,4 @@ jobs:
         env:
           GIT_USER: patrickd-
           CURRENT_BRANCH: master
-          USE_SSH: true
           GITHUB_TOKEN: ${{ secrets.accesstoken }}
