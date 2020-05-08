@@ -20,6 +20,7 @@ jobs:
         working-directory: ./website
       - run: git config --global user.email "patrickd-@users.noreply.github.com"
       - run: git config --global user.name "patrickd-"
+      - run: echo "${{ secrets.accesstoken }}"
       - name: build and deploy
         run: npm run publish-gh-pages
         working-directory: ./website
