@@ -18,10 +18,13 @@ jobs:
       - name: npm install
         run: npm install
         working-directory: ./website
+      - run: git config --global user.email "patrickd-@users.noreply.github.com"
+      - run: git config --global user.name "patrickd-"
       - name: build and deploy
         run: npm run publish-gh-pages
         working-directory: ./website
         env:
           GIT_USER: patrickd-
           CURRENT_BRANCH: master
+          USE_SSH: true
           GITHUB_TOKEN: ${{ secrets.accesstoken }}
