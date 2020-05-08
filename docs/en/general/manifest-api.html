@@ -1,0 +1,241 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>Manifest API · SocialHub for Developers</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="&lt;p&gt;The SocialHub Manifest API allows the manipulation of Channel Manifests. Manifests are automatically created for &lt;a href=&quot;../integration#a-custom-channel&quot;&gt;Custom Channels&lt;/a&gt; and define a Network&#x27;s capabilities and configures communication with its Integration. A Custom Channel will start off with an empty default Manifest which should be adjusted as needed by the Integration.&lt;/p&gt;
+"/><meta name="docsearch:language" content="en"/><meta property="og:title" content="Manifest API · SocialHub for Developers"/><meta property="og:type" content="website"/><meta property="og:url" content="https://socialhub.dev/"/><meta property="og:description" content="&lt;p&gt;The SocialHub Manifest API allows the manipulation of Channel Manifests. Manifests are automatically created for &lt;a href=&quot;../integration#a-custom-channel&quot;&gt;Custom Channels&lt;/a&gt; and define a Network&#x27;s capabilities and configures communication with its Integration. A Custom Channel will start off with an empty default Manifest which should be adjusted as needed by the Integration.&lt;/p&gt;
+"/><meta name="twitter:card" content="summary"/><link rel="shortcut icon" href="/img/favicon.png"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css"/><link rel="stylesheet" href="/css/main.css"/><script src="/js/codetabs.js"></script></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/en"><img class="logo" src="/img/favicon.png" alt="SocialHub for Developers"/><h2 class="headerTitleWithLogo">SocialHub for Developers</h2></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class=""><a href="/en/help" target="_self">Help</a></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="container docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><i></i></div><h2><i>›</i><span>General APIs</span></h2><div class="tocToggler" id="tocToggler"><i class="icon-toc"></i></div></div><div class="navGroups"><div class="navGroup"><h3 class="navGroupCategoryTitle">Get Started</h3><ul class=""><li class="navListItem"><a class="navItem" href="/docs/en/api">Overview</a></li><li class="navListItem"><a class="navItem" href="/docs/en/integration">Integration</a></li><li class="navListItem"><a class="navItem" href="/docs/en/rest">REST</a></li><li class="navListItem"><a class="navItem" href="/docs/en/webhooks">WebHooks</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">General APIs</h3><ul class=""><li class="navListItem navListItemActive"><a class="navItem" href="/docs/en/general/manifest-api">Manifest</a></li><li class="navListItem"><a class="navItem" href="/docs/en/general/channel-api">Channel</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Inbox APIs</h3><ul class=""><li class="navListItem"><a class="navItem" href="/docs/en/inbox/ticket-api">Ticket</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Resources</h3><ul class=""><li class="navListItem"><a class="navItem" href="/docs/en/changelog">API Changelog</a></li><li class="navListItem"><a class="navItem" href="/docs/en/misc/signature-code-examples">Signature Code Examples</a></li></ul></div></div></section></div><script>
+            var coll = document.getElementsByClassName('collapsible');
+            var checkActiveCategory = true;
+            for (var i = 0; i < coll.length; i++) {
+              var links = coll[i].nextElementSibling.getElementsByTagName('*');
+              if (checkActiveCategory){
+                for (var j = 0; j < links.length; j++) {
+                  if (links[j].classList.contains('navListItemActive')){
+                    coll[i].nextElementSibling.classList.toggle('hide');
+                    coll[i].childNodes[1].classList.toggle('rotate');
+                    checkActiveCategory = false;
+                    break;
+                  }
+                }
+              }
+
+              coll[i].addEventListener('click', function() {
+                var arrow = this.childNodes[1];
+                arrow.classList.toggle('rotate');
+                var content = this.nextElementSibling;
+                content.classList.toggle('hide');
+              });
+            }
+
+            document.addEventListener('DOMContentLoaded', function() {
+              createToggler('#navToggler', '#docsNav', 'docsSliderActive');
+              createToggler('#tocToggler', 'body', 'tocActive');
+
+              const headings = document.querySelector('.toc-headings');
+              headings && headings.addEventListener('click', function(event) {
+                if (event.target.tagName === 'A') {
+                  document.body.classList.remove('tocActive');
+                }
+              }, false);
+
+              function createToggler(togglerSelector, targetSelector, className) {
+                var toggler = document.querySelector(togglerSelector);
+                var target = document.querySelector(targetSelector);
+
+                if (!toggler) {
+                  return;
+                }
+
+                toggler.onclick = function(event) {
+                  event.preventDefault();
+
+                  target.classList.toggle(className);
+                };
+              }
+            });
+        </script></nav></div><div class="container mainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><a class="edit-page-link button" href="https://github.com/socialhubio/socialhub-dev/edit/master/docs/general/manifest-api.md" target="_blank" rel="noreferrer noopener">Edit</a><h1 class="postHeaderTitle">Manifest API</h1></header><article><div><span><p>The SocialHub Manifest API allows the manipulation of Channel Manifests. Manifests are automatically created for <a href="../integration#a-custom-channel">Custom Channels</a> and define a Network's capabilities and configures communication with its Integration. A Custom Channel will start off with an empty default Manifest which should be adjusted as needed by the Integration.</p>
+<p>Once a Manifest has been promoted to being <a href="../integration#b-reusable-manifest">&quot;Reusable&quot;</a> it will appear as an available Network to Customers allowing the creation of additional Channels using the same configuration.</p>
+<h2><a class="anchor" aria-hidden="true" id="updating-manifests"></a><a href="#updating-manifests" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Updating Manifests</h2>
+<p>Manifests can be partially updated using the REST API route <code>PATCH /manifest</code>.</p>
+<p>The Manifest that should be updated is identified by looking up the Channel specified in the JWT. Note that once a Manifest has been promoted, it is currently no longer possible to update it without contacting the SocialHub Team.</p>
+<p>Also take a look at the <a href="https://petstore.swagger.io/?url=https://raw.githubusercontent.com/socialhubio/socialhub-dev/master/swagger.yaml">Swagger API Reference</a>.</p>
+<h3><a class="anchor" aria-hidden="true" id="example"></a><a href="#example" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Example</h3>
+<p>Example Manifest manipulation request made with the unix tool cURL:</p>
+<pre><code class="hljs css language-bash">curl -X PATCH <span class="hljs-string">"https://api.socialhub.io/manifest?accesstoken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50SWQiOiI1YzliNmIyYTU4YTg1NTA3NGQxZDI3OGYiLCJjaGFubmVsSWQiOiI1YzljMDE5NTJiZGZkNzE4MzA3YTBhNTMiLCJpYXQiOjE1NTQxMzQ1NDF9.mXomId0-stW1l4QQQkjeBflo74ZIHzd0-Xj_71VyncA"</span> -d <span class="hljs-string">'
+{
+  "webhook": {
+    "url": "https://socialhub.example.com/webhook",
+    "secret": "a_random_secret_string"
+  },
+  "inbox": {
+    "ticketActions": [{
+      "type": "reply",
+      "id": "reply-as-comment",
+      "label": "Reply"
+    }],
+    "rightSidebar": [{
+       "id": "sidebar-id",
+       "label": "sidebar-label",
+       "treeBuilder": "flatListwithoutRoot"
+    }]
+  }
+}
+'</span> -H <span class="hljs-string">"Content-Type: application/json"</span>
+</code></pre>
+<h3><a class="anchor" aria-hidden="true" id="request"></a><a href="#request" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Request</h3>
+<table>
+<thead>
+<tr><th>Field</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>name</code></td><td>Read only. Manifests of normal Custom Channels do not have a name. Manifests that have a name have been promoted to being reusable. The name is what will be shown as Network name on the Channel Settings page.</td></tr>
+<tr><td><code>webhook</code></td><td>WebHook specific configuration. A test request will be made whenever this is updated!</td></tr>
+<tr><td><code>inbox</code></td><td>Inbox product specific configuration.</td></tr>
+<tr><td><code>callbacks</code></td><td>Redirect URLs for Channel management.</td></tr>
+</tbody>
+</table>
+<h4><a class="anchor" aria-hidden="true" id="webhook"></a><a href="#webhook" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>webhook</code></h4>
+<table>
+<thead>
+<tr><th>Field</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>url</code></td><td>HTTPS URL of the Integration's WebHook.</td></tr>
+<tr><td><code>secret</code></td><td>Secret used for request signing. Should be a long random string with at least 32 characters.</td></tr>
+</tbody>
+</table>
+<h4><a class="anchor" aria-hidden="true" id="inbox"></a><a href="#inbox" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>inbox</code></h4>
+<table>
+<thead>
+<tr><th>Field</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>ticketActions</code></td><td>Configures the actions available on Tickets within the Inbox.</td></tr>
+<tr><td><code>rightSidebar</code></td><td>Configures the tabs available in the right sidebar after clicking on a Ticket within the Inbox.</td></tr>
+</tbody>
+</table>
+<h4><a class="anchor" aria-hidden="true" id="inboxticketactions"></a><a href="#inboxticketactions" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>inbox.ticketActions[]</code></h4>
+<table>
+<thead>
+<tr><th>Field</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>type</code></td><td>Type of the Ticket Action. At the moment we only support <code>reply</code> and <code>template_reply</code> actions. There may be multiple actions of the same type.</td></tr>
+<tr><td><code>id</code></td><td>Identifier of the Action. Each Action within a manifest must have a different identifier. Pattern regular expression: <code>^[a-zA-Z0-9-_]{1,256}$</code></td></tr>
+<tr><td><code>label</code></td><td>Human readable button label for this action. May be up to 256 characters long but should be as short as possible.</td></tr>
+<tr><td><code>config</code></td><td>Configuration options for this Ticket Action.</td></tr>
+</tbody>
+</table>
+<h4><a class="anchor" aria-hidden="true" id="inboxticketactions-config"></a><a href="#inboxticketactions-config" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>inbox.ticketActions[].config</code></h4>
+<table>
+<thead>
+<tr><th>Field</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>templates.url</code></td><td>URL to fetch templates for the <code>template_reply</code> action from. Required for the <code>template_reply</code> action.</td></tr>
+<tr><td><code>timeout</code></td><td>Action timeout configuration options.</td></tr>
+</tbody>
+</table>
+<h4><a class="anchor" aria-hidden="true" id="inboxticketactions-configtimeout"></a><a href="#inboxticketactions-configtimeout" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>inbox.ticketActions[].config.timeout</code></h4>
+<table>
+<thead>
+<tr><th>Field</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>duration</code></td><td>Time after which the action is no longer available. Uses <a href="https://www.npmjs.com/package/juration#examples">juration</a> for parsing.</td></tr>
+<tr><td><code>after</code></td><td>Field the timeout is counted from. Currently only <code>networkCreationTime</code> is supported, which bases the timeout on the <code>ticket.interaction.createdTime</code> field.</td></tr>
+</tbody>
+</table>
+<h4><a class="anchor" aria-hidden="true" id="inboxrightsidebar"></a><a href="#inboxrightsidebar" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>inbox.rightSidebar[]</code></h4>
+<table>
+<thead>
+<tr><th>Field</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>id</code></td><td>String identifier for this sidebar Tab.</td></tr>
+<tr><td><code>label</code></td><td>Human readable label to display for the sidebar Tab.</td></tr>
+<tr><td><code>treeBuilder</code></td><td>The tree-builder algorithm to use. Currently only <code>flatListWithoutRoot</code> is supported.</td></tr>
+</tbody>
+</table>
+<p>The <code>flatListWithoutRoot</code> tree builder simply displays all Tickets in the right sidebar that share the same Root-Ticket.</p>
+<h4><a class="anchor" aria-hidden="true" id="callbacks"></a><a href="#callbacks" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>callbacks</code></h4>
+<table>
+<thead>
+<tr><th>Field</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>channelCreation</code></td><td>HTTPS URL of an Integration website the Customer should be redirected to in order to add new Channels for a Reusable Manifest.</td></tr>
+<tr><td><code>channelReactivation</code></td><td>HTTPS URL of an Integration website the Customer should be redirected to in order to reactivate an existing Channel belonging to a Reusable Manifest.</td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="responses"></a><a href="#responses" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Responses</h3>
+<p>The following error responses should the handled by the Integration's client:</p>
+<h4><a class="anchor" aria-hidden="true" id="http-200-ok"></a><a href="#http-200-ok" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>HTTP 200 OK</code></h4>
+<p>Returns the successfully updated Manifest object.</p>
+<p>If the request body was empty (<code>{}</code>) nothing was updated and the current Manifest is simply returned in full.</p>
+<h4><a class="anchor" aria-hidden="true" id="http-422-unprocessable-entity"></a><a href="#http-422-unprocessable-entity" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>HTTP 422 Unprocessable Entity</code></h4>
+<pre><code class="hljs css language-json">{
+  <span class="hljs-attr">"code"</span>: <span class="hljs-string">"WebhookValidationError"</span>,
+  <span class="hljs-attr">"message"</span>: <span class="hljs-string">"Error: An error occurred while attempting to validate the WebHook"</span>,
+  <span class="hljs-attr">"data"</span>: <span class="hljs-string">"Error: getaddrinfo ENOTFOUND socialhub.example.com socialhub.example.com:443"</span>
+}
+</code></pre>
+<p>Is returned whenever the WebHook URL specified in the Manifest is not reachable by the HTTPS test request. The <code>data</code> value is the internal error that occurred when the test was attempted and should help debugging the issue.</p>
+<p>It's also possible that we were able to execute the HTTPS request but the response did not contain a valid challenge response header:</p>
+<pre><code class="hljs css language-json">{
+  <span class="hljs-attr">"code"</span>: <span class="hljs-string">"WebhookValidationError"</span>,
+  <span class="hljs-attr">"message"</span>: <span class="hljs-string">"Error: The WebHook failed to solve the challenge"</span>
+}
+</code></pre>
+<h2><a class="anchor" aria-hidden="true" id="callbacks-1"></a><a href="#callbacks-1" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Callbacks</h2>
+<h3><a class="anchor" aria-hidden="true" id="channel-creation"></a><a href="#channel-creation" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Channel Creation</h3>
+<p>Is required to be set for Reusable Manifests in <code>callbacks.channelCreation</code>. SocialHub will redirect users clicking on the &quot;Add Channel&quot; Button of a Reusable Manifest Network to this URL with a special temporary JWT (as <code>?token=</code> query parameter) that can only be used for the Channel creation route.</p>
+<p>This JWT has the following payload:</p>
+<pre><code class="hljs css language-javascript">{
+  <span class="hljs-string">"accountId"</span>: <span class="hljs-string">"5c9b6b2a58a855074d1d278f"</span>,  <span class="hljs-comment">// Id of the Account the token belongs to</span>
+  <span class="hljs-string">"manifestId"</span>: <span class="hljs-string">"5e73f56c5a45da10b6e614dd"</span>, <span class="hljs-comment">// Id of the Mnifest the User wants to create channels for</span>
+  <span class="hljs-string">"userId"</span>: <span class="hljs-string">"5e73f5255a45da10b6e614da"</span>,     <span class="hljs-comment">// Id of the User wanting to create channels</span>
+  <span class="hljs-string">"origin"</span>: <span class="hljs-string">"https://app.socialhub.io"</span>,     <span class="hljs-comment">// URL of the SocialHub platform to redirect back to</span>
+  <span class="hljs-string">"iat"</span>: <span class="hljs-number">1554134541</span>,                        <span class="hljs-comment">// Timestamp in seconds of the token issuing date</span>
+  <span class="hljs-string">"exp"</span>: <span class="hljs-number">1554136341</span>                         <span class="hljs-comment">// Timestamp in seconds of the token expiration date (30 mins)</span>
+}
+</code></pre>
+<h3><a class="anchor" aria-hidden="true" id="channel-reactivation"></a><a href="#channel-reactivation" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Channel Reactivation</h3>
+<p>May be set for Reusable Manifests in <code>callbacks.channelReactivation</code>. SocialHub will redirect users wanting to reactivate a disabled Channel belonging the Integration's Reusable Manifest to this URL with a special temporary JWT (as <code>?token=</code> query parameter) that can only be used for the Channel creation route (which is also used for reactivating Channels).</p>
+<p>This JWT has the following payload:</p>
+<pre><code class="hljs css language-javascript">{
+  <span class="hljs-string">"accountId"</span>: <span class="hljs-string">"5c9b6b2a58a855074d1d278f"</span>,  <span class="hljs-comment">// Id of the Account the token belongs to</span>
+  <span class="hljs-string">"manifestId"</span>: <span class="hljs-string">"5e73f56c5a45da10b6e614dd"</span>, <span class="hljs-comment">// Id of the Mnifest the User wants to create channels for</span>
+  <span class="hljs-string">"userId"</span>: <span class="hljs-string">"5e73f5255a45da10b6e614da"</span>,     <span class="hljs-comment">// Id of the User wanting to create channels</span>
+  <span class="hljs-string">"origin"</span>: <span class="hljs-string">"https://app.socialhub.io"</span>,     <span class="hljs-comment">// URL of the SocialHub platform to redirect back to</span>
+  <span class="hljs-string">"channelId"</span>: <span class="hljs-string">"5c9c01952bdfd718307a0a53"</span>,  <span class="hljs-comment">// Id of the Channel that should be reactivated</span>
+  <span class="hljs-string">"uniqueName"</span>: <span class="hljs-string">"test"</span>,                     <span class="hljs-comment">// Unique name of the Channel</span>
+  <span class="hljs-string">"networkId"</span>: <span class="hljs-string">"39272404"</span>,                  <span class="hljs-comment">// Unique network ID of the Channel (optional)</span>
+  <span class="hljs-string">"iat"</span>: <span class="hljs-number">1554134541</span>,                        <span class="hljs-comment">// Timestamp in seconds of the token issuing date</span>
+  <span class="hljs-string">"exp"</span>: <span class="hljs-number">1554136341</span>                         <span class="hljs-comment">// Timestamp in seconds of the token expiration date (30 mins)</span>
+}
+</code></pre>
+<h3><a class="anchor" aria-hidden="true" id="templates"></a><a href="#templates" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Templates</h3>
+<p>Ticket Actions of type <code>template_reply</code> require a callback URL to be set (<code>inbox.ticketActions[].config.templates.url</code>) from where a list of available templates are fetched from.</p>
+<p>The ID of the Channel the templates are requested for will be passed as <code>?channelId=</code> query parameter. For additional security the request will be <a href="../webhooks#verification">signed the same way a WebHook</a> request would be.</p>
+<p>This callback URL should return templates and their variables following this example:</p>
+<pre><code class="hljs css language-javascript">[{
+  <span class="hljs-comment">// Human readable name of the template to display to the SocialHub user.</span>
+  <span class="hljs-string">"name"</span>: <span class="hljs-string">"Test Greeting"</span>,
+  <span class="hljs-comment">// Machine identifier of the template.</span>
+  <span class="hljs-string">"networkId"</span>: <span class="hljs-string">"test_greeting"</span>,
+  <span class="hljs-comment">// Variables the user may fill out for this template (json schema format).</span>
+  <span class="hljs-string">"variables"</span>: {
+    <span class="hljs-string">"firstName"</span>: {
+      <span class="hljs-string">"type"</span>: <span class="hljs-string">"string"</span>,
+      <span class="hljs-string">"minLength"</span>: <span class="hljs-number">2</span>,
+      <span class="hljs-string">"maxLength"</span>: <span class="hljs-number">12</span>
+    }
+  },
+  <span class="hljs-comment">// Text templates used for previewing message (handlebars format).</span>
+  <span class="hljs-string">"text"</span>: {
+    <span class="hljs-string">"en"</span>: <span class="hljs-string">"Hello {{firstName}}"</span>,
+    <span class="hljs-string">"de"</span>: <span class="hljs-string">"Hallo {{firstName}}"</span>,
+    <span class="hljs-string">"fr"</span>: <span class="hljs-string">"Bienvenue {{firstName}}"</span>
+  }
+}]
+</code></pre>
+<p>The <code>networkId</code> of the Template the user selected and the values the variables have been filled with, will be sent as part of the <a href="../inbox/ticket-api#ticket-action-type-template-reply"><code>ticket_action</code> event payload</a> once the <code>template_reply</code> Action has been submitted.</p>
+</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/docs/en/webhooks"><span class="arrow-prev">← </span><span class="function-name-prevnext">WebHooks</span></a><a class="docs-next button" href="/docs/en/general/channel-api"><span>Channel</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#updating-manifests">Updating Manifests</a><ul class="toc-headings"><li><a href="#example">Example</a></li><li><a href="#request">Request</a></li><li><a href="#responses">Responses</a></li></ul></li><li><a href="#callbacks-1">Callbacks</a><ul class="toc-headings"><li><a href="#channel-creation">Channel Creation</a></li><li><a href="#channel-reactivation">Channel Reactivation</a></li><li><a href="#templates">Templates</a></li></ul></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/" class="nav-home"><img src="/img/socialhub.svg" alt="SocialHub for Developers" width="66" height="58"/></a><div><h5>Resources</h5><a target="_blank" rel="noreferrer noopener" href="https://github.com/socialhubio">GitHub</a><a target="_blank" rel="noreferrer noopener" href="https://socialhubio.zendesk.com/hc/">Zendesk User Manual</a><a target="_blank" rel="noreferrer noopener" href="https://www.youtube.com/channel/UCbiyPSSFWhvWoTDS5VKxZiQ">YouTube Channel</a></div><div><h5>Community</h5><a target="_blank" rel="noreferrer noopener" href="https://stackoverflow.com/questions/tagged/socialhub">Stack Overflow</a><a target="_blank" rel="noreferrer noopener" href="https://www.facebook.com/groups/210910185757909/">Facebook Usergroup</a><a target="_blank" rel="noreferrer noopener" href="http://community.socialhub.io/forums/231869-socialhub-feature-community">Feature Community</a></div><div><h5>SocialHub</h5><a target="_blank" rel="noreferrer noopener" href="https://socialhub.io/">Website</a><a target="_blank" rel="noreferrer noopener" href="https://socialhub.io/int/imprint/">Imprint (int)</a><a target="_blank" rel="noreferrer noopener" href="https://socialhub.io/de/legal/imprint/">Impressum (de)</a></div></section><a href="https://socialhub.io/" target="_blank" rel="noreferrer noopener" class="fbOpenSource"><img src="/img/socialhub.svg" alt="SocialHub" width="170" height="45"/></a><section class="copyright">Copyright © 2020 SocialHub</section></footer></div></body></html>

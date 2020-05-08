@@ -1,0 +1,169 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>Channel API · SocialHub for Developers</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="&lt;p&gt;The SocialHub Channel API allows creation and manipulation of Custom Channels.&lt;/p&gt;
+"/><meta name="docsearch:language" content="en"/><meta property="og:title" content="Channel API · SocialHub for Developers"/><meta property="og:type" content="website"/><meta property="og:url" content="https://socialhub.dev/"/><meta property="og:description" content="&lt;p&gt;The SocialHub Channel API allows creation and manipulation of Custom Channels.&lt;/p&gt;
+"/><meta name="twitter:card" content="summary"/><link rel="shortcut icon" href="/img/favicon.png"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css"/><link rel="stylesheet" href="/css/main.css"/><script src="/js/codetabs.js"></script></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/en"><img class="logo" src="/img/favicon.png" alt="SocialHub for Developers"/><h2 class="headerTitleWithLogo">SocialHub for Developers</h2></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class=""><a href="/en/help" target="_self">Help</a></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="container docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><i></i></div><h2><i>›</i><span>General APIs</span></h2><div class="tocToggler" id="tocToggler"><i class="icon-toc"></i></div></div><div class="navGroups"><div class="navGroup"><h3 class="navGroupCategoryTitle">Get Started</h3><ul class=""><li class="navListItem"><a class="navItem" href="/docs/en/api">Overview</a></li><li class="navListItem"><a class="navItem" href="/docs/en/integration">Integration</a></li><li class="navListItem"><a class="navItem" href="/docs/en/rest">REST</a></li><li class="navListItem"><a class="navItem" href="/docs/en/webhooks">WebHooks</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">General APIs</h3><ul class=""><li class="navListItem"><a class="navItem" href="/docs/en/general/manifest-api">Manifest</a></li><li class="navListItem navListItemActive"><a class="navItem" href="/docs/en/general/channel-api">Channel</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Inbox APIs</h3><ul class=""><li class="navListItem"><a class="navItem" href="/docs/en/inbox/ticket-api">Ticket</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Resources</h3><ul class=""><li class="navListItem"><a class="navItem" href="/docs/en/changelog">API Changelog</a></li><li class="navListItem"><a class="navItem" href="/docs/en/misc/signature-code-examples">Signature Code Examples</a></li></ul></div></div></section></div><script>
+            var coll = document.getElementsByClassName('collapsible');
+            var checkActiveCategory = true;
+            for (var i = 0; i < coll.length; i++) {
+              var links = coll[i].nextElementSibling.getElementsByTagName('*');
+              if (checkActiveCategory){
+                for (var j = 0; j < links.length; j++) {
+                  if (links[j].classList.contains('navListItemActive')){
+                    coll[i].nextElementSibling.classList.toggle('hide');
+                    coll[i].childNodes[1].classList.toggle('rotate');
+                    checkActiveCategory = false;
+                    break;
+                  }
+                }
+              }
+
+              coll[i].addEventListener('click', function() {
+                var arrow = this.childNodes[1];
+                arrow.classList.toggle('rotate');
+                var content = this.nextElementSibling;
+                content.classList.toggle('hide');
+              });
+            }
+
+            document.addEventListener('DOMContentLoaded', function() {
+              createToggler('#navToggler', '#docsNav', 'docsSliderActive');
+              createToggler('#tocToggler', 'body', 'tocActive');
+
+              const headings = document.querySelector('.toc-headings');
+              headings && headings.addEventListener('click', function(event) {
+                if (event.target.tagName === 'A') {
+                  document.body.classList.remove('tocActive');
+                }
+              }, false);
+
+              function createToggler(togglerSelector, targetSelector, className) {
+                var toggler = document.querySelector(togglerSelector);
+                var target = document.querySelector(targetSelector);
+
+                if (!toggler) {
+                  return;
+                }
+
+                toggler.onclick = function(event) {
+                  event.preventDefault();
+
+                  target.classList.toggle(className);
+                };
+              }
+            });
+        </script></nav></div><div class="container mainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><a class="edit-page-link button" href="https://github.com/socialhubio/socialhub-dev/edit/master/docs/general/channel-api.md" target="_blank" rel="noreferrer noopener">Edit</a><h1 class="postHeaderTitle">Channel API</h1></header><article><div><span><p>The SocialHub Channel API allows creation and manipulation of Custom Channels.</p>
+<p>We differentiate between &quot;Custom&quot; Channels that can be managed via the SocialHub APIs and Channels belonging to &quot;official&quot; Network Integrations maintained by the SocialHub Team.</p>
+<h2><a class="anchor" aria-hidden="true" id="creating-channels"></a><a href="#creating-channels" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Creating Channels</h2>
+<p>Normally Custom Channels are created by the Customer using the <a href="https://socialhubio.zendesk.com/hc/en-us/articles/360015917114-Inbox-API-Einrichtung-und-technische-Dokumentation">Channels Settings Page</a>. But if a Manifest has been promoted to being <a href="../integration#b-reusable-manifest">reusable</a> it will be <a href="manifest-api#channel-creation">passed</a> a special temporary JWT allowing it to create Channels for the Customer using the <code>POST /channels</code> route.</p>
+<p>This route may also be used to re-activate disabled Custom Channels (see <a href="manifest-api#channel-reactivation">Manifest Channel reactivation callback</a>). For identifying an existing disabled Channel for reactivation, we first look for a Custom Channel with a matching <code>endpoint.networkId</code>. If no Network ID is available for the Channel the <code>uniqueName</code> will be matched instead. If no matching Channel is found, a new one will be created instead. Also note that when re-activating a Channel, its previous access token will be overwritten and a new one will be returned.</p>
+<h3><a class="anchor" aria-hidden="true" id="example"></a><a href="#example" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Example</h3>
+<p>Example Channel creation request made with the unix tool cURL:</p>
+<pre><code class="hljs css language-bash">curl -X POST <span class="hljs-string">"https://api.socialhub.io/channels?accesstoken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50SWQiOiI1ZTczZjUyNDVhNDVkYTEwYjZlNjE0ZDgiLCJtYW5pZmVzdElkIjoiNWU3M2Y1NmM1YTQ1ZGExMGI2ZTYxNGRkIiwidXNlcklkIjoiNWU3M2Y1MjU1YTQ1ZGExMGI2ZTYxNGRhIiwib3JpZ2luIjoiaHR0cHM6Ly9hcHAuc29jaWFsaHViLmlvLyIsImlhdCI6MTU4ODg4NTcxOCwiZXhwIjoxNTg4ODg3NTE4fQ.-6I9tULlBouy9Rr0tlbbSkORMa8cAd70kl-KU1QdjfA"</span> -d <span class="hljs-string">'
+{
+  "name": "Contact Form",
+  "uniqueName": "Contact Form (at example.com)",
+  "imageUrl": "https://example.com/logo.png",
+  "endpoint": {
+    "networkId": "example.com-contact-form-1",
+    "expirationTime": "2020-05-07T21:05:17.861Z"
+  }
+}
+'</span> -H <span class="hljs-string">"Content-Type: application/json"</span>
+</code></pre>
+<h3><a class="anchor" aria-hidden="true" id="request"></a><a href="#request" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Request</h3>
+<table>
+<thead>
+<tr><th>Field</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>name</code></td><td>Human readable name of the Custom Channel.</td></tr>
+<tr><td><code>uniqueName</code></td><td>Human readable unique name of the Custom Channel. The value of this field must be unique for all Channels of the Customer.</td></tr>
+<tr><td><code>imageUrl</code></td><td>HTTPS URL to image displayed alongside the Channel name.</td></tr>
+<tr><td><code>endpoint</code></td><td>Integration/Network specific data.</td></tr>
+</tbody>
+</table>
+<h4><a class="anchor" aria-hidden="true" id="endpoint"></a><a href="#endpoint" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>endpoint</code></h4>
+<table>
+<thead>
+<tr><th>Field</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>networkId</code></td><td>Used to uniquely identify a Channel. Optional but recommended if possible.</td></tr>
+<tr><td><code>expirationTime</code></td><td>Optional future Date-Time when the Integration's access to the target Network will expire (if applicable).</td></tr>
+</tbody>
+</table>
+<h3><a class="anchor" aria-hidden="true" id="responses"></a><a href="#responses" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Responses</h3>
+<h4><a class="anchor" aria-hidden="true" id="http-201-created"></a><a href="#http-201-created" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>HTTP 201 Created</code></h4>
+<p>Represents the successful creation or reactivation of a Channel.</p>
+<pre><code class="hljs">{
+  <span class="hljs-attr">"endpoint"</span>: {
+    <span class="hljs-attr">"accessToken"</span>: <span class="hljs-string">"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50SWQiOiI1ZTczZjUyNDVhNDVkYTEwYjZlNjE0ZDgiLCJjaGFubmVsSWQiOiI1ZWI0Nzk1NGE1NDViODJiNWI1MjJjY2UiLCJpYXQiOjE1ODg4ODU4NDR9.Dj8upq3l92nXMxkc_Z-BfOalgVJgOrxC0-Fns6upKaw"</span>,
+    <span class="hljs-attr">"expirationTime"</span>: <span class="hljs-string">"2021-05-07T21:05:17.861Z"</span>,
+    <span class="hljs-attr">"networkId"</span>: <span class="hljs-string">"example.com-contact-form-1"</span>
+  },
+  <span class="hljs-attr">"name"</span>: <span class="hljs-string">"Contact Form"</span>,
+  <span class="hljs-attr">"uniqueName"</span>: <span class="hljs-string">"Contact Form (at example.com)"</span>,
+  <span class="hljs-attr">"imageUrl"</span>: <span class="hljs-string">"https://example.com/logo.png"</span>,
+  <span class="hljs-attr">"accountId"</span>: <span class="hljs-string">"5e73f5245a45da10b6e614d8"</span>,
+  <span class="hljs-attr">"_id"</span>: <span class="hljs-string">"5eb47954a545b82b5b522cce"</span>,
+  <span class="hljs-attr">"businessHours"</span>: <span class="hljs-literal">null</span>,
+  <span class="hljs-attr">"createdTime"</span>: <span class="hljs-string">"2020-05-07T21:10:44.509Z"</span>
+}
+</code></pre>
+<p>Any further requests regarding the created Channel should be made with the JWT returned in <code>endpoint.accessToken</code>.</p>
+<p>The <code>_id</code> value is a unique identifier of a Channel within the SocialHub Platform. You might want to store it together with the access token.</p>
+<h4><a class="anchor" aria-hidden="true" id="http-403-forbidden"></a><a href="#http-403-forbidden" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>HTTP 403 Forbidden</code></h4>
+<pre><code class="hljs">{
+  <span class="hljs-attr">"code"</span>: <span class="hljs-string">"ChannelLimitReached"</span>,
+  <span class="hljs-attr">"message"</span>: <span class="hljs-string">"Error: Account specific channel limit reached"</span>
+}
+</code></pre>
+<p>If a <code>ChannelLimitReached</code> error is returned, make sure to tell the Customer to get in touch with <a href="mailto:happy@socialhub.io">happy@socialhub.io</a> in order to have their Channel limit raised.</p>
+<h2><a class="anchor" aria-hidden="true" id="updating-channels"></a><a href="#updating-channels" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Updating Channels</h2>
+<p>The <code>PATCH /channel</code> route allows partially updating the Channel belonging to the passed access token. When updating the Channel using this route its access token will stay the same.</p>
+<h3><a class="anchor" aria-hidden="true" id="example-1"></a><a href="#example-1" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Example</h3>
+<p>Example Channel update request made with the unix tool cURL:</p>
+<pre><code class="hljs css language-bash">curl -X PATCH <span class="hljs-string">"https://api.socialhub.io/channel?accesstoken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50SWQiOiI1ZTczZjUyNDVhNDVkYTEwYjZlNjE0ZDgiLCJjaGFubmVsSWQiOiI1ZWI0Nzk1NGE1NDViODJiNWI1MjJjY2UiLCJpYXQiOjE1ODg4ODU4NDR9.Dj8upq3l92nXMxkc_Z-BfOalgVJgOrxC0-Fns6upKaw"</span> -d <span class="hljs-string">'
+{
+  "name": "Contact Form",
+  "uniqueName": "Contact Form (at example.com)",
+  "imageUrl": "https://example.com/new-logo.png",
+  "endpoint": {
+    "expirationTime": "2020-08-07T21:05:17.861Z"
+  }
+}
+'</span> -H <span class="hljs-string">"Content-Type: application/json"</span>
+</code></pre>
+<h3><a class="anchor" aria-hidden="true" id="request-1"></a><a href="#request-1" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Request</h3>
+<p>Same parameters as during <a href="#request">Channel creation</a>.</p>
+<p>Note that the <code>endpoint.networkId</code> can't be changed in this route.</p>
+<h3><a class="anchor" aria-hidden="true" id="responses-1"></a><a href="#responses-1" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Responses</h3>
+<h4><a class="anchor" aria-hidden="true" id="http-200-ok"></a><a href="#http-200-ok" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>HTTP 200 OK</code></h4>
+<p>Represents the successful update of the Channel.</p>
+<pre><code class="hljs">{
+  <span class="hljs-attr">"_id"</span>: <span class="hljs-string">"5eb47954a545b82b5b522cce"</span>,
+  <span class="hljs-attr">"endpoint"</span>: {
+    <span class="hljs-attr">"expirationTime"</span>: <span class="hljs-string">"2022-05-07T21:05:17.861Z"</span>,
+    <span class="hljs-attr">"networkId"</span>: <span class="hljs-string">"example.com-contact-form-1"</span>
+  },
+  <span class="hljs-attr">"name"</span>: <span class="hljs-string">"Contact Form"</span>,
+  <span class="hljs-attr">"uniqueName"</span>: <span class="hljs-string">"Contact Form (at example.com)"</span>,
+  <span class="hljs-attr">"imageUrl"</span>: <span class="hljs-string">"https://example.com/new-logo.png"</span>,
+  <span class="hljs-attr">"accountId"</span>: <span class="hljs-string">"5e73f5245a45da10b6e614d8"</span>,
+  <span class="hljs-attr">"updatedTime"</span>: <span class="hljs-string">"2020-05-07T21:20:20.930Z"</span>,
+  <span class="hljs-attr">"businessHours"</span>: <span class="hljs-literal">null</span>,
+  <span class="hljs-attr">"createdTime"</span>: <span class="hljs-string">"2020-05-07T21:10:44.509Z"</span>
+}
+</code></pre>
+<p>Note that the JWT (<code>endpoint.accessToken</code>) will not be returned here.</p>
+<h2><a class="anchor" aria-hidden="true" id="disabling-channels"></a><a href="#disabling-channels" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Disabling Channels</h2>
+<p>The <code>DELETE /channel</code> route can be used to deactivate the Channel belonging to the passed access token. After deactivation it's no longer possible to use the JWT and the Customer will be notified via mail that manual action is required in order to re-enable the Channel again (also see <a href="manifest-api#channel-reactivation">Manifest Channel reactivation callback</a>).</p>
+<p>A typical reason for disabling a Channel is the Integration loosing access to its target Network because a OAuth token has expired. In cases like these, the Customer must re-authenticate with the Network in order for the Integration to obtain a fresh access token.</p>
+<p>To prevent data loss it's not possible for Integrations to trigger the actual deletion of Channels and their data. This can only be done by the Customer owning the Channel and its data.</p>
+<h3><a class="anchor" aria-hidden="true" id="example-2"></a><a href="#example-2" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Example</h3>
+<p>Example Channel deactivation request made with the unix tool cURL:</p>
+<pre><code class="hljs css language-bash">curl -X DELETE <span class="hljs-string">"https://api.socialhub.io/channel?accesstoken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50SWQiOiI1ZDUxZmE1NmIzMWM1Zjc5NWMwZGEzN2EiLCJtYW5pZmVzdElkIjoiNWQ1MWZhYTViMzFjNWY3OTVjMGRhMzdmIiwidXNlcklkIjoiNWQ1MWZhNTdiMzFjNWY3OTVjMGRhMzdjIiwiaWF0IjoxNTcwMDA5ODM0LCJleHAiOjE1NzAwMTE2MzR9.vT1c7Ni5tS87l1W8s-R_TOGozoFreQYMt2ZOPIAo4Nc"</span>
+</code></pre>
+<h3><a class="anchor" aria-hidden="true" id="responses-2"></a><a href="#responses-2" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Responses</h3>
+<h4><a class="anchor" aria-hidden="true" id="http-204-no-content"></a><a href="#http-204-no-content" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>HTTP 204 No Content</code></h4>
+<p>If the Channel was successfully disabled, an empty response will be returned.</p>
+</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/docs/en/general/manifest-api"><span class="arrow-prev">← </span><span>Manifest</span></a><a class="docs-next button" href="/docs/en/inbox/ticket-api"><span>Ticket</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav"><ul class="toc-headings"><li><a href="#creating-channels">Creating Channels</a><ul class="toc-headings"><li><a href="#example">Example</a></li><li><a href="#request">Request</a></li><li><a href="#responses">Responses</a></li></ul></li><li><a href="#updating-channels">Updating Channels</a><ul class="toc-headings"><li><a href="#example-1">Example</a></li><li><a href="#request-1">Request</a></li><li><a href="#responses-1">Responses</a></li></ul></li><li><a href="#disabling-channels">Disabling Channels</a><ul class="toc-headings"><li><a href="#example-2">Example</a></li><li><a href="#responses-2">Responses</a></li></ul></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/" class="nav-home"><img src="/img/socialhub.svg" alt="SocialHub for Developers" width="66" height="58"/></a><div><h5>Resources</h5><a target="_blank" rel="noreferrer noopener" href="https://github.com/socialhubio">GitHub</a><a target="_blank" rel="noreferrer noopener" href="https://socialhubio.zendesk.com/hc/">Zendesk User Manual</a><a target="_blank" rel="noreferrer noopener" href="https://www.youtube.com/channel/UCbiyPSSFWhvWoTDS5VKxZiQ">YouTube Channel</a></div><div><h5>Community</h5><a target="_blank" rel="noreferrer noopener" href="https://stackoverflow.com/questions/tagged/socialhub">Stack Overflow</a><a target="_blank" rel="noreferrer noopener" href="https://www.facebook.com/groups/210910185757909/">Facebook Usergroup</a><a target="_blank" rel="noreferrer noopener" href="http://community.socialhub.io/forums/231869-socialhub-feature-community">Feature Community</a></div><div><h5>SocialHub</h5><a target="_blank" rel="noreferrer noopener" href="https://socialhub.io/">Website</a><a target="_blank" rel="noreferrer noopener" href="https://socialhub.io/int/imprint/">Imprint (int)</a><a target="_blank" rel="noreferrer noopener" href="https://socialhub.io/de/legal/imprint/">Impressum (de)</a></div></section><a href="https://socialhub.io/" target="_blank" rel="noreferrer noopener" class="fbOpenSource"><img src="/img/socialhub.svg" alt="SocialHub" width="170" height="45"/></a><section class="copyright">Copyright © 2020 SocialHub</section></footer></div></body></html>
