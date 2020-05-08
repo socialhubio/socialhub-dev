@@ -21,6 +21,6 @@ jobs:
         run: yarn run publish-gh-pages
         working-directory: website
         env:
-          GIT_USER=patrickd-
-          CURRENT_BRANCH=master
+          GIT_USER: patrickd-
+          CURRENT_BRANCH: master
           GITHUB_TOKEN: ${{ secrets.accesstoken }}
