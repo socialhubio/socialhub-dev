@@ -12,7 +12,7 @@ Website deployment happens automatically via GitHub workflows by simply merging 
 
 ## Questions
 
-Please feel free to ask any documentation related questions you have by [creating an issue](/issues/new).
+Please feel free to ask any documentation related questions you have by [creating an issue](https://github.com/socialhubio/socialhub-dev/issues/new).
 
 If it's a general API usage question or problem that isn't really related to the documentation, consider creating a [Stack Overflow Question](https://stackoverflow.com/questions/tagged/socialhub) instead.
 
