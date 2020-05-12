@@ -50,6 +50,8 @@ A Ticket is an entity managed within the SocialHub Inbox. A Ticket contains the 
 |-----------------|--------------------------------------------------------------|
 | `interaction`   | Contains the Interaction's information as Ticket sub-object. |
 
+Note that the `followupTo` field cannot be specified during Ticket creation. Rather it is automatically set for Tickets that are created for replies after calling the [Reply Success Confirmation](#reply-success-confirmation) callback.
+
 #### `interaction`
 
 | Field           | Description                                               |
