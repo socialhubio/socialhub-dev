@@ -25,7 +25,7 @@ function Help(props) {
       title: '1. Dokumentation',
     },
     {
-      content: 'Teile deine Frage auf <a href="https://stackoverflow.com/questions/tagged/socialhub">Stack Overflow</a> wo SocialHub Entwickler und andere wie Du selbst, versuchen werden zu helfen. Werde Teil unserer Entwickler Gemeinschaft und helfe mit, indem Du dem socialhub Tag auf Stack Overflow folgst.',
+      content: 'Teile deine Frage auf <a href="https://stackoverflow.com/questions/tagged/socialhub">Stack Overflow</a> wo SocialHub Entwickler und andere wie du selbst, versuchen werden zu helfen. Folge dem socialhub Tag auf Stack Overflow und werde Teil unserer Entwickler Gemeinschaft.',
       title: '2. Entwickler Gemeinschaft',
     },
     {
