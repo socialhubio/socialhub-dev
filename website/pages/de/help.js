@@ -21,16 +21,16 @@ function Help(props) {
 
   const supportLinks = [
     {
-      content: `Auch wir nutzen unsere APIs und versuchen auf dieser Webseite alles zu dokumentieren. Vielleicht nochmal einen Blick in die <a href="${docUrl('api')}">Dokumentation</a> werfen?`,
-      title: 'Dokumentation',
+      content: 'Ist die Dokumentation unklar oder fehlt etwas? Stelle deine Fragen und Vorschläge auf <a href="https://github.com/socialhubio/socialhub-dev/">GitHub</a> und helfe uns die Dokumentation zu verbessern.',
+      title: '1. Dokumentation',
     },
     {
       content: 'Teile deine Frage auf <a href="https://stackoverflow.com/questions/tagged/socialhub">Stack Overflow</a> wo SocialHub Entwickler und andere wie Du selbst, versuchen werden zu helfen. Werde Teil unserer Entwickler Gemeinschaft und helfe mit, indem Du dem socialhub Tag auf Stack Overflow folgst.',
-      title: 'Entwickler Gemeinschaft',
+      title: '2. Entwickler Gemeinschaft',
     },
     {
-      content: 'Du hast eine spezifische Frage die nicht durch die Dokumentation geklärt wird und auch nicht zu Stack Overflow passt? Dann kontaktiere uns via E-Mail bei support@socialhub.io',
-      title: 'Kontaktiere den Support',
+      content: 'Sollte dein Problem vertraulicher Natur sein, weil es etwa Kundendaten enthält oder sicherheitsrelevant ist, schreibe an support@socialhub.io',
+      title: '3. Kontaktiere den Support',
     },
   ];
 
