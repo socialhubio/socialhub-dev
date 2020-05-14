@@ -8,7 +8,7 @@ sidebar_label: API Changelog
 
 ## Version 1.1
 
-The following changes to the API are scheduled to be available from **26th May**, some have already been deployed. As all of these changes are **New** additions to existing behavior, there should be no action required by Developers. The impacted documentation pages and swagger specifications have already been updated accordingly.
+The following changes to the API are scheduled to be available from **17th May**, some have already been deployed. As all of these changes are **New** additions to existing behavior, there should be no action required by Developers. The impacted documentation pages and swagger specifications have already been updated accordingly.
 
 ### New: Channel Reactivation Callback
 
