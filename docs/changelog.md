@@ -12,7 +12,7 @@ The following changes to the API are scheduled to be available after calendar we
 
 ### New: `button` Ticket Action
 
-A new Ticket Action type `button` is now available to be defined within [Manifests](general/manifest-api#inboxticketactions). When having defined a `button` Ticket Action within your Manifest, all Tickets of your Custom Channel will have a simple button which can be used to implement actions such as "Like" and "Share". More information about how the event payload looks like can be found on the [Ticket API documentation](general/ticket-api#ticket-action-type-button).
+A new Ticket Action type `button` is now available to be defined within [Manifests](general/manifest-api#inboxticketactions). When having defined a `button` Ticket Action within your Manifest, all Tickets of your Custom Channel will have a simple button which can be used to implement actions such as "Like" and "Share". More information about how the event payload looks like can be found on the [Ticket API documentation](inbox/ticket-api#ticket-action-type-button).
 
 ## Version 1.1
 
