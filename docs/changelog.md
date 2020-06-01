@@ -6,6 +6,14 @@ sidebar_label: API Changelog
 
 ⚠ Consider subscribing to our [**API Newsletter**](http://eepurl.com/g2EiC1) to be notified about upcoming API changes in the future.
 
+## Version 1.2
+
+The following changes to the API are scheduled to be available after calendar week 24 and there will be a newsletter update when they have been deployed. As all of these changes are **New** additions to existing behavior, there should be no action required by Developers. The impacted documentation pages and swagger specifications have already been updated accordingly.
+
+### New: `button` Ticket Action
+
+A new Ticket Action type `button` is now available to be defined within [Manifests](general/manifest-api#inboxticketactions). When having defined a `button` Ticket Action within your Manifest, all Tickets of your Custom Channel will have a simple button which can be used to implement actions such as "Like" and "Share". More information about how the event payload looks like can be found on the [Ticket API documentation](general/ticket-api#ticket-action-type-button).
+
 ## Version 1.1
 
 The following changes to the API are scheduled to be available from **17th May**, some have already been deployed. As all of these changes are **New** additions to existing behavior, there should be no action required by Developers. The impacted documentation pages and swagger specifications have already been updated accordingly.

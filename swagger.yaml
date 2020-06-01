@@ -4,7 +4,7 @@ swagger: '2.0'
 info:
   title: SocialHub Public API
   description: SocialHub Public API Reference
-  version: '1.1'
+  version: '1.2'
   contact:
     email: support@socialhub.io
 host: api.socialhub.io
@@ -277,10 +277,12 @@ paths:
             type: object
             properties:
               followupId:
+                description: 'Identifier of the followup belonging to the reply action. Required for `reply` and `template_reply` actions.'
                 type: string
                 format: uuid
                 example: 'f5f75b50-6764-11e9-9ce6-3507264c7519'
               reason:
+                description: 'Human readable explanation of why the action failed.'
                 type: string
                 example: 'Failed to create the Reply because the Interaction has been deleted on the Network.'
       responses:

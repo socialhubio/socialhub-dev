@@ -296,10 +296,9 @@ curl -X POST "https://api.socialhub.io/inbox/tickets/5cc1b08ad62ec72e8388cb47/re
   "payload": {},
 }
 ```
-This action type does not need success confirmation, so if the correspnding Action succeeded on the Network, the Integration does not need to send any futher requests to the SocialHub API.
+This action type does not need success confirmation, so if the corresponding Action succeeded on the Network, the Integration does not need to send any further requests to the SocialHub API.
 
-However, if Action has failed, this still needs to be communicated (see [Error Handling](#error-handling)).
-Note that payload for this action type does not have a `followupId` field, which means you can omit it on `POST /inbox/tickets/:ticketId/reset/:actionId` request.
+However, if the Ticket Action has failed, this should be communicated (see [Error Handling](#error-handling)).
 
 ### Error Handling
 
@@ -316,5 +315,5 @@ curl -X POST "https://api.socialhub.io/inbox/tickets/5cc1b08ad62ec72e8388cb47/re
 
 | Field           | Description                                               |
 |-----------------|-----------------------------------------------------------|
-| `followupId`    | The identifier of the Reply Followup that has failed to be processed. |
+| `followupId`    | The identifier of the Reply Followup that has failed to be processed. Only required for `reply` and `template_reply` actions. |
 | `reason`        | Optional human readable reason why the Ticket Action has failed. |
