@@ -121,7 +121,7 @@
 <tr><th>Field</th><th>Description</th></tr>
 </thead>
 <tbody>
-<tr><td><code>type</code></td><td>Type of the Ticket Action. At the moment we only support <code>reply</code> and <code>template_reply</code> actions. There may be multiple actions of the same type.</td></tr>
+<tr><td><code>type</code></td><td>Type of the Ticket Action. At the moment we support <code>reply</code>, <code>template_reply</code> and <code>button</code> actions. There may be multiple actions of the same type.</td></tr>
 <tr><td><code>id</code></td><td>Identifier of the Action. Each Action within a manifest must have a different identifier. Pattern regular expression: <code>^[a-zA-Z0-9-_]{1,256}$</code></td></tr>
 <tr><td><code>label</code></td><td>Human readable button label for this action. May be up to 256 characters long but should be as short as possible.</td></tr>
 <tr><td><code>config</code></td><td>Configuration options for this Ticket Action.</td></tr>
