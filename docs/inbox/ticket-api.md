@@ -285,6 +285,22 @@ curl -X POST "https://api.socialhub.io/inbox/tickets/5cc1b08ad62ec72e8388cb47/re
 | `networkItemId` | A unique identifier of the Reply within a Custom Channel. A `HTTP 409 Conflict` will be returned if the identifier has already been used for another Ticket within the same Channel. Allowed pattern as regular expression: `^[a-zA-Z0-9/_-]{6,256}$` |
 | `url`           | Optional: Link to the Interaction.                        |
 
+#### Ticket Action Type: `button`
+
+```json
+{
+  "ticketId": "5cc1b08ad62ec72e8388cb47",
+  "networkItemId": "question-q_0000000001",
+  "type": "button",
+  "actionId": "like-button",
+  "payload": {},
+}
+```
+This action type does not need success confirmation, so if the correspnding Action succeeded on the Network, the Integration does not need to send any futher requests to the SocialHub API.
+
+However, if Action has failed, this still needs to be communicated (see [Error Handling](#error-handling)).
+Note that payload for this action type does not have a `followupId` field, which means you can omit it on `POST /inbox/tickets/:ticketId/reset/:actionId` request.
+
 ### Error Handling
 
 Ticket Actions are processed asynchronously by the Integration. To handle cases where the Action has failed, for example because the Integration was unable to apply it on the Network, there is a callback route that informs the Community Managers of the failure: `POST /inbox/tickets/:ticketId/reset/:actionId`.
