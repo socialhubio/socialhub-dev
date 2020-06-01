@@ -430,7 +430,7 @@ definitions:
                 type:
                   type: string
                   description: 'Type of the Ticket Action. There may be multiple actions of the same type.'
-                  enum: ['reply', 'template_reply']
+                  enum: ['reply', 'template_reply', 'button']
                 id:
                   type: string
                   description: 'Identifier of the Action. Each Action within a manifest must have a different identifier.'
