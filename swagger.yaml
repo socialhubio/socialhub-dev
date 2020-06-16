@@ -447,6 +447,8 @@ definitions:
                   type: object
                   description: 'Configuration options for this Ticket Action.'
                   properties:
+                    approvalProcess:
+                      type: boolean
                     templates:
                       type: object
                       properties:
