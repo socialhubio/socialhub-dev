@@ -79,6 +79,7 @@ curl -X PATCH "https://api.socialhub.io/manifest?accesstoken=eyJhbGciOiJIUzI1NiI
 
 | Field              | Description                                               |
 |--------------------|-----------------------------------------------------------|
+| `approvalProcess`  | Boolean (default is `true`) controling whether the Approval Process feature should be applied for this Ticket Action. Only supported for `reply` and `template_reply` at this moment |
 | `templates.url`    | URL to fetch templates for the `template_reply` action from. Required for the `template_reply` action. |
 | `timeout`          | Action timeout configuration options. |
 

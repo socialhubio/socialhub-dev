@@ -6,9 +6,23 @@ sidebar_label: API Changelog
 
 ⚠ Consider subscribing to our [**API Newsletter**](http://eepurl.com/g2EiC1) to be notified about upcoming API changes in the future.
 
+## Version 1.3
+
+The following changes to the API are scheduled to be deployed in **calendar week 28**. As all of these changes are **New** additions to existing behavior, there should be no action required by Developers. The impacted documentation pages and swagger specifications have already been updated accordingly.
+
+### New: Approval Process support
+
+The SocialHub Inbox "Approval Process" feature now also works for Custom Channels. Previously it was not possible to suggest replies for Tickets of Custom Channels and have them approved by another SocialHub user. This has now been changed to work the same way as for normal Social Networks. Note that the Approval Process is currently only available for `reply` and `template_reply` Ticket Actions, not for non-reply actions such as `button`.
+
+### New: `approvalProcess` Ticket Action configuration
+
+A new Ticket Action configuration flag has been added for `reply` and `template_reply` Actions to the [Manifest API](general/manifest-api#inboxticketactions). With it you can control whether your Ticket Action needs to be approved when the SocialHub Account has the Approval Process feature enabled, which is the default behavior. If you want to ensure that the Approval Process is skipped for your Ticket Action, set `approvalProcess` to `false` in the Ticket Action's configuration.
+
+Note that in order to maintain consistent behavior up to this point, Ticket Actions of existing Manifests have been migrated to be `approvalProcess: false` by default. If you wish to enable the Approval Process for your existing Manifests, simply unset the field or set it to `true` using the Manifest API.
+
 ## Version 1.2
 
-The following changes to the API are scheduled to be available after calendar week 24 and there will be a newsletter update when they have been deployed. As all of these changes are **New** additions to existing behavior, there should be no action required by Developers. The impacted documentation pages and swagger specifications have already been updated accordingly.
+The following changes to the API have been deployed on the **10th June**. As all of these changes are **New** additions to existing behavior, there should be no action required by Developers. The impacted documentation pages and swagger specifications have already been updated accordingly.
 
 ### New: `button` Ticket Action
 
