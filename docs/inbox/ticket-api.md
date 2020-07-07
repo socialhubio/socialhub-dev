@@ -148,7 +148,7 @@ Example:
 
 The `_id` value is a unique identifier of a Ticket within the SocialHub Inbox. You might want to store it in reference to the Interactions within your Integration.
 
-Note that SocialHub will store the `interactor.interactorId` that you sent separately. The `interactorId` returned in the response will be the interactor identifier of SocialHub. SocialHub will automatically link the network specific `interactorId` that you send to the SocialHub specific ID if we have already received it once.
+Note that SocialHub will store the `interactor.interactorId` that you sent separately. The `interactorId` returned in the response will be the interactor identifier of SocialHub. SocialHub will automatically link the network specific `interactorId` that you sent to the SocialHub specific ID if we have already received it once.
 
 #### `HTTP 409 Conflict`
 
@@ -185,6 +185,7 @@ The WebHook request body will look like this when delivering Ticket Action event
       {
         "ticketId": "5cc1b08ad62ec72e8388cb47",
         "networkItemId": "question-q_0000000001",
+        "type": "",
         "actionId": "",
         "payload": {},
         "time": 1556201893268,

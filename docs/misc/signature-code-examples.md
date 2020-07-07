@@ -40,10 +40,11 @@ header('X-SocialHub-Challenge: ' . $challenge);
 ## NodeJS (expressjs middleware)
 
 ```javascript
+const bodyParser = require('body-parser');
 const moment = require('moment');
 const crypto = require('crypto');
 
-const middleware = (req, res, buf) => {
+const verifySignature = (req, res, next) => {
 
   const {
     'x-socialhub-timestamp': reqTimestamp,
@@ -65,12 +66,9 @@ const middleware = (req, res, buf) => {
   const hmac = crypto.createHmac('sha256', challenge);
 
   // Add payload to calculations
-  // If middleware is used as verify option of body-parser,
-  // there will be buf parameter with the payload
-  // If middleware is used after body was parsed,
-  // there will be req.body object
-  if (req.body || Buffer.isBuffer(buf)) {
-    const payload = Buffer.isBuffer(buf) ? buf : JSON.stringify(req.body);
+  // Middleware is used after body was parsed -> req.body will be set.
+  if (req.body) {
+    const payload = JSON.stringify(req.body);
     hmac.update(payload);
   }
 
@@ -85,7 +83,13 @@ const middleware = (req, res, buf) => {
   // Add solved challenge to response.
   // This will proof to SocialHub that we were the intended recipient.
   res.set('x-socialhub-challenge', challenge);
+  
+  next();
 };
+
+app.post('/webhook', bodyParser.json(), verifySignature, function (req, res) {
+  processWebhookData(req.body);
+});
 ```
 
 ## Python

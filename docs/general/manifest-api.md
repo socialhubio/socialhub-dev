@@ -25,7 +25,7 @@ curl -X PATCH "https://api.socialhub.io/manifest?accesstoken=eyJhbGciOiJIUzI1NiI
 {
   "webhook": {
     "url": "https://socialhub.example.com/webhook",
-    "secret": "a_random_secret_string"
+    "secret": "random_32_or_more_chars_long_string"
   },
   "inbox": {
     "ticketActions": [{

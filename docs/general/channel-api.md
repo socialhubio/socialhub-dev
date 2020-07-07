@@ -159,3 +159,27 @@ curl -X DELETE "https://api.socialhub.io/channel?accesstoken=eyJhbGciOiJIUzI1NiI
 #### `HTTP 204 No Content`
 
 If the Channel was successfully disabled, an empty response will be returned.
+
+## WebHooks
+
+### Channel Action: Disabled
+
+If a Custom Channel was disabled via the SocialHub Channels Settings page and the Integration configured a [WebHook in the Manifest](../webhooks#registration), it will receive a channel_action event of type disabled:
+
+```json
+{
+  "manifestId": "5cc1afd1d62ec72e8388cb45",
+  "accountId": "5cb9003af1bb6808381d184d",
+  "channelId": "5cc1afd1d62ec72e8388cb46",
+  "events": {
+    "channel_action": [
+      {
+        "channelId": "5cc1afd1d62ec72e8388cb46",
+        "type": "disabled",
+        "time": 1556201893268,
+        "uuid": "4616f2f0-5069-4ee8-ad95-4c106c277eb3"
+      }
+    ]
+  }
+}
+```

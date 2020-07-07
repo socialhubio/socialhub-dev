@@ -16,12 +16,14 @@ PATCH /manifest
 {
   "webhook": {
     "url": "https://socialhub.example.com/webhook",
-    "secret": "a_random_secret_string"
+    "secret": "random_32_or_more_chars_long_string"
   }
 }
 ```
 
-Note that when updating the WebHooks configuration, a test-request will be send to verify the WebHook's authenticity. Therefore the verification needs to be implemented before registering the WebHook as described further below.
+Note that when updating the WebHook configuration, a test-request will be sent to verify the WebHook's authenticity. Therefore the verification needs to be implemented before registering the WebHook as described below.
+
+The test-request is a HTTP POST request to the specified URL, as are all WebHook requests, with the only difference that the test-request will have an empty `events` object, as shown in [Event Processing](#event-processing). The response to the test-request should be HTTP 200 OK with an empty body (a correct challenge header must be returned though), see [Event Delivery Error Handling](#event-delivery) for more information.
 
 The WebHook URL is required to support the HTTPS protocol with a valid SSL certificate to ensure all API communication is encryted. You can use [Let's Encrypt](https://letsencrypt.org/) to obtain free SSL certificates for your Integration.
 
@@ -29,7 +31,7 @@ In order to remove a configured WebHook, simply send the same PATCH-request with
 
 ## Verification
 
-Requests send to the configured WebHook will be signed with the secret using the SHA256 hashing algorithm.
+Requests sent to the configured WebHook will be signed with the secret using the SHA256 hashing algorithm.
 The signature allows a WebHook to ensure a request actually came from SocialHub and can be trusted.
 Signature related data is provided within the requests headers:
 - `X-SocialHub-Timestamp`: Request timestamp in milliseconds.
@@ -49,7 +51,7 @@ For more details take a look at some [code examples](misc/signature-code-example
 
 ## Event Processing
 
-The request body send to a configured WebHook will always have the following structure:
+The request body sent to a configured WebHook will always have the following structure:
 
 ```json
 {
