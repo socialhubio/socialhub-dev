@@ -370,7 +370,7 @@ definitions:
                 format: uri
               profileImage:
                 type: string
-                description: 'A HTTPS URL to the user's avatar photo on the target Network.'
+                description: "A HTTPS URL to the user's avatar photo on the target Network."
                 format: uri
                 pattern: '^https://'
       createdTime:
