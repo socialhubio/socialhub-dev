@@ -47,6 +47,18 @@ curl -X POST "https://api.socialhub.io/channels?accesstoken=eyJhbGciOiJIUzI1NiIs
 |------------------|--------------------------------------------------------------|
 | `networkId`      | Used to uniquely identify a Channel. Optional but recommended if possible. |
 | `expirationTime` | Optional future Date-Time when the Integration's access to the target Network will expire (if applicable). |
+| `user`           | Optional information about the user on the target Network that granted access to the Integration (if applicable). |
+
+#### `endpoint.user`
+
+This information will be displayed on the Channels Settings page in your SocialHub Account. We encourage you to specify as much information as possible but none of the fields are required.
+
+| Field            | Description                                                  |
+|------------------|--------------------------------------------------------------|
+| `id`             | Unique identifier of the user on the target Network. Example: If the Integration's target network was Facebook, this would be the Facebook User ID of the Facebook Account that was used to authenticate the Integration with. |
+| `name`           | Human readable name of the user on the target Network. |
+| `profileUrl`     | Link to the user on the target Network. |
+| `profileImage`   | A HTTPS URL to the user's avatar photo on the target Network. |
 
 ### Responses
 

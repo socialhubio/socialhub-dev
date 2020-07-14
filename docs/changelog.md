@@ -6,6 +6,14 @@ sidebar_label: API Changelog
 
 ⚠ Consider subscribing to our [**API Newsletter**](http://eepurl.com/g2EiC1) to be notified about upcoming API changes in the future.
 
+## Version 1.4
+
+The following changes to the API are scheduled to be deployed in **calendar week 31**. As all of these changes are **New** additions to existing behavior, there should be no action required by Developers. The impacted documentation pages and swagger specifications have already been updated accordingly.
+
+### New: Channel User Authentication Information
+
+On the new and refactored SocialHub Channels Settings page, users will be able to easily identify what Network Users were used to add a Channel (authenticate it) with SocialHub. For example for Facebook, it will show the Facebook Users that were used to add each Channel (Facebook Page). To allow custom Integrations, that use the Public API to integrate Networks, to provide such User Information as well, a new field `user` has been added to the `endpoint` field in the [Channel API](general/channel-api#updating-channels). 
+
 ## Version 1.3
 
 The following changes to the API are scheduled to be deployed in **25th June**. As all of these changes are **New** additions to existing behavior, there should be no action required by Developers. The impacted documentation pages and swagger specifications have already been updated accordingly.

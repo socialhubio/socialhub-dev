@@ -189,7 +189,7 @@ paths:
         500:
           $ref: '#/responses/InternalServerError'
 
-  '/inbox/tickets/:ticketId/replies/:followupId/success':
+  '/inbox/tickets/{ticketId}/replies/{followupId}/success':
     post:
       summary: 'Reply Ticket Action callback route'
       description: 'After receiving the Reply event the Integration should asynchronously attempt to create the Reply on the Network. If the Reply was processed successfully by the Integration, this success callback route should be called.'
@@ -251,7 +251,7 @@ paths:
         500:
           $ref: '#/responses/InternalServerError'
 
-  '/inbox/tickets/:ticketId/reset/:actionId':
+  '/inbox/tickets/{ticketId}/reset/{actionId}':
     post:
       summary: 'Ticket Action Error callback route'
       description: 'Ticket Actions are processed asynchronously by the Integration. To handle cases where the Action has failed, for example because the Integration was unable to apply it on the Network, this callback route informs the Community Managers of the failure.'
@@ -354,6 +354,25 @@ definitions:
             type: string
             description: 'After a Custom Channel has been created or reactivated a new access token will be returned which should be used for all further requests for this Channel.'
             pattern: '^[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+\.[A-Za-z0-9-_]*$'
+          user:
+            type: object
+            description: 'Optional information about the user on the target Network that granted access to the Integration (if applicable).'
+            properties:
+              id:
+                type: string
+                description: "Unique identifier of the user on the target Network. Example: If the Integration's target network was Facebook, this would be the Facebook User ID of the Facebook Account that was used to authenticate the Integration with."
+              name:
+                type: string
+                description: 'Human readable name of the user on the target Network.'
+              profileUrl:
+                type: string
+                description: 'Link to the user on the target Network.'
+                format: uri
+              profileImage:
+                type: string
+                description: 'A HTTPS URL to the user's avatar photo on the target Network.'
+                format: uri
+                pattern: '^https://'
       createdTime:
         $ref: '#/definitions/Date'
       accountId:
