@@ -6,6 +6,14 @@ sidebar_label: API Changelog
 
 ⚠ Consider subscribing to our [**API Newsletter**](http://eepurl.com/g2EiC1) to be notified about upcoming API changes in the future.
 
+## Version 1.5
+
+The following changes to the API are scheduled to be deployed in **calendar week 33**. As all of these changes are **New** additions to existing behavior, there should be no action required by Developers. The impacted documentation pages and swagger specifications have already been updated accordingly.
+
+### New: `flatListWithRoot` Inbox Right Sidebar tree builder
+
+A new type of tree builder is available for the Inbox Right Sidebar - `flatListWithRoot`. This tree builder builds a flat list of Tickets using common Root Ticket. The Root Ticket is included in the list and have some action buttons in the UI. More information can be found on [Manifest API](general/manifest-api#inboxrightsidebar) page.
+
 ## Version 1.4
 
 The following changes to the API are scheduled to be deployed in **calendar week 31**. As all of these changes are **New** additions to existing behavior, there should be no action required by Developers. The impacted documentation pages and swagger specifications have already been updated accordingly.
