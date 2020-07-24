@@ -36,7 +36,7 @@ curl -X PATCH "https://api.socialhub.io/manifest?accesstoken=eyJhbGciOiJIUzI1NiI
     "rightSidebar": [{
        "id": "sidebar-id",
        "label": "sidebar-label",
-       "treeBuilder": "flatListwithoutRoot"
+       "treeBuilder": "flatListWithoutRoot"
     }]
   }
 }
