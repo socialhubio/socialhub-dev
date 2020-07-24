@@ -507,7 +507,7 @@ definitions:
                 treeBuilder:
                   type: string
                   description: 'The tree-builder algorithm to use.'
-                  enum: ['flatListWithoutRoot']
+                  enum: ['flatListWithoutRoot', 'flatListWithRoot']
               required:
                 - id
                 - label

@@ -96,9 +96,12 @@ curl -X PATCH "https://api.socialhub.io/manifest?accesstoken=eyJhbGciOiJIUzI1NiI
 |-----------------|--------------------------------------------------------------|
 | `id`            | String identifier for this sidebar Tab. |
 | `label`         | Human readable label to display for the sidebar Tab. |
-| `treeBuilder`   | The tree-builder algorithm to use. Currently only `flatListWithoutRoot` is supported. |
+| `treeBuilder`   | The tree-builder algorithm to use. Currently only `flatListWithoutRoot` and `flatListWithRoot` are supported. |
 
-The `flatListWithoutRoot` tree builder simply displays all Tickets in the right sidebar that share the same Root-Ticket.
+The `flatListWithoutRoot` tree builder simply displays all Tickets in the right sidebar that share the same Root-Ticket excluding the Root-Ticket itself.
+
+`flatListWithRoot` tree builder displays all Tickets with the same Root-Ticket including the Root-Ticket.
+Root-Ticket in the sidebar will have some additional actions like `Show unread Tickets in the Inbox`.
 
 #### `callbacks`
 
