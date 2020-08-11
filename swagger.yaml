@@ -438,7 +438,7 @@ definitions:
           color:
             description: 'HTML Hex color code for Network branding (eg. Facebook blue #3b5998 for Ticket borders)'
             type: string
-            pattern: '^#[a-f]{3,6}$'
+            pattern: '^#[0-9a-f]{3,6}$'
             example: '#3b5998'
       webhook:
         type: object
