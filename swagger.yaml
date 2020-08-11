@@ -420,6 +420,23 @@ definitions:
       name:
         description: 'Read only. Manifests of normal Custom Channels do not have a name. Manifests that have a name have been promoted to being reusable. The name is what will be shown as Network name on the Channel Settings page.'
         type: string
+      branding:
+        type: object
+        properties:
+          icon:
+            description: 'HTTPS URL to Network icon (eg. Twitter Bird)'
+            type: string
+            format: uri
+            pattern: '^https://'
+          fallback:
+            description: 'HTTPS URL to fallback icon (eg. shown for ticket interactors without avatar)'
+            type: string
+            format: uri
+            pattern: '^https://'
+          color:
+            description: 'HTML Hex color code for Network branding (eg. Facebook blue for Ticket borders)'
+            type: string
+            pattern: '^#[a-f]{3,6}$'
       webhook:
         type: object
         description: 'WebHook specific configuration. A test request will be made whenever this is updated!'

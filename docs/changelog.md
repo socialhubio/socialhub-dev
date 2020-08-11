@@ -6,6 +6,14 @@ sidebar_label: API Changelog
 
 ⚠ Consider subscribing to our [**API Newsletter**](http://eepurl.com/g2EiC1) to be notified about upcoming API changes in the future.
 
+## Version 1.6
+
+The following changes to the API are scheduled to be deployed in **calendar week 36**. As all of these changes are **New** additions to existing behavior, there should be no action required by Developers. The impacted documentation pages and swagger specifications have already been updated accordingly.
+
+### New: Network Branding
+
+It's now possible to define Network specific branding within the [Manifest](general/manifest-api#request) such as icons and color schemes.
+
 ## Version 1.5
 
 The following changes to the API are scheduled to be deployed in **calendar week 33**. As all of these changes are **New** additions to existing behavior, there should be no action required by Developers. The impacted documentation pages and swagger specifications have already been updated accordingly.
