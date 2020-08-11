@@ -59,7 +59,7 @@ curl -X PATCH "https://api.socialhub.io/manifest?accesstoken=eyJhbGciOiJIUzI1NiI
 |-----------------|--------------------------------------------------------------|
 | `icon`          | HTTPS URL to Network icon (eg. Twitter Bird) |
 | `fallback`      | HTTPS URL to fallback icon (eg. shown for ticket interactors without avatar) |
-| `color`         | HTML Hex color code for Network branding (eg. Facebook blue for Ticket borders) |
+| `color`         | HTML Hex color code for Network branding (eg. Facebook blue `#3b5998` for Ticket borders) |
 
 #### `webhook`
 

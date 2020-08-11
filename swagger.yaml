@@ -428,15 +428,18 @@ definitions:
             type: string
             format: uri
             pattern: '^https://'
+            example: 'https://socialhub.example.com/icon.png'
           fallback:
             description: 'HTTPS URL to fallback icon (eg. shown for ticket interactors without avatar)'
             type: string
             format: uri
             pattern: '^https://'
+            example: 'https://socialhub.example.com/fallback-icon.png'
           color:
-            description: 'HTML Hex color code for Network branding (eg. Facebook blue for Ticket borders)'
+            description: 'HTML Hex color code for Network branding (eg. Facebook blue #3b5998 for Ticket borders)'
             type: string
             pattern: '^#[a-f]{3,6}$'
+            example: '#3b5998'
       webhook:
         type: object
         description: 'WebHook specific configuration. A test request will be made whenever this is updated!'
