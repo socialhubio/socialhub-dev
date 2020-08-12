@@ -6,6 +6,14 @@ sidebar_label: API Changelog
 
 ⚠ Consider subscribing to our [**API Newsletter**](http://eepurl.com/g2EiC1) to be notified about upcoming API changes in the future.
 
+## Version 1.6
+
+The following changes to the API are scheduled to be deployed in **calendar week 35**. As all of these changes are **New** additions to existing behavior, there should be no action required by Developers. The impacted documentation pages and swagger specifications have already been updated accordingly.
+
+### New: Optional reason of channel deactivation
+
+`DELETE /channel` route now supports optional query parameter - `reason`. `reason` should be a string describing why the channel was deactivated (e.g. `Access token expired`). The `reason` will be saved internally in the SocialHub and at the moment is mostly used for debug purposes.
+
 ## Version 1.5
 
 The following changes to the API are scheduled to be deployed in **calendar week 33**. As all of these changes are **New** additions to existing behavior, there should be no action required by Developers. The impacted documentation pages and swagger specifications have already been updated accordingly.
