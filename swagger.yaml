@@ -119,7 +119,7 @@ paths:
   '/channel':
     patch:
       summary: 'Partially update an existing Custom Channel'
-      description: "Partially updates the Channel belonging to the passed access token. When updating the Channel using this route its access token will stay the same. Note that the endpoint.networkId can't be changed in this route."
+      description: "Partially updates the Channel belonging to the passed access token. When updating the Channel using this route its access token will stay the same. Note that the networkId can't be changed in this route."
       tags:
         - General
       parameters:
@@ -339,13 +339,13 @@ definitions:
         format: url
         pattern: '^https://'
         example: 'https://app.socialhub.io/uploads/0000000104.png'
+      networkId:
+        type: string
+        description: 'Used to uniquely identify a Channel. Optional but recommended if possible.'
       endpoint:
         type: object
         description: 'Integration/Network specific data.'
         properties:
-          networkId:
-            type: string
-            description: 'Used to uniquely identify a Channel. Optional but recommended if possible.'
           expirationTime:
             type: string
             description: "Optional future Date-Time when the Integration's access to the target Network will expire (if applicable)."
