@@ -8,11 +8,17 @@ sidebar_label: API Changelog
 
 ## Version 1.6
 
-The following changes to the API are scheduled to be deployed in **calendar week 36**. As all of these changes are **New** additions to existing behavior, there should be no action required by Developers. The impacted documentation pages and swagger specifications have already been updated accordingly.
+The following changes to the API are scheduled to be deployed in **calendar week 36**. Note that some of these changes are breaking previous behavior. The impacted documentation pages and swagger specifications have already been updated accordingly.
 
 ### New: Network Branding
 
 It's now possible to define Network specific branding within the [Manifest](general/manifest-api#request) such as icons and color schemes.
+
+### Breaking Change: `networkId` moved out of `channel.endpoint`
+
+The `networkId` is now a top level attribute of channels and no longer part of the `endpoint` subobject.  
+All existing channels will be migrated and the `networkId` is automatically moved out of the `endpoint`.  
+[Creating new channels](general/channel-api#creating-channels) requires the `networkId` to be provided as top level attribute.
 
 ## Version 1.5
 
