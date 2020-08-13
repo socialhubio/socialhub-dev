@@ -6,6 +6,15 @@ sidebar_label: API Changelog
 
 ⚠ Consider subscribing to our [**API Newsletter**](http://eepurl.com/g2EiC1) to be notified about upcoming API changes in the future.
 
+## Version 1.6
+
+The following changes to the API are scheduled to be deployed in **calendar week 36**.
+
+### `networkId` moved out of `channel.endpoint`
+The `networkId` is now a top level attribute of channels and no longer part of the `endpoint` subobject.  
+All existing channels will be migrated and the `networkId` is automatically moved out of the `endpoint`.  
+[Creating new channels](general/channel-api#creating-channels) requires the `networkId` to be provided as top level attribute.
+
 ## Version 1.5
 
 The following changes to the API are scheduled to be deployed in **calendar week 33**. As all of these changes are **New** additions to existing behavior, there should be no action required by Developers. The impacted documentation pages and swagger specifications have already been updated accordingly.
