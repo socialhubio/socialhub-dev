@@ -58,7 +58,7 @@
 <p>We differentiate between &quot;Custom&quot; Channels that can be managed via the SocialHub APIs and Channels belonging to &quot;official&quot; Network Integrations maintained by the SocialHub Team.</p>
 <h2><a class="anchor" aria-hidden="true" id="creating-channels"></a><a href="#creating-channels" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Creating Channels</h2>
 <p>Normally Custom Channels are created by the Customer using the <a href="https://socialhubio.zendesk.com/hc/en-us/articles/360015917114-Inbox-API-Einrichtung-und-technische-Dokumentation">Channels Settings Page</a>. But if a Manifest has been promoted to being <a href="../integration#b-reusable-manifest">reusable</a> it will be <a href="manifest-api#channel-creation">passed</a> a special temporary JWT allowing it to create Channels for the Customer using the <code>POST /channels</code> route.</p>
-<p>This route may also be used to re-activate disabled Custom Channels (see <a href="manifest-api#channel-reactivation">Manifest Channel reactivation callback</a>). For identifying an existing disabled Channel for reactivation, we first look for a Custom Channel with a matching <code>networkId</code>. If no Network ID is available for the Channel the <code>uniqueName</code> will be matched instead. If no matching Channel is found, a new one will be created instead. Also note that when re-activating a Channel, its previous access token will be overwritten and a new one will be returned.</p>
+<p>This route may also be used to re-activate disabled Custom Channels (see <a href="manifest-api#channel-reactivation">Manifest Channel reactivation callback</a>). For identifying an existing disabled Channel for reactivation, we first look for a Custom Channel with a matching <code>endpoint.networkId</code>. If no Network ID is available for the Channel the <code>uniqueName</code> will be matched instead. If no matching Channel is found, a new one will be created instead. Also note that when re-activating a Channel, its previous access token will be overwritten and a new one will be returned.</p>
 <h3><a class="anchor" aria-hidden="true" id="example"></a><a href="#example" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Example</h3>
 <p>Example Channel creation request made with the unix tool cURL:</p>
 <pre><code class="hljs css language-bash">curl -X POST <span class="hljs-string">"https://api.socialhub.io/channels?accesstoken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50SWQiOiI1ZTczZjUyNDVhNDVkYTEwYjZlNjE0ZDgiLCJtYW5pZmVzdElkIjoiNWU3M2Y1NmM1YTQ1ZGExMGI2ZTYxNGRkIiwidXNlcklkIjoiNWU3M2Y1MjU1YTQ1ZGExMGI2ZTYxNGRhIiwib3JpZ2luIjoiaHR0cHM6Ly9hcHAuc29jaWFsaHViLmlvLyIsImlhdCI6MTU4ODg4NTcxOCwiZXhwIjoxNTg4ODg3NTE4fQ.-6I9tULlBouy9Rr0tlbbSkORMa8cAd70kl-KU1QdjfA"</span> -d <span class="hljs-string">'
@@ -66,8 +66,8 @@
   "name": "Contact Form",
   "uniqueName": "Contact Form (at example.com)",
   "imageUrl": "https://example.com/logo.png",
-  "networkId": "example.com-contact-form-1",
   "endpoint": {
+    "networkId": "example.com-contact-form-1",
     "expirationTime": "2020-05-07T21:05:17.861Z"
   }
 }
@@ -82,7 +82,6 @@
 <tr><td><code>name</code></td><td>Human readable name of the Custom Channel.</td></tr>
 <tr><td><code>uniqueName</code></td><td>Human readable unique name of the Custom Channel. The value of this field must be unique for all Channels of the Customer.</td></tr>
 <tr><td><code>imageUrl</code></td><td>HTTPS URL to image displayed alongside the Channel name.</td></tr>
-<tr><td><code>networkId</code></td><td>Used to uniquely identify a Channel. Optional but recommended if possible.</td></tr>
 <tr><td><code>endpoint</code></td><td>Integration/Network specific data.</td></tr>
 </tbody>
 </table>
@@ -92,6 +91,7 @@
 <tr><th>Field</th><th>Description</th></tr>
 </thead>
 <tbody>
+<tr><td><code>networkId</code></td><td>Used to uniquely identify a Channel. Optional but recommended if possible.</td></tr>
 <tr><td><code>expirationTime</code></td><td>Optional future Date-Time when the Integration's access to the target Network will expire (if applicable).</td></tr>
 <tr><td><code>user</code></td><td>Optional information about the user on the target Network that granted access to the Integration (if applicable).</td></tr>
 </tbody>
@@ -113,10 +113,10 @@
 <h4><a class="anchor" aria-hidden="true" id="http-201-created"></a><a href="#http-201-created" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>HTTP 201 Created</code></h4>
 <p>Represents the successful creation or reactivation of a Channel.</p>
 <pre><code class="hljs">{
-  <span class="hljs-attr">"networkId"</span>: <span class="hljs-string">"example.com-contact-form-1"</span>,
   <span class="hljs-attr">"endpoint"</span>: {
     <span class="hljs-attr">"accessToken"</span>: <span class="hljs-string">"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50SWQiOiI1ZTczZjUyNDVhNDVkYTEwYjZlNjE0ZDgiLCJjaGFubmVsSWQiOiI1ZWI0Nzk1NGE1NDViODJiNWI1MjJjY2UiLCJpYXQiOjE1ODg4ODU4NDR9.Dj8upq3l92nXMxkc_Z-BfOalgVJgOrxC0-Fns6upKaw"</span>,
     <span class="hljs-attr">"expirationTime"</span>: <span class="hljs-string">"2021-05-07T21:05:17.861Z"</span>,
+    <span class="hljs-attr">"networkId"</span>: <span class="hljs-string">"example.com-contact-form-1"</span>
   },
   <span class="hljs-attr">"name"</span>: <span class="hljs-string">"Contact Form"</span>,
   <span class="hljs-attr">"uniqueName"</span>: <span class="hljs-string">"Contact Form (at example.com)"</span>,
@@ -153,15 +153,15 @@
 </code></pre>
 <h3><a class="anchor" aria-hidden="true" id="request-1"></a><a href="#request-1" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Request</h3>
 <p>Same parameters as during <a href="#request">Channel creation</a>.</p>
-<p>Note that the <code>networkId</code> can't be changed in this route.</p>
+<p>Note that the <code>endpoint.networkId</code> can't be changed in this route.</p>
 <h3><a class="anchor" aria-hidden="true" id="responses-1"></a><a href="#responses-1" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Responses</h3>
 <h4><a class="anchor" aria-hidden="true" id="http-200-ok"></a><a href="#http-200-ok" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>HTTP 200 OK</code></h4>
 <p>Represents the successful update of the Channel.</p>
 <pre><code class="hljs">{
   <span class="hljs-attr">"_id"</span>: <span class="hljs-string">"5eb47954a545b82b5b522cce"</span>,
-  <span class="hljs-attr">"networkId"</span>: <span class="hljs-string">"example.com-contact-form-1"</span>,
   <span class="hljs-attr">"endpoint"</span>: {
     <span class="hljs-attr">"expirationTime"</span>: <span class="hljs-string">"2022-05-07T21:05:17.861Z"</span>,
+    <span class="hljs-attr">"networkId"</span>: <span class="hljs-string">"example.com-contact-form-1"</span>
   },
   <span class="hljs-attr">"name"</span>: <span class="hljs-string">"Contact Form"</span>,
   <span class="hljs-attr">"uniqueName"</span>: <span class="hljs-string">"Contact Form (at example.com)"</span>,
