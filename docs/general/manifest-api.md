@@ -150,6 +150,16 @@ It's also possible that we were able to execute the HTTPS request but the respon
 }
 ```
 
+Or that the SSL certificate the WebHook is hosted with is no longer valid:
+
+```
+{ 
+  "code": "WebhookValidationError", 
+  "message": "Error: An error occurred while attempting to validate the WebHook", 
+  "data": "Error: certificate has expired" 
+}
+```
+
 ## Callbacks
 
 ### Channel Creation
