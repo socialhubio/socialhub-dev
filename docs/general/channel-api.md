@@ -98,6 +98,17 @@ The `_id` value is a unique identifier of a Channel within the SocialHub Platfor
 
 If a `ChannelLimitReached` error is returned, make sure to tell the Customer to get in touch with happy@socialhub.io in order to have their Channel limit raised.
 
+#### `HTTP 409 Conflict`
+
+```
+{
+  "code": "DuplicateChannel",
+  "message": "Error: This channel has already been created in another SocialHub account"
+}
+```
+
+If a `DuplicateChannel` error is returned, it means that there's already a Channel with the same `networkId` belonging to the same Manifest in another SocialHub Account. If your Manifest is reusable you should make sure to tell the user to contact support@socialhub.io to get help if this happens.
+
 ## Updating Channels
 
 The `PATCH /channel` route allows partially updating the Channel belonging to the passed access token. When updating the Channel using this route its access token will stay the same.
