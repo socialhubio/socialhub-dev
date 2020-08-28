@@ -14,6 +14,10 @@ The following changes to the API are scheduled to be deployed in **calendar week
 
 It's now possible to define Network specific branding within the [Manifest](general/manifest-api#request) such as icons and color schemes.
 
+### New: Ticket Link
+
+Now it is possible to include a shared link while [creating a new Ticket](inbox/ticket-api#creating-tickets). This link would be clickable in the SocialHub interface.
+
 ### Breaking Change: `networkId` moved out of `channel.endpoint`
 
 The `networkId` is now a top level attribute of channels and no longer part of the `endpoint` subobject.  

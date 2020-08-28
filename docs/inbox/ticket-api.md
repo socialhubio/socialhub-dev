@@ -56,9 +56,10 @@ Note that the `followupTo` field cannot be specified during Ticket creation. Rat
 
 | Field           | Description                                               |
 |-----------------|-----------------------------------------------------------|
-| `message`       | Message text of an Interaction (eg. the Text of a Facebook comment). May have up to 10.000 characters. Optional if there are `pictures` or `attachments`. |
-| `pictures`      | List of images of an Interaction (eg. a Facebook post with one or multiple images). Optional if there is a `message` or `attachments`. |
-| `attachments`   | List of file attachments of an Interaction (eg. a Direct Message with one or multiple files attached). Optional if there is a `message` or `pictures`. |
+| `message`       | Message text of an Interaction (eg. the Text of a Facebook comment). May have up to 10.000 characters. Optional if there are `pictures`, `attachments` or `link`. |
+| `pictures`      | List of images of an Interaction (eg. a Facebook post with one or multiple images). Optional if there is a `message`, `link` or `attachments`. |
+| `attachments`   | List of file attachments of an Interaction (eg. a Direct Message with one or multiple files attached). Optional if there is a `message`, `link` or `pictures`. |
+| `link`          | Link url shared on the Interaction. This url will be clickable in the SocialHub interface. Optional if there is a `message`, `pictures` or `attachments` |
 | `createdTime`   | Optional: The Interaction's creation time (as ISO 8601). For Facebook this would for example be the date and time when a comment was created. If this field is not specified the current date will be used. |
 | `networkItemId` | A unique identifier of the Interaction within a Custom Channel. A `HTTP 409 Conflict` will be returned if you attempt to create a Ticket with an identifier that has already been used for another Ticket within the same Channel. Allowed pattern as regular expression: `^[a-zA-Z0-9/_-]{6,256}$` |
 | `interactor`    | Optional: Information about the person that created the interaction. (eg. a Facebook User) |
