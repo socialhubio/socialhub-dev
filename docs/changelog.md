@@ -24,6 +24,10 @@ The `networkId` is now a top level attribute of channels and no longer part of t
 All existing channels will be migrated and the `networkId` is automatically moved out of the `endpoint`.  
 [Creating new channels](general/channel-api#creating-channels) requires the `networkId` to be provided as top level attribute.
 
+### New: Optional reason of channel deactivation
+
+`DELETE /channel` route now supports optional query parameter - `reason`. `reason` should be a string describing why the channel was deactivated (e.g. `Access token expired`). The `reason` will be saved internally in the SocialHub and at the moment is mostly used for debug purposes.
+
 ## Version 1.5
 
 The following changes to the API are scheduled to be deployed in **calendar week 33**. As all of these changes are **New** additions to existing behavior, there should be no action required by Developers. The impacted documentation pages and swagger specifications have already been updated accordingly.

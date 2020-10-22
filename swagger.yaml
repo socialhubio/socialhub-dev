@@ -149,6 +149,11 @@ paths:
       description: "Can be used to deactivate the Channel belonging to the passed access token. After deactivation it's no longer possible to use the JWT and the Customer will be notified via mail that manual action is required in order to re-enable the Channel again"
       tags:
         - General
+      parameters:
+        - name: reason
+          in: query
+          description: The reason of channel deactivation
+          type: string
       responses:
         204:
           description: Empty response in case of success.
