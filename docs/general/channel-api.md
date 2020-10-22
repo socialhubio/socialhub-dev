@@ -12,7 +12,7 @@ We differentiate between "Custom" Channels that can be managed via the SocialHub
 
 Normally Custom Channels are created by the Customer using the [Channels Settings Page](https://socialhubio.zendesk.com/hc/en-us/articles/360015917114-Inbox-API-Einrichtung-und-technische-Dokumentation). But if a Manifest has been promoted to being [reusable](../integration#b-reusable-manifest) it will be [passed](manifest-api#channel-creation) a special temporary JWT allowing it to create Channels for the Customer using the `POST /channels` route.
 
-This route may also be used to re-activate disabled Custom Channels (see [Manifest Channel reactivation callback](manifest-api#channel-reactivation)). For identifying an existing disabled Channel for reactivation, we first look for a Custom Channel with a matching `endpoint.networkId`. If no Network ID is available for the Channel the `uniqueName` will be matched instead. If no matching Channel is found, a new one will be created instead. Also note that when re-activating a Channel, its previous access token will be overwritten and a new one will be returned.
+This route may also be used to re-activate disabled Custom Channels (see [Manifest Channel reactivation callback](manifest-api#channel-reactivation)). For identifying an existing disabled Channel for reactivation, we first look for a Custom Channel with a matching `networkId`. If no Network ID is available for the Channel the `uniqueName` will be matched instead. If no matching Channel is found, a new one will be created instead. Also note that when re-activating a Channel, its previous access token will be overwritten and a new one will be returned.
 
 ### Example
 
@@ -24,8 +24,8 @@ curl -X POST "https://api.socialhub.io/channels?accesstoken=eyJhbGciOiJIUzI1NiIs
   "name": "Contact Form",
   "uniqueName": "Contact Form (at example.com)",
   "imageUrl": "https://example.com/logo.png",
+  "networkId": "example.com-contact-form-1",
   "endpoint": {
-    "networkId": "example.com-contact-form-1",
     "expirationTime": "2020-05-07T21:05:17.861Z"
   }
 }
@@ -39,13 +39,13 @@ curl -X POST "https://api.socialhub.io/channels?accesstoken=eyJhbGciOiJIUzI1NiIs
 | `name`          | Human readable name of the Custom Channel. |
 | `uniqueName`    | Human readable unique name of the Custom Channel. The value of this field must be unique for all Channels of the Customer. |
 | `imageUrl`      | HTTPS URL to image displayed alongside the Channel name. |
+| `networkId`     | Used to uniquely identify a Channel. Optional but recommended if possible. |
 | `endpoint`      | Integration/Network specific data. |
 
 #### `endpoint`
 
 | Field            | Description                                                  |
 |------------------|--------------------------------------------------------------|
-| `networkId`      | Used to uniquely identify a Channel. Optional but recommended if possible. |
 | `expirationTime` | Optional future Date-Time when the Integration's access to the target Network will expire (if applicable). |
 | `user`           | Optional information about the user on the target Network that granted access to the Integration (if applicable). |
 
@@ -68,10 +68,10 @@ Represents the successful creation or reactivation of a Channel.
 
 ```
 {
+  "networkId": "example.com-contact-form-1",
   "endpoint": {
     "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50SWQiOiI1ZTczZjUyNDVhNDVkYTEwYjZlNjE0ZDgiLCJjaGFubmVsSWQiOiI1ZWI0Nzk1NGE1NDViODJiNWI1MjJjY2UiLCJpYXQiOjE1ODg4ODU4NDR9.Dj8upq3l92nXMxkc_Z-BfOalgVJgOrxC0-Fns6upKaw",
     "expirationTime": "2021-05-07T21:05:17.861Z",
-    "networkId": "example.com-contact-form-1"
   },
   "name": "Contact Form",
   "uniqueName": "Contact Form (at example.com)",
@@ -98,6 +98,17 @@ The `_id` value is a unique identifier of a Channel within the SocialHub Platfor
 
 If a `ChannelLimitReached` error is returned, make sure to tell the Customer to get in touch with happy@socialhub.io in order to have their Channel limit raised.
 
+#### `HTTP 409 Conflict`
+
+```
+{
+  "code": "DuplicateChannel",
+  "message": "Error: This channel has already been created in another SocialHub account"
+}
+```
+
+If a `DuplicateChannel` error is returned, it means that there's already a Channel with the same `networkId` belonging to the same Manifest in another SocialHub Account. If your Manifest is reusable you should make sure to tell the user to contact support@socialhub.io to get help if this happens.
+
 ## Updating Channels
 
 The `PATCH /channel` route allows partially updating the Channel belonging to the passed access token. When updating the Channel using this route its access token will stay the same.
@@ -123,7 +134,7 @@ curl -X PATCH "https://api.socialhub.io/channel?accesstoken=eyJhbGciOiJIUzI1NiIs
 
 Same parameters as during [Channel creation](#request).
 
-Note that the `endpoint.networkId` can't be changed in this route.
+Note that the `networkId` can't be changed in this route.
 
 ### Responses
 
@@ -134,9 +145,9 @@ Represents the successful update of the Channel.
 ```
 {
   "_id": "5eb47954a545b82b5b522cce",
+  "networkId": "example.com-contact-form-1",
   "endpoint": {
     "expirationTime": "2022-05-07T21:05:17.861Z",
-    "networkId": "example.com-contact-form-1"
   },
   "name": "Contact Form",
   "uniqueName": "Contact Form (at example.com)",

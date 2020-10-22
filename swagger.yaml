@@ -119,7 +119,7 @@ paths:
   '/channel':
     patch:
       summary: 'Partially update an existing Custom Channel'
-      description: "Partially updates the Channel belonging to the passed access token. When updating the Channel using this route its access token will stay the same. Note that the endpoint.networkId can't be changed in this route."
+      description: "Partially updates the Channel belonging to the passed access token. When updating the Channel using this route its access token will stay the same. Note that the networkId can't be changed in this route."
       tags:
         - General
       parameters:
@@ -344,13 +344,13 @@ definitions:
         format: url
         pattern: '^https://'
         example: 'https://app.socialhub.io/uploads/0000000104.png'
+      networkId:
+        type: string
+        description: 'Used to uniquely identify a Channel. Optional but recommended if possible.'
       endpoint:
         type: object
         description: 'Integration/Network specific data.'
         properties:
-          networkId:
-            type: string
-            description: 'Used to uniquely identify a Channel. Optional but recommended if possible.'
           expirationTime:
             type: string
             description: "Optional future Date-Time when the Integration's access to the target Network will expire (if applicable)."
@@ -425,6 +425,26 @@ definitions:
       name:
         description: 'Read only. Manifests of normal Custom Channels do not have a name. Manifests that have a name have been promoted to being reusable. The name is what will be shown as Network name on the Channel Settings page.'
         type: string
+      branding:
+        type: object
+        properties:
+          icon:
+            description: 'HTTPS URL to Network icon (eg. Twitter Bird)'
+            type: string
+            format: uri
+            pattern: '^https://'
+            example: 'https://socialhub.example.com/icon.png'
+          fallback:
+            description: 'HTTPS URL to fallback icon (eg. shown for ticket interactors without avatar)'
+            type: string
+            format: uri
+            pattern: '^https://'
+            example: 'https://socialhub.example.com/fallback-icon.png'
+          color:
+            description: 'HTML Hex color code for Network branding (eg. Facebook blue #3b5998 for Ticket borders)'
+            type: string
+            pattern: '^#[0-9a-f]{3,6}$'
+            example: '#3b5998'
       webhook:
         type: object
         description: 'WebHook specific configuration. A test request will be made whenever this is updated!'
@@ -574,6 +594,11 @@ definitions:
             description: 'Link to the Interaction. This link will be used by SocialHub Users to eg. allow them to access the Interaction directly on the networks website.'
             format: url
             example: 'http://example.com/questions/q_0000000001'
+          link:
+            type: string
+            description: 'Link shared on the Interaction. Optional if there are pictures, attachments or a message.'
+            format: url
+            example: 'http://example.com/questions/q_0000000002'
           interactor:
             type: object
             description: 'Information about the person that created the interaction. (eg. a Facebook User).'
@@ -599,12 +624,12 @@ definitions:
                 pattern: '^https://'
           message:
             type: string
-            description: 'Message text of an Interaction (eg. the Text of a Facebook comment). Optional if there are pictures or attachments.'
+            description: 'Message text of an Interaction (eg. the Text of a Facebook comment). Optional if there are pictures, attachments or a link.'
             maxLength: 10000
             example: 'Hello, can someone help me?'
           pictures:
             type: array
-            description: 'List of images of an Interaction (eg. a Facebook post with one or multiple images). Optional if there is a message or attachments.'
+            description: 'List of images of an Interaction (eg. a Facebook post with one or multiple images). Optional if there is a message, link or attachments.'
             items:
               type: object
               required:
@@ -624,7 +649,7 @@ definitions:
                   example: 'https://example.com/questions/q_0000000001/images/1/original.png'
           attachments:
             type: array
-            description: 'List of file attachments of an Interaction (eg. a Direct Message with one or multiple files attached). Optional if there is a message or pictures.'
+            description: 'List of file attachments of an Interaction (eg. a Direct Message with one or multiple files attached). Optional if there is a message, link or pictures.'
             items:
               type: object
               required:

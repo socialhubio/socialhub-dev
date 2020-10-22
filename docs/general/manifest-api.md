@@ -48,9 +48,18 @@ curl -X PATCH "https://api.socialhub.io/manifest?accesstoken=eyJhbGciOiJIUzI1NiI
 | Field           | Description                                                  |
 |-----------------|--------------------------------------------------------------|
 | `name`          | Read only. Manifests of normal Custom Channels do not have a name. Manifests that have a name have been promoted to being reusable. The name is what will be shown as Network name on the Channel Settings page. |
+| `branding`      | Optional Network branding such as icons and color schemes |
 | `webhook`       | WebHook specific configuration. A test request will be made whenever this is updated! |
 | `inbox`         | Inbox product specific configuration. |
 | `callbacks`     | Redirect URLs for Channel management. |
+
+#### `branding`
+
+| Field           | Description                                                  |
+|-----------------|--------------------------------------------------------------|
+| `icon`          | HTTPS URL to Network icon (eg. Twitter Bird) |
+| `fallback`      | HTTPS URL to fallback icon (eg. shown for ticket interactors without avatar) |
+| `color`         | HTML Hex color code for Network branding (eg. Facebook blue `#3b5998` for Ticket borders) |
 
 #### `webhook`
 
@@ -138,6 +147,16 @@ It's also possible that we were able to execute the HTTPS request but the respon
 {
   "code": "WebhookValidationError",
   "message": "Error: The WebHook failed to solve the challenge"
+}
+```
+
+Or that the SSL certificate the WebHook is hosted with is no longer valid:
+
+```
+{ 
+  "code": "WebhookValidationError", 
+  "message": "Error: An error occurred while attempting to validate the WebHook", 
+  "data": "Error: certificate has expired" 
 }
 ```
 
