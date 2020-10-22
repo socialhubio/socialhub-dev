@@ -589,6 +589,11 @@ definitions:
             description: 'Link to the Interaction. This link will be used by SocialHub Users to eg. allow them to access the Interaction directly on the networks website.'
             format: url
             example: 'http://example.com/questions/q_0000000001'
+          link:
+            type: string
+            description: 'Link shared on the Interaction. Optional if there are pictures, attachments or a message.'
+            format: url
+            example: 'http://example.com/questions/q_0000000002'
           interactor:
             type: object
             description: 'Information about the person that created the interaction. (eg. a Facebook User).'
@@ -614,12 +619,12 @@ definitions:
                 pattern: '^https://'
           message:
             type: string
-            description: 'Message text of an Interaction (eg. the Text of a Facebook comment). Optional if there are pictures or attachments.'
+            description: 'Message text of an Interaction (eg. the Text of a Facebook comment). Optional if there are pictures, attachments or a link.'
             maxLength: 10000
             example: 'Hello, can someone help me?'
           pictures:
             type: array
-            description: 'List of images of an Interaction (eg. a Facebook post with one or multiple images). Optional if there is a message or attachments.'
+            description: 'List of images of an Interaction (eg. a Facebook post with one or multiple images). Optional if there is a message, link or attachments.'
             items:
               type: object
               required:
@@ -639,7 +644,7 @@ definitions:
                   example: 'https://example.com/questions/q_0000000001/images/1/original.png'
           attachments:
             type: array
-            description: 'List of file attachments of an Interaction (eg. a Direct Message with one or multiple files attached). Optional if there is a message or pictures.'
+            description: 'List of file attachments of an Interaction (eg. a Direct Message with one or multiple files attached). Optional if there is a message, link or pictures.'
             items:
               type: object
               required:
