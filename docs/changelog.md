@@ -6,6 +6,14 @@ sidebar_label: API Changelog
 
 ⚠ Consider subscribing to our [**API Newsletter**](http://eepurl.com/g2EiC1) to be notified about upcoming API changes in the future.
 
+## Version 1.7
+
+The following changes to the API are scheduled to be deployed in **calendar week 46**. As all of these changes are **New** additions to existing behavior, there should be no action required by Developers. The impacted documentation pages and swagger specifications have already been updated accordingly.
+
+### New: Reply Attachments
+
+It's now possible that a Ticket Action of type `reply` may have attachments. To control whether it's possible to specify attachments for a Reply simply set `attachments: {}` on the Ticket Action definition in the [Manifest](general/manifest-api#request). At a later point you'll be able to specify a file schema to control what kind of attachments are allowed – for now there is no restriction an all checks should happen on the Integration's end.
+
 ## Version 1.6
 
 The following changes to the API are scheduled to be deployed in **calendar week 36**. Note that some of these changes are breaking previous behavior. The impacted documentation pages and swagger specifications have already been updated accordingly.

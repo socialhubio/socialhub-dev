@@ -83,6 +83,7 @@ curl -X PATCH "https://api.socialhub.io/manifest?accesstoken=eyJhbGciOiJIUzI1NiI
 | `id`            | Identifier of the Action. Each Action within a manifest must have a different identifier. Pattern regular expression: `^[a-zA-Z0-9-_]{1,256}$` |
 | `label`         | Human readable button label for this action. May be up to 256 characters long but should be as short as possible. |
 | `config`        | Configuration options for this Ticket Action. |
+| `attachments`   | If set (`{}`) for Ticket Actions of type `reply`, it's possible to attach files for the reply. At a later point you'll be able to specify a file schema to control what kind of attachments are allowed – for now there is no restriction an all checks should happen on the Integration's end. |
 
 #### `inbox.ticketActions[].config`
 
