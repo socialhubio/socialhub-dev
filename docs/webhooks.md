@@ -27,7 +27,7 @@ The test-request is a HTTP POST request to the specified URL, as are all WebHook
 
 The WebHook URL is required to support the HTTPS protocol with a valid SSL certificate to ensure all API communication is encryted. You can use [Let's Encrypt](https://letsencrypt.org/) to obtain free SSL certificates for your Integration.
 
-In order to remove a configured WebHook, simply send the same PATCH-request with an empty configuration object (`{ "webhook": {} }`).
+In order to remove a configured WebHook, simply send the same PATCH-request with null (`{ "webhook": null }`).
 
 ## Verification
 
