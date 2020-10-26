@@ -694,6 +694,11 @@ definitions:
                 description: 'Rating scale. This would be `10` in a 7/10 rating.'
                 minimum: 0
                 maximum: 100
+          type:
+            description: Ticket type (only available for reusable Manifests)
+            type: string
+            default: TICKET
+            enum: [POST, COMMENT, THREAD, MESSAGE, RATING, ALBUM, PHOTO, MENTION, DM, MEDIA, VIDEO, TWEET, REVIEW, WEB, NEWS, BLOG, FORUM, TICKET, ADPOST]
 
 # Reusable API response definitions.
 responses:

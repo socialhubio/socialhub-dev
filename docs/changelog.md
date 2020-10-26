@@ -14,6 +14,10 @@ The following changes to the API are scheduled to be deployed in **calendar week
 
 It's now possible that a Ticket Action of type `reply` may have attachments. To control whether it's possible to specify attachments for a Reply simply set `attachments: {}` on the Ticket Action definition in the [Manifest](general/manifest-api#request). At a later point you'll be able to specify a file schema to control what kind of attachments are allowed – for now there is no restriction an all checks should happen on the Integration's end.
 
+### New: Ticket Types
+
+It's now possible to specify a Ticket Type when [creating Tickets](inbox/ticket-api#interaction) for Channels of reusable Manifests. For non-reusable Manifests it will be set to `TICKET` by default. See the [Swagger API](https://petstore.swagger.io/?url=https://raw.githubusercontent.com/socialhubio/socialhub-dev/master/swagger.yaml) specification for more information about which Types are available.
+
 ## Version 1.6
 
 The following changes to the API are scheduled to be deployed in **calendar week 36**. Note that some of these changes are breaking previous behavior. The impacted documentation pages and swagger specifications have already been updated accordingly.

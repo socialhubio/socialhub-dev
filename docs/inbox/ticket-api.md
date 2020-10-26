@@ -66,6 +66,7 @@ Note that the `followupTo` field cannot be specified during Ticket creation. Rat
 | `url`           | Optional: Link to the Interaction. This link will be used by SocialHub Users to eg. allow them to access the Interaction directly on the networks website. |
 | `root`          | Optional: Stores Root-Ticket information. |
 | `rating`        | Optional: Stores rating/review information. |
+| `type`          | Optional: Ticket Type, `TICKET` by default. Can only be set when creating Tickets for Channels of reusable Manifests. |
 
 #### `interaction.pictures[]`
 
