@@ -220,7 +220,14 @@ The WebHook request body will look like this when delivering Ticket Action event
   "actionId": "reply-as-comment",
   "payload": {
     "text": "Hello! Sure, how can we assist you?",
-    "followupId": "f5f75b50-6764-11e9-9ce6-3507264c7519"
+    "followupId": "f5f75b50-6764-11e9-9ce6-3507264c7519",
+    "attachments": [{
+      "size": 100,
+      "name": "doc.pdf",
+      "extension": ".pdf",
+      "url": "https://aws.com/files/doc.pdf",
+      "mimetype": "application/pdf"
+    }]
   },
 }
 ```
@@ -231,6 +238,19 @@ The WebHook request body will look like this when delivering Ticket Action event
 |-----------------|-----------------------------------------------------------|
 | `text`          | The Text that was specified by the SocialHub User to publicly reply to the Interaction with. |
 | `followupId`    | Unique identifier of the Reply-Folloup that was created on the Ticket. |
+| `attachments`   | Array of file attachments provided by the SocialHub User to be used in the reply. At the moment reply can have only 1 attachment. |
+
+Reply will always have either `text` or `attachments`.
+
+##### `payload.attachments`
+
+| Field           | Description                                               |
+|-----------------|-----------------------------------------------------------|
+| `size`          | File size of the attachment in bytes. |
+| `name`          | Original file name of the attachment. |
+| `extension`     | File extension of the attachment |
+| `url`           | Url which can be used to download the attachment |
+| `mimetype`      | MIME type of the attachment |
 
 #### Ticket Action Type: `template_reply`
 
