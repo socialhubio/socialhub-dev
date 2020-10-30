@@ -12,7 +12,8 @@ The following changes to the API are scheduled to be deployed in **calendar week
 
 ### New: Reply Attachments
 
-It's now possible that a Ticket Action of type `reply` may have attachments. To control whether it's possible to specify attachments for a Reply simply set `attachments: {}` on the Ticket Action definition in the [Manifest](general/manifest-api#request). At a later point you'll be able to specify a file schema to control what kind of attachments are allowed – for now there is no restriction an all checks should happen on the Integration's end.
+It's now possible that a Ticket Action of type `reply` may have attachments. To control whether it's possible to specify attachments for a Reply simply set `attachments: {}` on the Ticket Action definition in the [Manifest](general/manifest-api#request). At a later point you'll be able to specify a file schema to control what kind of attachments are allowed – for now there is no restriction an all checks should happen on the Integration's end.  
+We also introduced the `attachments: { noText: true }` option, which allows you to prevent creating replies with a text and an attachment at the same time.
 
 If SocialHub user triggers `reply` action with attachments, webhook payload would contain `attachments` array with related metadata. Check out [Reply Action Event](inbox/ticket-api#ticket-action-type-reply) for more information.
 

@@ -100,6 +100,12 @@ curl -X PATCH "https://api.socialhub.io/manifest?accesstoken=eyJhbGciOiJIUzI1NiI
 | `duration`      | Time after which the action is no longer available. Uses [juration](https://www.npmjs.com/package/juration#examples) for parsing. |
 | `after`         | Field the timeout is counted from. Currently only `networkCreationTime` is supported, which bases the timeout on the `ticket.interaction.createdTime` field. |
 
+#### `inbox.ticketActions[].attachments`
+
+| Field           | Description                                               |
+|-----------------|-----------------------------------------------------------|
+| `noText`        | If set to `true` then there is no additional text allowed when an attachment was added to the reply. |
+
 #### `inbox.rightSidebar[]`
 
 | Field           | Description                                                  |
