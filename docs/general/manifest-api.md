@@ -104,7 +104,7 @@ curl -X PATCH "https://api.socialhub.io/manifest?accesstoken=eyJhbGciOiJIUzI1NiI
 
 | Field           | Description                                               |
 |-----------------|-----------------------------------------------------------|
-| `noText`        | If set to `true` then there is no additional text allowed when an attachment was added to the reply. |
+| `noText`        | Boolean (default is `false`). If set to `true` then there is no additional text allowed when an attachment was added to the reply. |
 
 #### `inbox.rightSidebar[]`
 
