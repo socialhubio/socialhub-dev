@@ -521,6 +521,7 @@ definitions:
                   properties:
                     noText:
                       type: boolean
+                      default: false
                       description: 'When enabled then there is no additional text allowed when an attachment is provided'
           rightSidebar:
             type: array
