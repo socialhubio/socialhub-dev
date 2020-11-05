@@ -351,6 +351,7 @@
 <tbody>
 <tr><td><code>createdTime</code></td><td>Optional: The Reply's creation time (as ISO 8601) on the Network. If this field is not specified the current date will be used.</td></tr>
 <tr><td><code>networkItemId</code></td><td>A unique identifier of the Reply within a Custom Channel. A <code>HTTP 409 Conflict</code> will be returned if the identifier has already been used for another Ticket within the same Channel. Allowed pattern as regular expression: <code>^[a-zA-Z0-9/_-]{6,256}$</code></td></tr>
+<tr><td><code>type</code></td><td>Optional and only available for reusable manifests: The Ticket type, <code>TICKET</code> by default.</td></tr>
 <tr><td><code>url</code></td><td>Optional: Link to the Interaction.</td></tr>
 </tbody>
 </table>
