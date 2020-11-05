@@ -233,6 +233,11 @@ paths:
                     type: string
                     pattern: '^[a-zA-Z0-9/_-]{6,256}$'
                     example: 'answer-a_0000000052'
+                  type:
+                    description: Ticket type (only available for reusable Manifests)
+                    type: string
+                    default: TICKET
+                    enum: [POST, COMMENT, THREAD, MESSAGE, RATING, ALBUM, PHOTO, MENTION, DM, MEDIA, VIDEO, TWEET, REVIEW, WEB, NEWS, BLOG, FORUM, TICKET, ADPOST]
                   url:
                     description: 'Optional: Link to the Interaction.'
                     type: string

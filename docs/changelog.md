@@ -19,7 +19,7 @@ If SocialHub user triggers `reply` action with attachments, webhook payload woul
 
 ### New: Ticket Types
 
-It's now possible to specify a Ticket Type when [creating Tickets](inbox/ticket-api#interaction) for Channels of reusable Manifests. For non-reusable Manifests it will be set to `TICKET` by default. See the [Swagger API](https://petstore.swagger.io/?url=https://raw.githubusercontent.com/socialhubio/socialhub-dev/master/swagger.yaml) specification for more information about which Types are available.
+It's now possible to specify a Ticket Type when [creating Tickets](inbox/ticket-api#interaction) and [confirming replies](inbox/ticket-api#reply-success-confirmation) for Channels of reusable Manifests. For non-reusable Manifests it will be set to `TICKET` by default. See the [Swagger API](https://petstore.swagger.io/?url=https://raw.githubusercontent.com/socialhubio/socialhub-dev/master/swagger.yaml) specification for more information about which Types are available.
 
 ## Version 1.6
 
