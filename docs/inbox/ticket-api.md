@@ -306,6 +306,7 @@ curl -X POST "https://api.socialhub.io/inbox/tickets/5cc1b08ad62ec72e8388cb47/re
 |-----------------|-----------------------------------------------------------|
 | `createdTime`   | Optional: The Reply's creation time (as ISO 8601) on the Network. If this field is not specified the current date will be used. |
 | `networkItemId` | A unique identifier of the Reply within a Custom Channel. A `HTTP 409 Conflict` will be returned if the identifier has already been used for another Ticket within the same Channel. Allowed pattern as regular expression: `^[a-zA-Z0-9/_-]{6,256}$` |
+| `type`          | Optional and only available for reusable manifests: The Ticket type, `TICKET` by default. |
 | `url`           | Optional: Link to the Interaction.                        |
 
 #### Ticket Action Type: `button`
