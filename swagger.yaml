@@ -194,6 +194,40 @@ paths:
         500:
           $ref: '#/responses/InternalServerError'
 
+  '/inbox/tickets/{ticketId}':
+    patch:
+      summary: 'Updates a Ticket'
+      description: 'Partially updates a Ticket belonging to a Custom Channel.'
+      tags:
+        - Inbox
+      parameters:
+        - name: ticketId
+          in: path
+          description: 'The identifier of the Ticket that should be updated.'
+          required: true
+          type: string
+          pattern: '^[a-f0-9]{24}$'
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/Ticket'
+      responses:
+        200:
+          description: 'The updated Ticket.'
+          schema:
+            $ref: '#/definitions/Ticket'
+        400:
+          $ref: '#/responses/BadRequestError'
+        401:
+          $ref: '#/responses/AccessTokenInvalidError'
+        403:
+          $ref: '#/responses/AccessDenied'
+        409:
+          $ref: '#/responses/ConflictError'
+        500:
+          $ref: '#/responses/InternalServerError'
+
   '/inbox/tickets/{ticketId}/replies/{followupId}/success':
     post:
       summary: 'Reply Ticket Action callback route'
@@ -601,6 +635,8 @@ definitions:
                 description: 'During Ticket creation: `networkItemId` of the Root-Ticket of this Ticket. Used for right sidebar Tree-Building. If referenced Root-Ticket does not exist a new empty hidden Ticket will be automatically created. Note that SocialHub will store the `interactor.interactorId` that you sent separately. The `interactorId` returned in the response will be the interactor identifier of SocialHub. SocialHub will automatically link the network specific interactorId that you send to the SocialHub specific ID if we have already received it once.'
                 pattern: '^[a-zA-Z0-9/_-]{6,256}$'
           createdTime:
+            $ref: '#/definitions/Date'
+          updatedTime:
             $ref: '#/definitions/Date'
           url:
             type: string

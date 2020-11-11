@@ -56,17 +56,19 @@ Note that the `followupTo` field cannot be specified during Ticket creation. Rat
 
 | Field           | Description                                               |
 |-----------------|-----------------------------------------------------------|
-| `message`       | Message text of an Interaction (eg. the Text of a Facebook comment). May have up to 10.000 characters. Optional if there are `pictures`, `attachments` or `link`. |
-| `pictures`      | List of images of an Interaction (eg. a Facebook post with one or multiple images). Optional if there is a `message`, `link` or `attachments`. |
-| `attachments`   | List of file attachments of an Interaction (eg. a Direct Message with one or multiple files attached). Optional if there is a `message`, `link` or `pictures`. |
-| `link`          | Link url shared on the Interaction. This url will be clickable in the SocialHub interface. Optional if there is a `message`, `pictures` or `attachments` |
+| `message`       | Message text of an Interaction (eg. the Text of a Facebook comment). May have up to 10.000 characters. Optional* |
+| `pictures`      | List of images of an Interaction (eg. a Facebook post with one or multiple images). Optional* |
+| `attachments`   | List of file attachments of an Interaction (eg. a Direct Message with one or multiple files attached). Optional* |
+| `link`          | Link url shared on the Interaction. This url will be clickable in the SocialHub interface. Optional* |
+| `rating`        | Optional: Stores rating/review information. Optional* |
 | `createdTime`   | Optional: The Interaction's creation time (as ISO 8601). For Facebook this would for example be the date and time when a comment was created. If this field is not specified the current date will be used. |
 | `networkItemId` | A unique identifier of the Interaction within a Custom Channel. A `HTTP 409 Conflict` will be returned if you attempt to create a Ticket with an identifier that has already been used for another Ticket within the same Channel. Allowed pattern as regular expression: `^[a-zA-Z0-9/_-]{6,256}$` |
 | `interactor`    | Optional: Information about the person that created the interaction. (eg. a Facebook User) |
 | `url`           | Optional: Link to the Interaction. This link will be used by SocialHub Users to eg. allow them to access the Interaction directly on the networks website. |
 | `root`          | Optional: Stores Root-Ticket information. |
-| `rating`        | Optional: Stores rating/review information. |
 | `type`          | Optional: Ticket Type, `TICKET` by default. Can only be set when creating Tickets for Channels of reusable Manifests. |
+
+Optional*: A Ticket must have at least one of the following fields set: `message`, `pictures`, `attachments`, `link` or `rating`.
 
 #### `interaction.pictures[]`
 
@@ -162,6 +164,42 @@ Note that SocialHub will store the `interactor.interactorId` that you sent separ
 ```
 
 Means that you already created a Ticket using the same unique Interaction identifier within the Channel. If your Integration is functioning properly you can probably refrain from further attempts.
+
+## Updating Tickets
+
+Tickets can also be updated using the REST API route `PATCH /inbox/tickets/:ticketId` which is very similar to the creation route.
+
+### Example
+
+Example Ticket update request made with the unix tool cURL:
+
+```bash
+curl -X PATCH "https://api.socialhub.io/inbox/tickets/5eb493dcac52392e08513417?reset=true&accesstoken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50SWQiOiI1YzliNmIyYTU4YTg1NTA3NGQxZDI3OGYiLCJjaGFubmVsSWQiOiI1YzljMDE5NTJiZGZkNzE4MzA3YTBhNTMiLCJpYXQiOjE1NTQxMzQ1NDF9.mXomId0-stW1l4QQQkjeBflo74ZIHzd0-Xj_71VyncA" -d '
+{
+ "interaction": {
+   "message": "Edit: I removed that photo..",
+   "updatedTime": "2020-01-28T16:58:12.736Z",
+   "url": "http://example.com/questions/q_0000000001",
+   "pictures": [],
+   "interactor": {
+     "name": "Jörk Schrank",
+     "url": "https://example.com/user/u_5678986543",
+     "picture": "https://example.com/user/u_5678986543/avatar.png"
+   }
+ }
+}
+' -H "Content-Type: application/json"
+```
+
+### Request
+
+You can partially update the Ticket by only specifying those fields that you want to change in the request body. The list of fields is pretty much the same as during creation with a few differences:
+
+The `createdTime`, `networkItemId`, `root` and `interactor.interactorId` fields cannot be updated after a Ticket was created. But you can specify a new field called `updatedTime` that works the same way as `createdTime` did and should contain the date-time of when the interaction was updated on the network it was created on.
+
+#### Resetting Tickets
+
+After you updated a Ticket you might want to make sure that it is moved back into the Inbox where new Tickets are. To move it back from the Done folder, simply set the query parameter like this: `?reset=true`.
 
 ## Receiving Ticket Action Events
 
