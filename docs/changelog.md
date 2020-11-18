@@ -6,6 +6,14 @@ sidebar_label: API Changelog
 
 ⚠ Consider subscribing to our [**API Newsletter**](http://eepurl.com/g2EiC1) to be notified about upcoming API changes in the future.
 
+## Version 1.8
+
+The following changes to the API are scheduled to be deployed in **calendar week 50**. As all of these changes are **New** additions to existing behavior, there should be no action required by Developers. The impacted documentation pages and swagger specifications have already been updated accordingly.
+
+### New: Updating Tickets
+
+A new API route was added that allows updating Inbox Tickets after creation. Its specification is mostly the same as the creation route with a few quirks. For example you can use the "reset" query parameter to move Tickets out of the Done folder after updating them. You can find details in the swagger file and on the [Tickets API documentation](inbox/ticket-api#updating-tickets).
+
 ## Version 1.7
 
 The following changes to the API are scheduled to be deployed in **calendar week 46**. As all of these changes are **New** additions to existing behavior, there should be no action required by Developers. The impacted documentation pages and swagger specifications have already been updated accordingly.
