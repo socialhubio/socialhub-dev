@@ -207,6 +207,11 @@ paths:
           required: true
           type: string
           pattern: '^[a-f0-9]{24}$'
+        - name: reset
+          in: query
+          description: Moves ticket back to inbox in addition to updating the data if it was already archived. Defaults to false.
+          required: false
+          type: boolean
         - name: body
           in: body
           required: true

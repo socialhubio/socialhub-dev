@@ -8,7 +8,7 @@ sidebar_label: API Changelog
 
 ## Version 1.8
 
-The following changes to the API are scheduled to be deployed in **calendar week 48**. As all of these changes are **New** additions to existing behavior, there should be no action required by Developers. The impacted documentation pages and swagger specifications have already been updated accordingly.
+The following changes to the API are scheduled to be deployed in **calendar week 50**. As all of these changes are **New** additions to existing behavior, there should be no action required by Developers. The impacted documentation pages and swagger specifications have already been updated accordingly.
 
 ### New: Updating Tickets
 
