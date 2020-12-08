@@ -270,7 +270,7 @@ paths:
                   networkItemId:
                     description: 'A unique identifier of the Reply within a Custom Channel. A HTTP 409 Conflict will be returned if the identifier has already been used for another Ticket within the same Channel.'
                     type: string
-                    pattern: '^[a-zA-Z0-9/_-]{6,256}$'
+                    pattern: '^[a-zA-Z0-9/_=-]{6,256}$'
                     example: 'answer-a_0000000052'
                   type:
                     description: Ticket type (only available for reusable Manifests)
@@ -630,7 +630,7 @@ definitions:
           networkItemId:
             type: string
             description: 'A unique identifier of the Interaction within a Custom Channel. A HTTP 409 Conflict will be returned if you attempt to create a Ticket with an identifier that has already been used for another Ticket within the same Channel.'
-            pattern: '^[a-zA-Z0-9/_-]{6,256}$'
+            pattern: '^[a-zA-Z0-9/_=-]{6,256}$'
             example: 'question-q_0000000001'
           root:
             type: object
@@ -638,7 +638,7 @@ definitions:
               rooId:
                 type: string
                 description: 'During Ticket creation: `networkItemId` of the Root-Ticket of this Ticket. Used for right sidebar Tree-Building. If referenced Root-Ticket does not exist a new empty hidden Ticket will be automatically created. Note that SocialHub will store the `interactor.interactorId` that you sent separately. The `interactorId` returned in the response will be the interactor identifier of SocialHub. SocialHub will automatically link the network specific interactorId that you send to the SocialHub specific ID if we have already received it once.'
-                pattern: '^[a-zA-Z0-9/_-]{6,256}$'
+                pattern: '^[a-zA-Z0-9/_=-]{6,256}$'
           createdTime:
             $ref: '#/definitions/Date'
           updatedTime:

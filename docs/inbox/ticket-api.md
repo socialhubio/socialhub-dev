@@ -62,7 +62,7 @@ Note that the `followupTo` field cannot be specified during Ticket creation. Rat
 | `link`          | Link url shared on the Interaction. This url will be clickable in the SocialHub interface. Optional* |
 | `rating`        | Optional: Stores rating/review information. Optional* |
 | `createdTime`   | Optional: The Interaction's creation time (as ISO 8601). For Facebook this would for example be the date and time when a comment was created. If this field is not specified the current date will be used. |
-| `networkItemId` | A unique identifier of the Interaction within a Custom Channel. A `HTTP 409 Conflict` will be returned if you attempt to create a Ticket with an identifier that has already been used for another Ticket within the same Channel. Allowed pattern as regular expression: `^[a-zA-Z0-9/_-]{6,256}$` |
+| `networkItemId` | A unique identifier of the Interaction within a Custom Channel. A `HTTP 409 Conflict` will be returned if you attempt to create a Ticket with an identifier that has already been used for another Ticket within the same Channel. Allowed pattern as regular expression: `^[a-zA-Z0-9/_=-]{6,256}$` |
 | `interactor`    | Optional: Information about the person that created the interaction. (eg. a Facebook User) |
 | `url`           | Optional: Link to the Interaction. This link will be used by SocialHub Users to eg. allow them to access the Interaction directly on the networks website. |
 | `root`          | Optional: Stores Root-Ticket information. |
@@ -343,7 +343,7 @@ curl -X POST "https://api.socialhub.io/inbox/tickets/5cc1b08ad62ec72e8388cb47/re
 | Field           | Description                                               |
 |-----------------|-----------------------------------------------------------|
 | `createdTime`   | Optional: The Reply's creation time (as ISO 8601) on the Network. If this field is not specified the current date will be used. |
-| `networkItemId` | A unique identifier of the Reply within a Custom Channel. A `HTTP 409 Conflict` will be returned if the identifier has already been used for another Ticket within the same Channel. Allowed pattern as regular expression: `^[a-zA-Z0-9/_-]{6,256}$` |
+| `networkItemId` | A unique identifier of the Reply within a Custom Channel. A `HTTP 409 Conflict` will be returned if the identifier has already been used for another Ticket within the same Channel. Allowed pattern as regular expression: `^[a-zA-Z0-9/_=-]{6,256}$` |
 | `type`          | Optional and only available for reusable manifests: The Ticket type, `TICKET` by default. |
 | `url`           | Optional: Link to the Interaction.                        |
 
