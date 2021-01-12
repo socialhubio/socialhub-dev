@@ -12,7 +12,7 @@ The following changes to the API are scheduled to be deployed in **calendar week
 
 ### New: Ticket Reply Options
 
-Ticket replies can now have dropdown options. If options are defined in the manifest, user would have to select one of the them before creating a reply. The selected option id would be sent to the Integration as part of the payload. More information available in the swagger file, [Tickets API](inbox/ticket-api#updating-tickets) and [Manifest](general/manifest-api#inboxticketactionsoptions) documentations.
+Ticket replies can now have dropdown options. If options are defined in the manifest, a user has to select one of them before creating a reply. The selected option id would be sent to the Integration as part of the payload. More information is available in the [swagger API Reference](https://petstore.swagger.io/?url=https://raw.githubusercontent.com/socialhubio/socialhub-dev/master/swagger.yaml), [Tickets API](inbox/ticket-api#updating-tickets) and [Manifest](general/manifest-api#inboxticketactionsoptions) documentations.
 
 ## Version 1.8
 
