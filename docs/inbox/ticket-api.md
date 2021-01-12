@@ -277,7 +277,7 @@ The WebHook request body will look like this when delivering Ticket Action event
 | `text`          | The Text that was specified by the SocialHub User to publicly reply to the Interaction with. |
 | `followupId`    | Unique identifier of the Reply-Folloup that was created on the Ticket. |
 | `attachments`   | Array of file attachments provided by the SocialHub User to be used in the reply. At the moment reply can have only 1 attachment. |
-| `option`        | Id of the reply option selected by user (if reply action has `options` defined in the manifest) |
+| `option`        | Id of the reply option selected by the user (for ticket actions that have `options` defined in the manifest) |
 
 `followupId` is a mandatory field. `text` and `attachments` fields are optional, but at least one of them must present in the payload (payload can have both too unless the manifest option `inbox.ticketActions[].attachments.noText` was set to `true`. Then there is no `text` allowed when `attachments` field is provided).
 
