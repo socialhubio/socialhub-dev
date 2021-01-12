@@ -112,8 +112,8 @@ curl -X PATCH "https://api.socialhub.io/manifest?accesstoken=eyJhbGciOiJIUzI1NiI
 | Field           | Description                                               |
 |-----------------|-----------------------------------------------------------|
 | `id`            | Unique id of the option which will be sent to the integration in the reply payload. |
-| `label`         | Human readable title of the option which will be shown to user as button label. |
-| `description`   | Optional description of the option which will be shown to user under reply editor once option is selected. |
+| `label`         | Human readable title of the option which will be shown to the user as button label. |
+| `description`   | Optional description of the option which will be shown to the user below the reply editor once an option has been selected. |
 
 #### `inbox.rightSidebar[]`
 
