@@ -6,6 +6,14 @@ sidebar_label: API Changelog
 
 ⚠ Consider subscribing to our [**API Newsletter**](http://eepurl.com/g2EiC1) to be notified about upcoming API changes in the future.
 
+## Version 1.9
+
+The following changes to the API are scheduled to be deployed in **calendar week 3**. As all of these changes are **New** additions to existing behavior, there should be no action required by Developers. The impacted documentation pages and swagger specifications have already been updated accordingly.
+
+### New: Ticket Reply Options
+
+Ticket replies can now have dropdown options. If options are defined in the manifest, user would have to select one of the them before creating a reply. The selected option id would be sent to the Integration as part of the payload. More information available in the swagger file, [Tickets API](inbox/ticket-api#updating-tickets) and [Manifest](general/manifest-api#inboxticketactionsoptions) documentations.
+
 ## Version 1.8
 
 The following changes to the API are scheduled to be deployed in **calendar week 50**. As all of these changes are **New** additions to existing behavior, there should be no action required by Developers. The impacted documentation pages and swagger specifications have already been updated accordingly.
