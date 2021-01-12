@@ -84,6 +84,7 @@ curl -X PATCH "https://api.socialhub.io/manifest?accesstoken=eyJhbGciOiJIUzI1NiI
 | `label`         | Human readable button label for this action. May be up to 256 characters long but should be as short as possible. |
 | `config`        | Configuration options for this Ticket Action. |
 | `attachments`   | If set (`{}`) for Ticket Actions of type `reply`, it's possible to attach files for the reply. At a later point you'll be able to specify a file schema to control what kind of attachments are allowed – for now there is no restriction an all checks should happen on the Integration's end. |
+| `options`       | Array of dropdown options for the action. At the moment supported for the `reply` action. If `options` are set for an action, the user will have to choose one from the dropdown before creating the reply. |
 
 #### `inbox.ticketActions[].config`
 
@@ -105,6 +106,14 @@ curl -X PATCH "https://api.socialhub.io/manifest?accesstoken=eyJhbGciOiJIUzI1NiI
 | Field           | Description                                               |
 |-----------------|-----------------------------------------------------------|
 | `noText`        | Boolean (default is `false`). If set to `true` then there is no additional text allowed when an attachment was added to the reply. |
+
+#### `inbox.ticketActions[].options[]`
+
+| Field           | Description                                               |
+|-----------------|-----------------------------------------------------------|
+| `id`            | Unique id of the option which will be sent to the integration in the reply payload. |
+| `label`         | Human readable title of the option which will be shown to the user as button label. |
+| `description`   | Optional description of the option which will be shown to the user below the reply editor once an option has been selected. |
 
 #### `inbox.rightSidebar[]`
 

@@ -567,6 +567,22 @@ definitions:
                       type: boolean
                       default: false
                       description: 'When enabled then there is no additional text allowed when an attachment is provided'
+                options:
+                  type: array
+                  description: 'Reply options the user can select from'
+                  items:
+                    type: object
+                    required: ['id', 'label']
+                    properties:
+                      id:
+                        type: string
+                        description: 'Unique id of the option'
+                      label:
+                        type: string
+                        description: 'Button label for the option'
+                      description:
+                        type: string
+                        description: 'Optional description of the option'
           rightSidebar:
             type: array
             description: 'Configures the tabs available in the right sidebar after clicking on a Ticket within the Inbox.'
