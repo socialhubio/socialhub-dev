@@ -50,7 +50,7 @@ Eine Erklärung zu den erlaubten Feldern des HTTP-Requests zum erstellen eines T
 | `pictures`      | Liste von Bildern der Interaktion. Optional falls es eine message oder attachments gibt. |
 | `attachments`   | Liste von Dateianhängen der Interaktion. Optional falls es eine message oder pictures gibt. |
 | `createdTime`   | Optional: Der Erstellungszeitpunkt der Interaktion (ISO 8601). Im Beispiel eines Facebook-Kommentars wäre dieses Feld der Zeitpunkt zu dem der Kommentar auf Facebook erstellt wurde. Wenn dieses Feld fehlt wird die aktuelle Uhrzeit und das aktuelle Datum verwendet. |
-| `networkItemId` | Ist ein eindeutiges Identifizierungsmerkmal der Interaktion. Dieses Feld muss für jedes Ticket (innerhalb eines Kanals) einzigartig sein, ansonsten wird ein *HTTP-409-Conflict*-Fehler zurück gegeben. Regex Muster: `^[a-zA-Z0-9/_=-]{6,256}$` |
+| `networkItemId` | Ist ein eindeutiges Identifizierungsmerkmal der Interaktion. Dieses Feld muss für jedes Ticket (innerhalb eines Kanals) einzigartig sein, ansonsten wird ein *HTTP-409-Conflict*-Fehler zurück gegeben. Regex Muster: `^[a-zA-Z0-9\/|@&$!?\()[\]{}+*~,;.:=_-]{6,256}$` |
 | `url`           | Optional: Ein Link zur Interaktion. Im Beispiel eines Facebook-Kommentars wäre dieses Feld ein direkter Link zum Kommentar auf facebook.com. |
 
 ### `interaction.pictures`
