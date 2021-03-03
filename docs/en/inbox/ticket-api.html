@@ -107,7 +107,7 @@
 <tr><td><code>link</code></td><td>Link url shared on the Interaction. This url will be clickable in the SocialHub interface. Optional*</td></tr>
 <tr><td><code>rating</code></td><td>Optional: Stores rating/review information. Optional*</td></tr>
 <tr><td><code>createdTime</code></td><td>Optional: The Interaction's creation time (as ISO 8601). For Facebook this would for example be the date and time when a comment was created. If this field is not specified the current date will be used.</td></tr>
-<tr><td><code>networkItemId</code></td><td>A unique identifier of the Interaction within a Custom Channel. A <code>HTTP 409 Conflict</code> will be returned if you attempt to create a Ticket with an identifier that has already been used for another Ticket within the same Channel. Allowed pattern as regular expression: `^[a-zA-Z0-9/</td><td>@&amp;$!?()[]{}+*~,;.:=_-]{6,256}$`</td></tr>
+<tr><td><code>networkItemId</code></td><td>A unique identifier of the Interaction within a Custom Channel. A <code>HTTP 409 Conflict</code> will be returned if you attempt to create a Ticket with an identifier that has already been used for another Ticket within the same Channel. Allowed pattern as regular expression: `^[a-zA-Z0-9/\</td><td>@&amp;$!?()[]{}+*~,;.:=_-]{6,256}$`</td></tr>
 <tr><td><code>interactor</code></td><td>Optional: Information about the person that created the interaction. (eg. a Facebook User)</td></tr>
 <tr><td><code>url</code></td><td>Optional: Link to the Interaction. This link will be used by SocialHub Users to eg. allow them to access the Interaction directly on the networks website.</td></tr>
 <tr><td><code>root</code></td><td>Optional: Stores Root-Ticket information.</td></tr>
@@ -275,7 +275,7 @@
 <tbody>
 <tr><td><code>ticketId</code></td><td>Unique identifier of the Ticket that was replied. Same identifier as returned when the Ticket was created.</td></tr>
 <tr><td><code>networkItemId</code></td><td>Unique identifier of the Interaction of the Ticket that was replied. Same identifier as used when the Ticket was created.</td></tr>
-<tr><td><code>type</code></td><td>Type of the Ticket Action (can only be <code>reply</code> at this time)</td></tr>
+<tr><td><code>type</code></td><td>Type of the Ticket Action (can be <code>reply</code>, <code>template_reply</code> or <code>button</code>)</td></tr>
 <tr><td><code>actionId</code></td><td>Identifier of the Ticket Action as configured in the Manifest (<code>inbox.ticketActions[].id</code>).</td></tr>
 <tr><td><code>payload</code></td><td>Optional Ticket Action payload. Contains Ticket Action specific data.</td></tr>
 <tr><td><code>time</code></td><td>Unix timestamp in ms of when this event was created (intended for debugging purposes).</td></tr>
