@@ -62,7 +62,7 @@ Note that the `followupTo` field cannot be specified during Ticket creation. Rat
 | `link`          | Link url shared on the Interaction. This url will be clickable in the SocialHub interface. Optional* |
 | `rating`        | Optional: Stores rating/review information. Optional* |
 | `createdTime`   | Optional: The Interaction's creation time (as ISO 8601). For Facebook this would for example be the date and time when a comment was created. If this field is not specified the current date will be used. |
-| `networkItemId` | A unique identifier of the Interaction within a Custom Channel. A `HTTP 409 Conflict` will be returned if you attempt to create a Ticket with an identifier that has already been used for another Ticket within the same Channel. Allowed pattern as regular expression: `^[a-zA-Z0-9\/|@&$!?\()[\]{}+*~,;.:=_-]{6,256}$` |
+| `networkItemId` | A unique identifier of the Interaction within a Custom Channel. A `HTTP 409 Conflict` will be returned if you attempt to create a Ticket with an identifier that has already been used for another Ticket within the same Channel. Allowed pattern as regular expression: `^[a-zA-Z0-9\/\|@&$!?\()[\]{}+*~,;.:=_-]{6,256}$` |
 | `interactor`    | Optional: Information about the person that created the interaction. (eg. a Facebook User) |
 | `url`           | Optional: Link to the Interaction. This link will be used by SocialHub Users to eg. allow them to access the Interaction directly on the networks website. |
 | `root`          | Optional: Stores Root-Ticket information. |
@@ -242,7 +242,7 @@ The WebHook request body will look like this when delivering Ticket Action event
 |-----------------|-----------------------------------------------------------|
 | `ticketId`      | Unique identifier of the Ticket that was replied. Same identifier as returned when the Ticket was created. |
 | `networkItemId` | Unique identifier of the Interaction of the Ticket that was replied. Same identifier as used when the Ticket was created. |
-| `type`          | Type of the Ticket Action (can only be `reply` at this time) |
+| `type`          | Type of the Ticket Action (can be `reply`, `template_reply` or `button`) |
 | `actionId`      | Identifier of the Ticket Action as configured in the Manifest (`inbox.ticketActions[].id`). |
 | `payload`       | Optional Ticket Action payload. Contains Ticket Action specific data. |
 | `time`          | Unix timestamp in ms of when this event was created (intended for debugging purposes). |
