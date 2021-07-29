@@ -90,9 +90,10 @@ curl -X PATCH "https://api.socialhub.io/manifest?accesstoken=eyJhbGciOiJIUzI1NiI
 
 | Field              | Description                                               |
 |--------------------|-----------------------------------------------------------|
-| `approvalProcess`  | Boolean (default is `true`) controling whether the Approval Process feature should be applied for this Ticket Action. Only supported for `reply` and `template_reply` at this moment |
+| `approvalProcess`  | Boolean (default is `true`) controlling whether the Approval Process feature should be applied for this Ticket Action. Only supported for `reply` and `template_reply` at this moment |
 | `templates.url`    | URL to fetch templates for the `template_reply` action from. Required for the `template_reply` action. |
 | `timeout`          | Action timeout configuration options. |
+| `forceTagging`     | Boolean (default is `true`) controlling whether forcing the user to add tag(s) to the ticket before applying any action. |
 
 #### `inbox.ticketActions[].config.timeout`
 
@@ -187,7 +188,7 @@ This JWT has the following payload:
 ```javascript
 {
   "accountId": "5c9b6b2a58a855074d1d278f",  // Id of the Account the token belongs to
-  "manifestId": "5e73f56c5a45da10b6e614dd", // Id of the Mnifest the User wants to create channels for
+  "manifestId": "5e73f56c5a45da10b6e614dd", // Id of the Manifest the User wants to create channels for
   "userId": "5e73f5255a45da10b6e614da",     // Id of the User wanting to create channels
   "origin": "https://app.socialhub.io",     // URL of the SocialHub platform to redirect back to
   "iat": 1554134541,                        // Timestamp in seconds of the token issuing date
@@ -204,7 +205,7 @@ This JWT has the following payload:
 ```javascript
 {
   "accountId": "5c9b6b2a58a855074d1d278f",  // Id of the Account the token belongs to
-  "manifestId": "5e73f56c5a45da10b6e614dd", // Id of the Mnifest the User wants to create channels for
+  "manifestId": "5e73f56c5a45da10b6e614dd", // Id of the Manifest the User wants to create channels for
   "userId": "5e73f5255a45da10b6e614da",     // Id of the User wanting to create channels
   "origin": "https://app.socialhub.io",     // URL of the SocialHub platform to redirect back to
   "channelId": "5c9c01952bdfd718307a0a53",  // Id of the Channel that should be reactivated
