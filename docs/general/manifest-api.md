@@ -93,7 +93,7 @@ curl -X PATCH "https://api.socialhub.io/manifest?accesstoken=eyJhbGciOiJIUzI1NiI
 | `approvalProcess`  | Boolean (default is `true`) controlling whether the Approval Process feature should be applied for this Ticket Action. Only supported for `reply` and `template_reply` at this moment |
 | `templates.url`    | URL to fetch templates for the `template_reply` action from. Required for the `template_reply` action. |
 | `timeout`          | Action timeout configuration options. |
-| `forceTagging`     | Boolean (default is `true`) controlling whether forcing the user to add tag(s) to the ticket before applying any action. |
+| `forceTagging`     | Boolean (default is `true`) controlling whether the feature forcing the user to add tag(s) to the ticket should be applied for this Ticket Action. |
 
 #### `inbox.ticketActions[].config.timeout`
 
@@ -170,10 +170,10 @@ It's also possible that we were able to execute the HTTPS request but the respon
 Or that the SSL certificate the WebHook is hosted with is no longer valid:
 
 ```
-{ 
-  "code": "WebhookValidationError", 
-  "message": "Error: An error occurred while attempting to validate the WebHook", 
-  "data": "Error: certificate has expired" 
+{
+  "code": "WebhookValidationError",
+  "message": "Error: An error occurred while attempting to validate the WebHook",
+  "data": "Error: certificate has expired"
 }
 ```
 

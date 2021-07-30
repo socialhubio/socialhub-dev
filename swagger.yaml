@@ -537,6 +537,12 @@ definitions:
                   properties:
                     approvalProcess:
                       type: boolean
+                      description: 'Controlling whether the Approval Process feature should be applied for this Ticket Action. Only supported for `reply` and `template_reply` at this moment.'
+                      default: true
+                    forceTagging:
+                      type: boolean
+                      description: 'Controlling whether the feature forcing the user to add tag(s) to the ticket should be applied for this Ticket Action.'
+                      default: true
                     templates:
                       type: object
                       properties:

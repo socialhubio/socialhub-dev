@@ -6,6 +6,14 @@ sidebar_label: API Changelog
 
 ⚠ Consider subscribing to our [**API Newsletter**](http://eepurl.com/g2EiC1) to be notified about upcoming API changes in the future.
 
+## Version
+
+The following changes to the API are scheduled to be deployed in **calendar week 32**. As all of these changes are **New** additions to existing behavior, there should be no action required by Developers. The impacted documentation pages and swagger specifications have already been updated accordingly.
+
+### New: `forceTagging` Ticket Action configuration
+
+A new Ticket Action configuration flag has been added for Ticket Actions to the [Manifest API](general/manifest-api#inboxticketactions). With it you can control whether your Ticket Action needs to be have one or more tags set when the SocialHub Account has the Force Category Tagging feature enabled, which is the default behavior. If you want to ensure that the requirement of setting categories is skipped for your Ticket Action, set `forceTagging` to `false` in the Ticket Action's configuration.
+
 ## Version 1.10
 
 The following changes to the API are scheduled to be deployed in **calendar week 7**. As all of these changes are **New** additions to existing behavior, there should be no action required by Developers. The impacted documentation pages and swagger specifications have already been updated accordingly.
@@ -82,7 +90,7 @@ The following changes to the API are scheduled to be deployed in **calendar week
 
 ### New: Channel User Authentication Information
 
-On the new and refactored SocialHub Channels Settings page, users will be able to easily identify what Network Users were used to add a Channel (authenticate it) with SocialHub. For example for Facebook, it will show the Facebook Users that were used to add each Channel (Facebook Page). To allow custom Integrations, that use the Public API to integrate Networks, to provide such User Information as well, a new field `user` has been added to the `endpoint` field in the [Channel API](general/channel-api#updating-channels). 
+On the new and refactored SocialHub Channels Settings page, users will be able to easily identify what Network Users were used to add a Channel (authenticate it) with SocialHub. For example for Facebook, it will show the Facebook Users that were used to add each Channel (Facebook Page). To allow custom Integrations, that use the Public API to integrate Networks, to provide such User Information as well, a new field `user` has been added to the `endpoint` field in the [Channel API](general/channel-api#updating-channels).
 
 ## Version 1.3
 
@@ -134,7 +142,7 @@ This will help reactivating specific Channels by their unique identifier instead
 
 ### New: Ticket Interactors
 
-It's now possible to specify Interactors during Ticket creation. An Interactor is a collection of information about the person that caused the Interaction on the network. If, for example, the Interaction is a Facebook Comment then the Interactor would be the Facebook User who created the comment. When the same Interactor identifier is used in multiple Tickets, these Tickets will be automatically linked in order to build a user history for the right sidebar. 
+It's now possible to specify Interactors during Ticket creation. An Interactor is a collection of information about the person that caused the Interaction on the network. If, for example, the Interaction is a Facebook Comment then the Interactor would be the Facebook User who created the comment. When the same Interactor identifier is used in multiple Tickets, these Tickets will be automatically linked in order to build a user history for the right sidebar.
 
 If the identifier of the Interactor matches the Channel's `endpoint.networkId` the Ticket will not be created as an unread Ticket in the Inbox. Because we assume that in that case the Interactor was the Customer owning the Channel and the Customer most likely does not need to work on a Ticket that was created by themself. Therefore it'll be hidden from the Inbox except when displaying a Ticket Tree in the right sidebar or for the post-based Inbox.
 
