@@ -6,7 +6,7 @@ sidebar_label: API Changelog
 
 ⚠ Consider subscribing to our [**API Newsletter**](http://eepurl.com/g2EiC1) to be notified about upcoming API changes in the future.
 
-## Version
+## Version 1.11
 
 The following changes to the API are scheduled to be deployed in **calendar week 32**. As all of these changes are **New** additions to existing behavior, there should be no action required by Developers. The impacted documentation pages and swagger specifications have already been updated accordingly.
 
