@@ -87,10 +87,17 @@ curl -X PATCH "https://api.socialhub.io/manifest?accesstoken=eyJhbGciOiJIUzI1NiI
 |-----------------|-----------------------------------------------------------|
 | `type`          | Type of the Ticket Action. At the moment we support `reply`, `template_reply` and `button` actions. There may be multiple actions of the same type. |
 | `id`            | Identifier of the Action. Each Action within a manifest must have a different identifier. Pattern regular expression: `^[a-zA-Z0-9-_]{1,256}$` |
-| `label`         | Human readable button label for this action. May be up to 256 characters long but should be as short as possible. |
+| `label`         | Configuration of human readable title of the option which will be shown to the user as button label. |
 | `config`        | Configuration options for this Ticket Action. |
 | `attachments`   | If set (`{}`) for Ticket Actions of type `reply`, it's possible to attach files for the reply. At a later point you'll be able to specify a file schema to control what kind of attachments are allowed – for now there is no restriction an all checks should happen on the Integration's end. |
 | `options`       | Array of dropdown options for the action. At the moment supported for the `reply` action. If `options` are set for an action, the user will have to choose one from the dropdown before creating the reply. |
+
+#### `inbox.ticketActions[].label`
+
+| Field           | Description                                               |
+|-----------------|-----------------------------------------------------------|
+| `en`            | Human readable title of the option which will be shown to the user as button label in English. |
+| `de`            | Human readable title of the option which will be shown to the user as button label in German language. |
 
 #### `inbox.ticketActions[].config`
 
@@ -119,15 +126,8 @@ curl -X PATCH "https://api.socialhub.io/manifest?accesstoken=eyJhbGciOiJIUzI1NiI
 | Field           | Description                                               |
 |-----------------|-----------------------------------------------------------|
 | `id`            | Unique id of the option which will be sent to the integration in the reply payload. |
-| `label`         | Configuration of human readable title of the option which will be shown to the user as button label. |
+| `label`         | Human readable title of the option which will be shown to the user as button label. |
 | `description`   | Optional description of the option which will be shown to the user below the reply editor once an option has been selected. |
-
-#### `inbox.ticketActions[].label`
-
-| Field           | Description                                               |
-|-----------------|-----------------------------------------------------------|
-| `en`            | Human readable title of the option which will be shown to the user as button label in English. |
-| `de`            | Human readable title of the option which will be shown to the user as button label in German language. |
 
 #### `inbox.rightSidebar[]`
 
@@ -137,18 +137,17 @@ curl -X PATCH "https://api.socialhub.io/manifest?accesstoken=eyJhbGciOiJIUzI1NiI
 | `label`         | Configuration of human readable title of the option which will be shown to the user as button label. |
 | `treeBuilder`   | The tree-builder algorithm to use. Currently only `flatListWithoutRoot` and `flatListWithRoot` are supported. |
 
+The `flatListWithoutRoot` tree builder simply displays all Tickets in the right sidebar that share the same Root-Ticket excluding the Root-Ticket itself.
+
+`flatListWithRoot` tree builder displays all Tickets with the same Root-Ticket including the Root-Ticket.
+Root-Ticket in the sidebar will have some additional actions like `Show unread Tickets in the Inbox`.
+
 #### `inbox.rightSidebar[].label`
 
 | Field           | Description                                               |
 |-----------------|-----------------------------------------------------------|
 | `en`            | Human readable title of the option which will be shown to the user as button label in English. |
 | `de`            | Human readable title of the option which will be shown to the user as button label in German language. |
-
-
-The `flatListWithoutRoot` tree builder simply displays all Tickets in the right sidebar that share the same Root-Ticket excluding the Root-Ticket itself.
-
-`flatListWithRoot` tree builder displays all Tickets with the same Root-Ticket including the Root-Ticket.
-Root-Ticket in the sidebar will have some additional actions like `Show unread Tickets in the Inbox`.
 
 #### `callbacks`
 
@@ -208,12 +207,12 @@ This JWT has the following payload:
 
 ```javascript
 {
-    "accountId": "5c9b6b2a58a855074d1d278f",  // Id of the Account the token belongs to
-        "manifestId": "5e73f56c5a45da10b6e614dd", // Id of the Manifest the User wants to create channels for
-        "userId": "5e73f5255a45da10b6e614da",     // Id of the User wanting to create channels
-        "origin": "https://app.socialhub.io",     // URL of the SocialHub platform to redirect back to
-        "iat": 1554134541,                        // Timestamp in seconds of the token issuing date
-        "exp": 1554136341                         // Timestamp in seconds of the token expiration date (30 mins)
+  "accountId": "5c9b6b2a58a855074d1d278f",  // Id of the Account the token belongs to
+  "manifestId": "5e73f56c5a45da10b6e614dd", // Id of the Manifest the User wants to create channels for
+  "userId": "5e73f5255a45da10b6e614da",     // Id of the User wanting to create channels
+  "origin": "https://app.socialhub.io",     // URL of the SocialHub platform to redirect back to
+  "iat": 1554134541,                        // Timestamp in seconds of the token issuing date
+  "exp": 1554136341                         // Timestamp in seconds of the token expiration date (30 mins)
 }
 ```
 
@@ -225,15 +224,15 @@ This JWT has the following payload:
 
 ```javascript
 {
-    "accountId": "5c9b6b2a58a855074d1d278f",  // Id of the Account the token belongs to
-        "manifestId": "5e73f56c5a45da10b6e614dd", // Id of the Manifest the User wants to create channels for
-        "userId": "5e73f5255a45da10b6e614da",     // Id of the User wanting to create channels
-        "origin": "https://app.socialhub.io",     // URL of the SocialHub platform to redirect back to
-        "channelId": "5c9c01952bdfd718307a0a53",  // Id of the Channel that should be reactivated
-        "uniqueName": "test",                     // Unique name of the Channel
-        "networkId": "39272404",                  // Unique network ID of the Channel (optional)
-        "iat": 1554134541,                        // Timestamp in seconds of the token issuing date
-        "exp": 1554136341                         // Timestamp in seconds of the token expiration date (30 mins)
+  "accountId": "5c9b6b2a58a855074d1d278f",  // Id of the Account the token belongs to
+  "manifestId": "5e73f56c5a45da10b6e614dd", // Id of the Manifest the User wants to create channels for
+  "userId": "5e73f5255a45da10b6e614da",     // Id of the User wanting to create channels
+  "origin": "https://app.socialhub.io",     // URL of the SocialHub platform to redirect back to
+  "channelId": "5c9c01952bdfd718307a0a53",  // Id of the Channel that should be reactivated
+  "uniqueName": "test",                     // Unique name of the Channel
+  "networkId": "39272404",                  // Unique network ID of the Channel (optional)
+  "iat": 1554134541,                        // Timestamp in seconds of the token issuing date
+  "exp": 1554136341                         // Timestamp in seconds of the token expiration date (30 mins)
 }
 ```
 
@@ -247,24 +246,24 @@ This callback URL should return templates and their variables following this exa
 
 ```javascript
 [{
-    // Human readable name of the template to display to the SocialHub user.
-    "name": "Test Greeting",
-    // Machine identifier of the template.
-    "networkId": "test_greeting",
-    // Variables the user may fill out for this template (json schema format).
-    "variables": {
-        "firstName": {
-            "type": "string",
-            "minLength": 2,
-            "maxLength": 12
-        }
-    },
-    // Text templates used for previewing message (handlebars format).
-    "text": {
-        "en": "Hello {{firstName}}",
-        "de": "Hallo {{firstName}}",
-        "fr": "Bienvenue {{firstName}}"
+  // Human readable name of the template to display to the SocialHub user.
+  "name": "Test Greeting",
+  // Machine identifier of the template.
+  "networkId": "test_greeting",
+  // Variables the user may fill out for this template (json schema format).
+  "variables": {
+    "firstName": {
+      "type": "string",
+      "minLength": 2,
+      "maxLength": 12
     }
+  },
+  // Text templates used for previewing message (handlebars format).
+  "text": {
+    "en": "Hello {{firstName}}",
+    "de": "Hallo {{firstName}}",
+    "fr": "Bienvenue {{firstName}}"
+  }
 }]
 ```
 
