@@ -99,6 +99,12 @@ curl -X PATCH "https://api.socialhub.io/manifest?accesstoken=eyJhbGciOiJIUzI1NiI
 | `en`            | Human readable title of the option which will be shown to the user as button label in English. |
 | `de`            | Human readable title of the option which will be shown to the user as button label in German language. |
 
+#### `inbox.ticketActions[].options[].label`
+| Field           | Description                                               |
+|-----------------|-----------------------------------------------------------|
+| `en`            | Human readable title of the option which will be shown to the user as button label in English. |
+| `de`            | Human readable title of the option which will be shown to the user as button label in German language. |
+
 #### `inbox.ticketActions[].config`
 
 | Field              | Description                                               |
