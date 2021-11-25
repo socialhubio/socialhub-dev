@@ -87,7 +87,7 @@ curl -X PATCH "https://api.socialhub.io/manifest?accesstoken=eyJhbGciOiJIUzI1NiI
 |-----------------|-----------------------------------------------------------|
 | `type`          | Type of the Ticket Action. At the moment we support `reply`, `template_reply` and `button` actions. There may be multiple actions of the same type. |
 | `id`            | Identifier of the Action. Each Action within a manifest must have a different identifier. Pattern regular expression: `^[a-zA-Z0-9-_]{1,256}$` |
-| `label`         | Configuration of human readable title of the option which will be shown to the user as button label. |
+| `label`         | Button labels for different locales. Locale is selected depending on user settings. |
 | `config`        | Configuration options for this Ticket Action. |
 | `attachments`   | If set (`{}`) for Ticket Actions of type `reply`, it's possible to attach files for the reply. At a later point you'll be able to specify a file schema to control what kind of attachments are allowed – for now there is no restriction an all checks should happen on the Integration's end. |
 | `options`       | Array of dropdown options for the action. At the moment supported for the `reply` action. If `options` are set for an action, the user will have to choose one from the dropdown before creating the reply. |
@@ -96,14 +96,14 @@ curl -X PATCH "https://api.socialhub.io/manifest?accesstoken=eyJhbGciOiJIUzI1NiI
 
 | Field           | Description                                               |
 |-----------------|-----------------------------------------------------------|
-| `en`            | Human readable title of the option which will be shown to the user as button label in English. |
-| `de`            | Human readable title of the option which will be shown to the user as button label in German language. |
+| `en`            | Human-readable label for English locale. |
+| `de`            | Human-readable label for German locale. |
 
 #### `inbox.ticketActions[].options[].label`
 | Field           | Description                                               |
 |-----------------|-----------------------------------------------------------|
-| `en`            | Human readable title of the option which will be shown to the user as button label in English. |
-| `de`            | Human readable title of the option which will be shown to the user as button label in German language. |
+| `en`            | Human-readable dropdown label for English locale. |
+| `de`            | Human-readable dropdown label for German locale. |
 
 #### `inbox.ticketActions[].config`
 
@@ -140,7 +140,7 @@ curl -X PATCH "https://api.socialhub.io/manifest?accesstoken=eyJhbGciOiJIUzI1NiI
 | Field           | Description                                                  |
 |-----------------|--------------------------------------------------------------|
 | `id`            | String identifier for this sidebar Tab. |
-| `label`         | Configuration of human readable title of the option which will be shown to the user as button label. |
+| `label`         | Button labels for different locales. Locale is selected depending on user settings. |
 | `treeBuilder`   | The tree-builder algorithm to use. Currently only `flatListWithoutRoot` and `flatListWithRoot` are supported. |
 
 The `flatListWithoutRoot` tree builder simply displays all Tickets in the right sidebar that share the same Root-Ticket excluding the Root-Ticket itself.
@@ -152,8 +152,8 @@ Root-Ticket in the sidebar will have some additional actions like `Show unread T
 
 | Field           | Description                                               |
 |-----------------|-----------------------------------------------------------|
-| `en`            | Human readable title of the option which will be shown to the user as button label in English. |
-| `de`            | Human readable title of the option which will be shown to the user as button label in German language. |
+| `en`            |  Human-readable label for English locale. |
+| `de`            |  Human-readable label for German locale. |
 
 #### `callbacks`
 
