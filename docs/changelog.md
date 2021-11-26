@@ -7,17 +7,21 @@ sidebar_label: API Changelog
 ⚠ Consider subscribing to our [**API Newsletter**](http://eepurl.com/g2EiC1) to be notified about upcoming API changes in the future.
 
 ## Version 1.12
+
 The following changes to the API are scheduled to be deployed in **calendar week 49**.
+
 ### New: Multi language support for labels in Manifest 
+
 Ticket action label, ticket action option label and right sidebar label will have multiple language configuration.
 
 New label object format will be mandatory for manifest API `PATCH` requests:
 
-`label: {
+```js
+label: {
     en: 'Reply',
     de: 'Antworten'
 }
-`
+```
 
 See the [Manifest API](general/manifest-api) documentation for more information.
 
