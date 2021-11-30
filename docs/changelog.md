@@ -8,9 +8,9 @@ sidebar_label: API Changelog
 
 ## Version 1.12
 
-The following changes to the API are scheduled to be deployed in **calendar week 49**.
+The following changes to the API are scheduled to be deployed in **calendar week 49**. Note that this change is breaking previous behavior. The impacted documentation pages and swagger specifications have already been updated accordingly.
 
-### New: Multi language support for labels in Manifest 
+### Breaking Change: Multi language support for labels in Manifest 
 
 Ticket action label, ticket action option label and right sidebar label will have multiple language configuration.
 
