@@ -140,7 +140,7 @@ curl -X PATCH "https://api.socialhub.io/manifest?accesstoken=eyJhbGciOiJIUzI1NiI
 | Field           | Description                                                  |
 |-----------------|--------------------------------------------------------------|
 | `id`            | String identifier for this sidebar Tab. |
-| `label`         | Button labels for different locales. Locale is selected depending on user settings. |
+| `label`         | Sidebar Tab labels for different locales. Locale is selected depending on user settings. |
 | `treeBuilder`   | The tree-builder algorithm to use. Currently only `flatListWithoutRoot` and `flatListWithRoot` are supported. |
 
 The `flatListWithoutRoot` tree builder simply displays all Tickets in the right sidebar that share the same Root-Ticket excluding the Root-Ticket itself.
