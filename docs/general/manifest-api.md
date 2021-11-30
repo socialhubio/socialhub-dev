@@ -99,12 +99,6 @@ curl -X PATCH "https://api.socialhub.io/manifest?accesstoken=eyJhbGciOiJIUzI1NiI
 | `en`            | Human-readable label for English locale. |
 | `de`            | Human-readable label for German locale. |
 
-#### `inbox.ticketActions[].options[].label`
-| Field           | Description                                               |
-|-----------------|-----------------------------------------------------------|
-| `en`            | Human-readable dropdown label for English locale. |
-| `de`            | Human-readable dropdown label for German locale. |
-
 #### `inbox.ticketActions[].config`
 
 | Field              | Description                                               |
@@ -132,8 +126,14 @@ curl -X PATCH "https://api.socialhub.io/manifest?accesstoken=eyJhbGciOiJIUzI1NiI
 | Field           | Description                                               |
 |-----------------|-----------------------------------------------------------|
 | `id`            | Unique id of the option which will be sent to the integration in the reply payload. |
-| `label`         | Human readable title of the option which will be shown to the user as button label. |
+| `label`         | Button labels for different locales. Locale is selected depending on user settings. |
 | `description`   | Optional description of the option which will be shown to the user below the reply editor once an option has been selected. |
+
+##### `inbox.ticketActions[].options[].label`
+| Field           | Description                                               |
+|-----------------|-----------------------------------------------------------|
+| `en`            | Human-readable dropdown label for English locale. |
+| `de`            | Human-readable dropdown label for German locale. |
 
 #### `inbox.rightSidebar[]`
 
