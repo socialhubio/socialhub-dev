@@ -622,7 +622,7 @@ definitions:
                   example: 'reply-as-comment'
                 label:
                   type: object
-                  description: 'Human readable title of the option which will be shown to the user as button label.'
+                  description: 'Human readable title of the option which will be shown to the user as Tab label.'
                   required: [ 'en', 'de' ]
                   properties:
                     en:
