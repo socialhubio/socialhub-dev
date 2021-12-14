@@ -72,11 +72,17 @@
     "ticketActions": [{
       "type": "reply",
       "id": "reply-as-comment",
-      "label": "Reply"
+      "label": {
+        "en": "Reply",
+        "de": "Reply"
+      }
     }],
     "rightSidebar": [{
        "id": "sidebar-id",
-       "label": "sidebar-label",
+       "label": {
+          "en": "sidebar-label",
+          "de": "sidebar-label"
+       },
        "treeBuilder": "flatListWithoutRoot"
     }]
   }
@@ -135,10 +141,20 @@
 <tbody>
 <tr><td><code>type</code></td><td>Type of the Ticket Action. At the moment we support <code>reply</code>, <code>template_reply</code> and <code>button</code> actions. There may be multiple actions of the same type.</td></tr>
 <tr><td><code>id</code></td><td>Identifier of the Action. Each Action within a manifest must have a different identifier. Pattern regular expression: <code>^[a-zA-Z0-9-_]{1,256}$</code></td></tr>
-<tr><td><code>label</code></td><td>Human readable button label for this action. May be up to 256 characters long but should be as short as possible.</td></tr>
+<tr><td><code>label</code></td><td>Button labels for different locales. Locale is selected depending on user settings.</td></tr>
 <tr><td><code>config</code></td><td>Configuration options for this Ticket Action.</td></tr>
 <tr><td><code>attachments</code></td><td>If set (<code>{}</code>) for Ticket Actions of type <code>reply</code>, it's possible to attach files for the reply. At a later point you'll be able to specify a file schema to control what kind of attachments are allowed – for now there is no restriction an all checks should happen on the Integration's end.</td></tr>
 <tr><td><code>options</code></td><td>Array of dropdown options for the action. At the moment supported for the <code>reply</code> action. If <code>options</code> are set for an action, the user will have to choose one from the dropdown before creating the reply.</td></tr>
+</tbody>
+</table>
+<h4><a class="anchor" aria-hidden="true" id="inboxticketactionslabel"></a><a href="#inboxticketactionslabel" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>inbox.ticketActions[].label</code></h4>
+<table>
+<thead>
+<tr><th>Field</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>en</code></td><td>Human-readable label for English locale.</td></tr>
+<tr><td><code>de</code></td><td>Human-readable label for German locale.</td></tr>
 </tbody>
 </table>
 <h4><a class="anchor" aria-hidden="true" id="inboxticketactionsconfig"></a><a href="#inboxticketactionsconfig" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>inbox.ticketActions[].config</code></h4>
@@ -179,8 +195,18 @@
 </thead>
 <tbody>
 <tr><td><code>id</code></td><td>Unique id of the option which will be sent to the integration in the reply payload.</td></tr>
-<tr><td><code>label</code></td><td>Human readable title of the option which will be shown to the user as button label.</td></tr>
+<tr><td><code>label</code></td><td>Button labels for different locales. Locale is selected depending on user settings.</td></tr>
 <tr><td><code>description</code></td><td>Optional description of the option which will be shown to the user below the reply editor once an option has been selected.</td></tr>
+</tbody>
+</table>
+<h5><a class="anchor" aria-hidden="true" id="inboxticketactionsoptionslabel"></a><a href="#inboxticketactionsoptionslabel" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>inbox.ticketActions[].options[].label</code></h5>
+<table>
+<thead>
+<tr><th>Field</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>en</code></td><td>Human-readable dropdown label for English locale.</td></tr>
+<tr><td><code>de</code></td><td>Human-readable dropdown label for German locale.</td></tr>
 </tbody>
 </table>
 <h4><a class="anchor" aria-hidden="true" id="inboxrightsidebar"></a><a href="#inboxrightsidebar" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>inbox.rightSidebar[]</code></h4>
@@ -190,13 +216,23 @@
 </thead>
 <tbody>
 <tr><td><code>id</code></td><td>String identifier for this sidebar Tab.</td></tr>
-<tr><td><code>label</code></td><td>Human readable label to display for the sidebar Tab.</td></tr>
+<tr><td><code>label</code></td><td>Sidebar Tab labels for different locales. Locale is selected depending on user settings.</td></tr>
 <tr><td><code>treeBuilder</code></td><td>The tree-builder algorithm to use. Currently only <code>flatListWithoutRoot</code> and <code>flatListWithRoot</code> are supported.</td></tr>
 </tbody>
 </table>
 <p>The <code>flatListWithoutRoot</code> tree builder simply displays all Tickets in the right sidebar that share the same Root-Ticket excluding the Root-Ticket itself.</p>
 <p><code>flatListWithRoot</code> tree builder displays all Tickets with the same Root-Ticket including the Root-Ticket.
 Root-Ticket in the sidebar will have some additional actions like <code>Show unread Tickets in the Inbox</code>.</p>
+<h4><a class="anchor" aria-hidden="true" id="inboxrightsidebarlabel"></a><a href="#inboxrightsidebarlabel" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>inbox.rightSidebar[].label</code></h4>
+<table>
+<thead>
+<tr><th>Field</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><code>en</code></td><td>Human-readable label for English locale.</td></tr>
+<tr><td><code>de</code></td><td>Human-readable label for German locale.</td></tr>
+</tbody>
+</table>
 <h4><a class="anchor" aria-hidden="true" id="callbacks"></a><a href="#callbacks" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>callbacks</code></h4>
 <table>
 <thead>
