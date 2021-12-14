@@ -31,11 +31,17 @@ curl -X PATCH "https://api.socialhub.io/manifest?accesstoken=eyJhbGciOiJIUzI1NiI
     "ticketActions": [{
       "type": "reply",
       "id": "reply-as-comment",
-      "label": "Reply"
+      "label": {
+        "en": "Reply",
+        "de": "Reply"
+      }
     }],
     "rightSidebar": [{
        "id": "sidebar-id",
-       "label": "sidebar-label",
+       "label": {
+          "en": "sidebar-label",
+          "de": "sidebar-label"
+       },
        "treeBuilder": "flatListWithoutRoot"
     }]
   }
@@ -81,10 +87,17 @@ curl -X PATCH "https://api.socialhub.io/manifest?accesstoken=eyJhbGciOiJIUzI1NiI
 |-----------------|-----------------------------------------------------------|
 | `type`          | Type of the Ticket Action. At the moment we support `reply`, `template_reply` and `button` actions. There may be multiple actions of the same type. |
 | `id`            | Identifier of the Action. Each Action within a manifest must have a different identifier. Pattern regular expression: `^[a-zA-Z0-9-_]{1,256}$` |
-| `label`         | Human readable button label for this action. May be up to 256 characters long but should be as short as possible. |
+| `label`         | Button labels for different locales. Locale is selected depending on user settings. |
 | `config`        | Configuration options for this Ticket Action. |
 | `attachments`   | If set (`{}`) for Ticket Actions of type `reply`, it's possible to attach files for the reply. At a later point you'll be able to specify a file schema to control what kind of attachments are allowed – for now there is no restriction an all checks should happen on the Integration's end. |
 | `options`       | Array of dropdown options for the action. At the moment supported for the `reply` action. If `options` are set for an action, the user will have to choose one from the dropdown before creating the reply. |
+
+#### `inbox.ticketActions[].label`
+
+| Field           | Description                                               |
+|-----------------|-----------------------------------------------------------|
+| `en`            | Human-readable label for English locale. |
+| `de`            | Human-readable label for German locale. |
 
 #### `inbox.ticketActions[].config`
 
@@ -113,21 +126,34 @@ curl -X PATCH "https://api.socialhub.io/manifest?accesstoken=eyJhbGciOiJIUzI1NiI
 | Field           | Description                                               |
 |-----------------|-----------------------------------------------------------|
 | `id`            | Unique id of the option which will be sent to the integration in the reply payload. |
-| `label`         | Human readable title of the option which will be shown to the user as button label. |
+| `label`         | Button labels for different locales. Locale is selected depending on user settings. |
 | `description`   | Optional description of the option which will be shown to the user below the reply editor once an option has been selected. |
+
+##### `inbox.ticketActions[].options[].label`
+| Field           | Description                                               |
+|-----------------|-----------------------------------------------------------|
+| `en`            | Human-readable dropdown label for English locale. |
+| `de`            | Human-readable dropdown label for German locale. |
 
 #### `inbox.rightSidebar[]`
 
 | Field           | Description                                                  |
 |-----------------|--------------------------------------------------------------|
 | `id`            | String identifier for this sidebar Tab. |
-| `label`         | Human readable label to display for the sidebar Tab. |
+| `label`         | Sidebar Tab labels for different locales. Locale is selected depending on user settings. |
 | `treeBuilder`   | The tree-builder algorithm to use. Currently only `flatListWithoutRoot` and `flatListWithRoot` are supported. |
 
 The `flatListWithoutRoot` tree builder simply displays all Tickets in the right sidebar that share the same Root-Ticket excluding the Root-Ticket itself.
 
 `flatListWithRoot` tree builder displays all Tickets with the same Root-Ticket including the Root-Ticket.
 Root-Ticket in the sidebar will have some additional actions like `Show unread Tickets in the Inbox`.
+
+#### `inbox.rightSidebar[].label`
+
+| Field           | Description                                               |
+|-----------------|-----------------------------------------------------------|
+| `en`            |  Human-readable label for English locale. |
+| `de`            |  Human-readable label for German locale. |
 
 #### `callbacks`
 

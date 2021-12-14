@@ -526,11 +526,20 @@ definitions:
                   description: 'Identifier of the Action. Each Action within a manifest must have a different identifier.'
                   example: 'reply-as-comment'
                 label:
-                  type: string
-                  description: 'Human readable button label for this action. Should be as short as possible.'
-                  example: 'Reply'
-                  minLength: 1
-                  maxLength: 256
+                  type: object
+                  description: 'Human readable title of the option which will be shown to the user as button label.'
+                  required: ['en', 'de']
+                  properties:
+                    en:
+                      type: string
+                      minLength: 1
+                      maxLength: 256
+                      example: 'Reply'
+                    de:
+                      type: string
+                      minLength: 1
+                      maxLength: 256
+                      example: 'Antworten'
                 config:
                   type: object
                   description: 'Configuration options for this Ticket Action.'
@@ -584,8 +593,20 @@ definitions:
                         type: string
                         description: 'Unique id of the option'
                       label:
-                        type: string
-                        description: 'Button label for the option'
+                        type: object
+                        description: 'Human readable title of the option which will be shown to the user as button label.'
+                        required: [ 'en', 'de' ]
+                        properties:
+                          en:
+                            type: string
+                            minLength: 1
+                            maxLength: 256
+                            example: 'Reply'
+                          de:
+                            type: string
+                            minLength: 1
+                            maxLength: 256
+                            example: 'Antworten'
                       description:
                         type: string
                         description: 'Optional description of the option'
@@ -600,9 +621,20 @@ definitions:
                   description: 'String identifier for this sidebar Tab.'
                   example: 'reply-as-comment'
                 label:
-                  type: string
-                  description: 'Human readable label to display for the sidebar Tab.'
-                  example: 'Reply'
+                  type: object
+                  description: 'Human readable title of the option which will be shown to the user as Tab label.'
+                  required: [ 'en', 'de' ]
+                  properties:
+                    en:
+                      type: string
+                      minLength: 1
+                      maxLength: 256
+                      example: 'Reply'
+                    de:
+                      type: string
+                      minLength: 1
+                      maxLength: 256
+                      example: 'Antworten'
                 treeBuilder:
                   type: string
                   description: 'The tree-builder algorithm to use.'
