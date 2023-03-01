@@ -6,6 +6,13 @@ sidebar_label: API Changelog
 
 ⚠ Consider subscribing to our [**API Newsletter**](http://eepurl.com/g2EiC1) to be notified about upcoming API changes in the future.
 
+## Version 1.13
+
+The following changes to the API are scheduled to be deployed in **calendar week 11**. As all of these changes are **New** additions to existing behavior, there should be no action required by Developers. The impacted documentation pages and swagger specifications have already been updated accordingly.
+
+### New `teamIds` field in the JWT payload
+The JWT provided by SocialHub when the user clicks on the "Add Channel" Button of a Reusable Manifest Network now supports an additional payload field called `teamIds`. This field is optional but, when used, allows the user to assign a channel to one or more teams after creating the channel. Supporting the new field does not require any changes from the Developers side since setting and handling the new field is managed internally by the SocialHub app.
+
 ## Version 1.12
 
 The following changes to the API are scheduled to be deployed in **calendar week 49**. Note that this change is breaking previous behavior. The impacted documentation pages and swagger specifications have already been updated accordingly.
