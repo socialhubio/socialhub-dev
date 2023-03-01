@@ -217,6 +217,7 @@ This JWT has the following payload:
   "manifestId": "5e73f56c5a45da10b6e614dd", // Id of the Manifest the User wants to create channels for
   "userId": "5e73f5255a45da10b6e614da",     // Id of the User wanting to create channels
   "origin": "https://app.socialhub.io",     // URL of the SocialHub platform to redirect back to
+  "teamIds": ["635519489f8e665f0d2cfacb"],  // An optional list of Ids of teams to which the channel will be automatically assigned
   "iat": 1554134541,                        // Timestamp in seconds of the token issuing date
   "exp": 1554136341                         // Timestamp in seconds of the token expiration date (30 mins)
 }
