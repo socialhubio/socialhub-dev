@@ -29,5 +29,5 @@ jobs:
         working-directory: ./website
         env:
           GIT_USER: schlagbauer
-          GIT_PAS: ${{ secrets.GIT_PAS }}
+          GIT_PASS: ${{ secrets.GIT_PASS }}
           CURRENT_BRANCH: master
