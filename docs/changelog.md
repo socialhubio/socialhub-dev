@@ -16,7 +16,7 @@ The delete action type accepts one kind of config: `{ forceTagging: true }` . An
 As with other ticketActions the delete type requires an `id` and `labels` for the 3 supported languages: 'en', 'de', 'fr'.
 
 - webhooks: If configured, the delete action will trigger webhooks. 
-- action reset: The delete action can be reset using the [Ticket API's error handling](inbox/ticket-api#error-handling) route where `:actionId` will be `delete`.
+- action reset: The delete action can be reset using the [Ticket API's error handling](inbox/ticket-api#error-handling) route where `:actionId` will be the `id` assigned in the ticketActions manifest (`delete-id` in the example below).
 
 Manifest API ticketAction example
 ```json
