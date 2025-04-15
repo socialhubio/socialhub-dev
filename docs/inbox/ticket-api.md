@@ -378,5 +378,5 @@ curl -X POST "https://api.socialhub.io/inbox/tickets/5cc1b08ad62ec72e8388cb47/re
 
 | Field           | Description                                               |
 |-----------------|-----------------------------------------------------------|
-| `followupId`    | The identifier of the Reply Followup that has failed to be processed. Only required for `reply` and `template_reply` actions. |
 | `reason`        | Optional human readable reason why the Ticket Action has failed. |
+| `followupId` (optional)    | The identifier of the Reply Followup that has failed to be processed. Only required for `reply` and `template_reply` actions. |

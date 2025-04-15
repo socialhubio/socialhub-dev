@@ -6,6 +6,40 @@ sidebar_label: API Changelog
 
 ⚠ Consider subscribing to our [**API Newsletter**](http://eepurl.com/g2EiC1) to be notified about upcoming API changes in the future.
 
+## Version 1.14
+
+### Manifest API: New ticketAction type delete`
+
+A new `delete` ticketAction type has been introduced for the [Manifest API](general/manifest-api). This means that a dedicated delete button can be availble to tickets. The action type `delete` should be added to the ticketActions array when updating the channel using the [Manifest API](general/manifest-api). 
+
+The delete action type accepts one kind of config: `{ forceTagging: true }` . Any other action config given will throw an error.
+As with other ticketActions the delete type requires an `id` and `labels` for the 3 supported languages: 'en', 'de', 'fr'.
+
+- webhooks: If configured, the delete action will trigger webhooks. 
+- action reset: The delete action can be reset using the [Ticket API's error handling](inbox/ticket-api#error-handling) route where `:actionId` will be the `id` assigned in the ticketActions manifest (`delete-id` in the example below).
+
+Manifest API ticketAction example
+```json
+// ...
+"inbox": {
+    "ticketActions": [
+        {
+            "type": "delete",
+            "id": "delete-id",
+            "label": {
+                "en": "Delete",
+                "de": "löschen",
+                "fr": "Supprimer"
+            },
+            "config": {
+                "forceTagging": true //optional
+            }
+        }
+        // ...
+    ],
+// ...
+```
+
 ## Version 1.13
 
 The following changes to the API are scheduled to be deployed in **calendar week 11**. As all of these changes are **New** additions to existing behavior, there should be no action required by Developers. The impacted documentation pages and swagger specifications have already been updated accordingly.

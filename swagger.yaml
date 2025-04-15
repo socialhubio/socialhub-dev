@@ -520,7 +520,7 @@ definitions:
                 type:
                   type: string
                   description: 'Type of the Ticket Action. There may be multiple actions of the same type.'
-                  enum: ['reply', 'template_reply', 'button']
+                  enum: ['reply', 'template_reply', 'button', 'delete']
                 id:
                   type: string
                   description: 'Identifier of the Action. Each Action within a manifest must have a different identifier.'
@@ -595,7 +595,7 @@ definitions:
                       label:
                         type: object
                         description: 'Human readable title of the option which will be shown to the user as button label.'
-                        required: [ 'en', 'de' ]
+                        required: [ 'en', 'de', 'fr' ]
                         properties:
                           en:
                             type: string
@@ -623,7 +623,7 @@ definitions:
                 label:
                   type: object
                   description: 'Human readable title of the option which will be shown to the user as Tab label.'
-                  required: [ 'en', 'de' ]
+                  required: [ 'en', 'de', 'fr' ]
                   properties:
                     en:
                       type: string

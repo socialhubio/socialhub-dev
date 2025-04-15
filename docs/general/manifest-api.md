@@ -85,7 +85,7 @@ curl -X PATCH "https://api.socialhub.io/manifest?accesstoken=eyJhbGciOiJIUzI1NiI
 
 | Field           | Description                                               |
 |-----------------|-----------------------------------------------------------|
-| `type`          | Type of the Ticket Action. At the moment we support `reply`, `template_reply` and `button` actions. There may be multiple actions of the same type. |
+| `type`          | Type of the Ticket Action. At the moment we support `reply`, `template_reply`, `delete` and `button` actions. There may be multiple actions of the same type. |
 | `id`            | Identifier of the Action. Each Action within a manifest must have a different identifier. Pattern regular expression: `^[a-zA-Z0-9-_]{1,256}$` |
 | `label`         | Button labels for different locales. Locale is selected depending on user settings. |
 | `config`        | Configuration options for this Ticket Action. |
@@ -106,7 +106,7 @@ curl -X PATCH "https://api.socialhub.io/manifest?accesstoken=eyJhbGciOiJIUzI1NiI
 | `approvalProcess`  | Boolean (default is `true`) controlling whether the Approval Process feature should be applied for this Ticket Action. Only supported for `reply` and `template_reply` at this moment |
 | `templates.url`    | URL to fetch templates for the `template_reply` action from. Required for the `template_reply` action. |
 | `timeout`          | Action timeout configuration options. |
-| `forceTagging`     | Boolean (default is `true`) controlling whether the feature forcing the user to add tag(s) to the ticket should be applied for this Ticket Action. |
+| `forceTagging`     | Boolean (default is `true`) controlling whether the feature forcing the user to add tag(s) to the ticket should be applied for this Ticket Action. (The action of type: `delete` only accepts a config of `forceTagging` . Any other config for the type `delete` will throw an error.) |
 
 #### `inbox.ticketActions[].config.timeout`
 
@@ -134,6 +134,7 @@ curl -X PATCH "https://api.socialhub.io/manifest?accesstoken=eyJhbGciOiJIUzI1NiI
 |-----------------|-----------------------------------------------------------|
 | `en`            | Human-readable dropdown label for English locale. |
 | `de`            | Human-readable dropdown label for German locale. |
+| `fr`            | Human-readable dropdown label for french locale. |
 
 #### `inbox.rightSidebar[]`
 
