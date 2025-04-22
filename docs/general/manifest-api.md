@@ -34,6 +34,7 @@ curl -X PATCH "https://api.socialhub.io/manifest?accesstoken=eyJhbGciOiJIUzI1NiI
       "label": {
         "en": "Reply",
         "de": "Reply"
+        "fr": "Reply"
       }
     }],
     "rightSidebar": [{
@@ -41,6 +42,7 @@ curl -X PATCH "https://api.socialhub.io/manifest?accesstoken=eyJhbGciOiJIUzI1NiI
        "label": {
           "en": "sidebar-label",
           "de": "sidebar-label"
+          "fr": "sidebar-label"
        },
        "treeBuilder": "flatListWithoutRoot"
     }]
@@ -98,6 +100,7 @@ curl -X PATCH "https://api.socialhub.io/manifest?accesstoken=eyJhbGciOiJIUzI1NiI
 |-----------------|-----------------------------------------------------------|
 | `en`            | Human-readable label for English locale. |
 | `de`            | Human-readable label for German locale. |
+| `fr`            | Human-readable label for French locale. |
 
 #### `inbox.ticketActions[].config`
 
@@ -107,6 +110,7 @@ curl -X PATCH "https://api.socialhub.io/manifest?accesstoken=eyJhbGciOiJIUzI1NiI
 | `templates.url`    | URL to fetch templates for the `template_reply` action from. Required for the `template_reply` action. |
 | `timeout`          | Action timeout configuration options. |
 | `forceTagging`     | Boolean (default is `true`) controlling whether the feature forcing the user to add tag(s) to the ticket should be applied for this Ticket Action. (The action of type: `delete` only accepts a config of `forceTagging` . Any other config for the type `delete` will throw an error.) |
+| `maxLength` | Number value that sets the maximum length allowed for a `reply` type. This is only available for `relpy` type. If set, exceeding this number when replying to a ticket will throw an error.|
 
 #### `inbox.ticketActions[].config.timeout`
 
