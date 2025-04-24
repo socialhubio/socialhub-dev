@@ -6,6 +6,37 @@ sidebar_label: API Changelog
 
 ⚠ Consider subscribing to our [**API Newsletter**](http://eepurl.com/g2EiC1) to be notified about upcoming API changes in the future.
 
+## Version 1.15
+
+### Manifest API: New config maxLength for ticketAction type reply`
+
+A new `maxLength` config can now be set for ticketActions type `reply`. It expects a number: `{ "maxLength": Number }`. This number will then be used to check the length of all replies being sent on the custom channel. This will also be the case for an replies being sent for approval, or any reply being sent from the approval folder.
+
+You may set this config using the [Manifest API](general/manifest-api). The `maxLength` config property can only be used in conjunction with the `reply` type. The API will return an error if you try to set it with another ticket action type other than `reply`.
+
+Manifest API ticketAction reply example
+```json
+// ...
+"inbox": {
+    "ticketActions": [
+        {
+            "type": "reply",
+            "id": "reply-id",
+            "label": {
+                "en": "reply",
+                "de": "antworten",
+                "fr": "répondre"
+            },
+            "config": {
+                "maxLength": 150
+            }
+        }
+        // ...
+    ],
+// ...
+```
+
+
 ## Version 1.14
 
 ### Manifest API: New ticketAction type delete`
