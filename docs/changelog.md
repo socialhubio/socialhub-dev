@@ -41,12 +41,12 @@ Manifest API ticketAction reply example
 
 ### Manifest API: New ticketAction type delete`
 
-A new `delete` ticketAction type has been introduced for the [Manifest API](general/manifest-api). This means that a dedicated delete button can be availble to tickets. The action type `delete` should be added to the ticketActions array when updating the channel using the [Manifest API](general/manifest-api).
+A new `delete` ticketAction type has been introduced for the [Manifest API](general/manifest-api). This means that a dedicated delete button can be availble to tickets. The action type `delete` should be added to the ticketActions array when updating the channel using the [Manifest API](general/manifest-api). 
 
 The delete action type accepts one kind of config: `{ forceTagging: true }` . Any other action config given will throw an error.
 As with other ticketActions the delete type requires an `id` and `labels` for the 3 supported languages: 'en', 'de', 'fr'.
 
-- webhooks: If configured, the delete action will trigger webhooks.
+- webhooks: If configured, the delete action will trigger webhooks. 
 - action reset: The delete action can be reset using the [Ticket API's error handling](inbox/ticket-api#error-handling) route where `:actionId` will be the `id` assigned in the ticketActions manifest (`delete-id` in the example below).
 
 Manifest API ticketAction example
@@ -82,7 +82,7 @@ The JWT provided by SocialHub when the user clicks on the "Add Channel" Button o
 
 The following changes to the API are scheduled to be deployed in **calendar week 49**. Note that this change is breaking previous behavior. The impacted documentation pages and swagger specifications have already been updated accordingly.
 
-### Breaking Change: Multi language support for labels in Manifest
+### Breaking Change: Multi language support for labels in Manifest 
 
 Ticket action label, ticket action option label and right sidebar label will have multiple language configuration.
 
@@ -111,7 +111,7 @@ The following changes to the API are scheduled to be deployed in **calendar week
 
 ### New: additional characters for networkItemId
 
-The allowed characters for the Ticket `networkItemId` field were expanded. Allowed pattern as regular expression: `^[a-zA-Z0-9\/|@&$!?\()[\]{}+*~,;.:=_-]{6,256}$`.
+The allowed characters for the Ticket `networkItemId` field were expanded. Allowed pattern as regular expression: `^[a-zA-Z0-9\/|@&$!?\()[\]{}+*~,;.:=_-]{6,256}$`.  
 All already existing networkItemIds stay valid.
 
 ## Version 1.9
@@ -136,7 +136,7 @@ The following changes to the API are scheduled to be deployed in **calendar week
 
 ### New: Reply Attachments
 
-It's now possible that a Ticket Action of type `reply` may have attachments. To control whether it's possible to specify attachments for a Reply simply set `attachments: {}` on the Ticket Action definition in the [Manifest](general/manifest-api#request). At a later point you'll be able to specify a file schema to control what kind of attachments are allowed – for now there is no restriction an all checks should happen on the Integration's end.
+It's now possible that a Ticket Action of type `reply` may have attachments. To control whether it's possible to specify attachments for a Reply simply set `attachments: {}` on the Ticket Action definition in the [Manifest](general/manifest-api#request). At a later point you'll be able to specify a file schema to control what kind of attachments are allowed – for now there is no restriction an all checks should happen on the Integration's end.  
 We also introduced the `attachments: { noText: true }` option, which allows you to prevent creating replies with a text and an attachment at the same time.
 
 If SocialHub user triggers `reply` action with attachments, webhook payload would contain `attachments` array with related metadata. Check out [Reply Action Event](inbox/ticket-api#ticket-action-type-reply) for more information.
@@ -159,8 +159,8 @@ Now it is possible to include a shared link while [creating a new Ticket](inbox/
 
 ### Breaking Change: `networkId` moved out of `channel.endpoint`
 
-The `networkId` is now a top level attribute of channels and no longer part of the `endpoint` subobject.
-All existing channels will be migrated and the `networkId` is automatically moved out of the `endpoint`.
+The `networkId` is now a top level attribute of channels and no longer part of the `endpoint` subobject.  
+All existing channels will be migrated and the `networkId` is automatically moved out of the `endpoint`.  
 [Creating new channels](general/channel-api#creating-channels) requires the `networkId` to be provided as top level attribute.
 
 ### New: Optional reason of channel deactivation
