@@ -552,6 +552,9 @@ definitions:
                       type: boolean
                       description: 'Controlling whether the feature forcing the user to add tag(s) to the ticket should be applied for this Ticket Action.'
                       default: true
+                    maxLength:
+                      type: number
+                      description: 'Controlling the maxLength a reply or suggested reply may be for the ticketAction type reply. This option can only be used with the reply type.'
                     templates:
                       type: object
                       properties:
